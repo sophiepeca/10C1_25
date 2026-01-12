@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 public class Frame extends JFrame implements ActionListener{
 
-    JPanel canva;
+    JPanel canvas;
     Timer t;
             
     public Frame(String title) throws HeadlessException {
@@ -23,8 +23,8 @@ public class Frame extends JFrame implements ActionListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         
-        canva  = new Canva(this.getWidth(), this.getHeight());
-        this.add(canva);
+        canvas  = new Canvas(this.getWidth(), this.getHeight());
+        this.add(canvas);
         
         this.setVisible(true);
         this.pack();
@@ -35,8 +35,6 @@ public class Frame extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        canva.repaint();
+        canvas.repaint();
     }
-    
-    
 }

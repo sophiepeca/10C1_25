@@ -1,17 +1,22 @@
 package frame;
 
+import assets.GameAsset;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Canva extends JPanel {
+public class Canvas extends JPanel {
 
     int x = 0;
     int y = 0;
     Room r;
     
-    public Canva(int w, int h) {
+    public static List<GameAsset> visibleGameAssets = new ArrayList<>();
+    
+    public Canvas(int w, int h) {
         super();
         this.setPreferredSize(new Dimension(w,h));
         this.setSize(new Dimension(w,h));
