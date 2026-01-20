@@ -1,4 +1,4 @@
-package czg.game;
+package czg.util;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

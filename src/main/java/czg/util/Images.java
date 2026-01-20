@@ -1,4 +1,4 @@
-package czg.game;
+package czg.util;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,7 +10,9 @@ import java.util.Map;
 
 import static czg.MainWindow.PIXEL_SCALE;
 
-// Zentraler Zugriff auf Bilddateien im "src/main/resources"-Ordner
+/**
+ * Zentraler Zugriff auf Bilddateien im "src/main/resources"-Ordner
+ */
 public class Images {
 
     private static final Map<String, Image> loaded = new HashMap<>();

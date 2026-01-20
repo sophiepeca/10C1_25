@@ -1,7 +1,7 @@
 package czg;
 
-import czg.game.Input;
-import czg.scene.SceneStack;
+import czg.scenes.SceneStack;
+import czg.util.Input;
 
 import javax.swing.*;
 import java.awt.*;

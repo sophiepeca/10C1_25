@@ -1,4 +1,4 @@
-package czg.scene;
+package czg.scenes;
 
 import org.junit.Test;
 
@@ -11,9 +11,9 @@ public class SceneStackTest {
         final int[] x = {0};
         SceneStack stack = new SceneStack();
 
-        Scene bottom = new Scene();
+        BaseScene bottom = new BaseScene();
 
-        Scene middle = new Scene() {
+        BaseScene middle = new BaseScene() {
             @Override
             public void update() {
                 super.update();
@@ -22,7 +22,7 @@ public class SceneStackTest {
         };
         middle.coverPausesLogic = true;
 
-        Scene top = new Scene();
+        BaseScene top = new BaseScene();
 
         // Nur zwei Szenen
         stack.push(bottom);

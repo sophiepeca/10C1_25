@@ -1,23 +1,22 @@
-package czg.game.objects;
+package czg.objects;
 
-import czg.game.Images;
+import czg.util.Images;
 
 import java.awt.*;
 
 import static czg.MainWindow.PIXEL_SCALE;
 
 /**
- * Ein minimales Spiel-Objekt, bestehend aus einer Position und
- * einem Bild.
+ * Ein minimales Spiel-Objekt, bestehend aus einer Position und einem Bild.
  */
-public /*abstract*/ class BaseObject {
+public abstract class BaseObject {
 
     public int x = 0;
     public int y = 0;
 
     public Image sprite;
 
-    public /*(protected)*/ BaseObject(String spritePath) {
+    protected BaseObject(String spritePath) {
         sprite = Images.get(spritePath);
     }
 
@@ -31,7 +30,6 @@ public /*abstract*/ class BaseObject {
     }
 
     public void update() {
-        x+=1;
     }
 
 }

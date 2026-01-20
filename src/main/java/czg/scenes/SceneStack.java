@@ -1,4 +1,4 @@
-package czg.scene;
+package czg.scenes;
 
 import czg.MainWindow;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Der Szenen-Stapel enthält beliebig viele Szenen (siehe {@link Scene}), die übereinander
+ * Der Szenen-Stapel enthält beliebig viele Szenen (siehe {@link BaseScene}), die übereinander
  * angezeigt werden. Dabei kann, dem Stapel-Modell folgend, immer nur eine neue Szene
  * über allen anderen hinzugefügt, sowie nur die oberste Szene entfernt werden.
  */
@@ -17,7 +17,7 @@ public class SceneStack extends JPanel {
     /**
      * Eigene Liste mit Szenen weil contentPane.getComponents()
      */
-    private final List<Scene> scenes = new ArrayList<>();
+    private final List<BaseScene> scenes = new ArrayList<>();
 
     /**
      * Einen neuen Szenen-Stapel erstellen.
@@ -31,9 +31,9 @@ public class SceneStack extends JPanel {
      * Zeigt eine weitere Szene über allen bestehenden Szenen an
      * @param scene Beliebige Szene
      */
-    public void push(Scene scene) {
+    public void push(BaseScene scene) {
         // Ggf. letzte Szene verdecken
-        Scene last = getTop();
+        BaseScene last = getTop();
         if(last != null) {
             last.isCovered = true;
         }
@@ -46,7 +46,7 @@ public class SceneStack extends JPanel {
      * Entfernt die oberste Szene
      */
     public void pop() {
-        Scene last = getTop();
+        BaseScene last = getTop();
         if(last != null) {
             // Aus der Liste entfernen
             scenes.remove(scenes.size()-1);
@@ -62,13 +62,13 @@ public class SceneStack extends JPanel {
 
     /**
      * Logik-Code der einzelnen Szenen ausführen. Szenen die verdeckt sind
-     * {@link Scene#isCovered} und für die {@link Scene#coverPausesLogic}
+     * {@link BaseScene#isCovered} und für die {@link BaseScene#coverPausesLogic}
      * {@code true} ist, werden nicht beachtet.
      */
     public void update() {
         scenes.stream()
                 .filter(scene -> !(scene.isCovered && scene.coverPausesLogic))
-                .forEach(Scene::update);
+                .forEach(BaseScene::update);
     }
 
     /**
@@ -92,7 +92,7 @@ public class SceneStack extends JPanel {
     /**
      * @return Szene oben auf dem Stapel
      */
-    private Scene getTop() {
+    private BaseScene getTop() {
         return scenes.isEmpty() ? null : scenes.get(scenes.size()-1);
     }
 

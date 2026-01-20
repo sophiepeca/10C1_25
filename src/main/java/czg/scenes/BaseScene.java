@@ -1,8 +1,8 @@
-package czg.scene;
+package czg.scenes;
 
 import czg.MainWindow;
-import czg.game.Images;
-import czg.game.objects.BaseObject;
+import czg.objects.BaseObject;
+import czg.util.Images;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
  * Eine Szene besteht aus einem Hintergrund und einer beliebigen Menge von
  * sich darauf bewegenden Objekten.
  */
-public class Scene {
+public class BaseScene {
 
     /**
      * Ob ein einfarbiger Hintergrund gewünscht ist. Andernfalls
