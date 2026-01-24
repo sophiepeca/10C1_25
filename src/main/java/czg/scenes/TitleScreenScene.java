@@ -6,6 +6,8 @@ import czg.util.Draw;
 
 import java.awt.*;
 
+// TODO: Menüsystem
+
 /**
  * Das Hauptmenü des Spiels sowie die erste angezeigte Szene.
  */
