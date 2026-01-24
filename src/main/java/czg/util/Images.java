@@ -38,7 +38,7 @@ public class Images {
     }
 
     /**
-     * Das Bild "src/main/resources/<path>" ggf. laden und zurückgeben
+     * Das Bild "src/main/resources/[path]" ggf. laden und zurückgeben
      * @param path Dateipfad, z.B. "/assets/items/taschenrechner.png". Der Slash vorne ist wichtig!
      * @return Das geladene Bild
      */

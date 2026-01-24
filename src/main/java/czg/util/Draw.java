@@ -18,6 +18,8 @@ public final class Draw {
      * sollten vorher schon eingestellt sein.
      * @param g Graphics-Objekt. Sollte durch den entsprechenden Parameter einer draw()-Methode bereitgestellt werden.
      * @param text Der Text
+     * @param x X-Koordinate
+     * @param y Y-Koordinate
      */
     public static void drawTextCentered(Graphics2D g, String text, int x, int y) {
         Rectangle2D bounds = g.getFontMetrics().getStringBounds(text, g);
