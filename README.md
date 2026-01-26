@@ -17,3 +17,5 @@
 - $\color{#d045f7}\text{🖿}$ [**helmo2019**/10C1_25](https://github.com/helmo2019/10C1_25)
 - $\color{#d045f7}\text{🖿}$ [**Icephoenix0344**/10C1_25](https://github.com/Icephoenix0344/10C1_25)
 - $\color{#d045f7}\text{🖿}$ [**wuyichen-jpg**/10C1_25](https://github.com/wuyichen-jpg/10C1_25)
+- $\color{#d045f7}\text{🖿}$ [**sophiepeca**/10C1_25](https://github.com/sophiepeca/10C1_25)
+- $\color{#d045f7}\text{🖿}$ [**AntoniaVoigt**/10C1_25](https://github.com/AntoniaVoigt/10C1_25)
