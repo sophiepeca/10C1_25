@@ -1,0 +1,45 @@
+```
+public class Lehrer extents NPC {
+
+    int hp;
+    String fachschaft;
+    List<int> items = new ArrayList<>();
+    int level;
+
+    public Lehrer(int x, int y, Image img, String name, int hp, String fachschaft, int level) {
+        super(x, y, img, name);
+        
+    }
+
+    private createItemList(int level, String fachschaft) {
+        if (level == 1) {
+            int[] itemsNachLevel = {1, 1, 1, 2}
+        }
+        else if (level == 2) {
+            int[] itemsNachLevel = {1, 1, 2, 2}
+        }
+        else {
+            int[] itemsNachLevel = {1, 2, 2, 3}
+        }
+
+        item[] lehreritems = {}
+    }
+
+}
+```
+
+## Wie viele Items von welchem Level?
+
+Pro Fachsschaft gleich viel -> 30/5 = 6 Items
+1. Level: 3 Items
+2. Level: 2 Items
+3. Level: 1 Item 
+
+## Welche Items hat der Lehrer, wenn er ein gewisses Level hat?
+
+1. Level: 3 Items Level 1 und ein Item Level 2
+2. Level: 2 Items Level 1 und 2 Level 2
+3. Level: 1 Items Level 3 und 2 Level 2 und ein Level 1
+    
+
+
