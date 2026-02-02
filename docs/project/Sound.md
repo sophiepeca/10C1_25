@@ -2,13 +2,9 @@
 
 ## Format
 
-Die Audiodateien liegen im Opus-Format vor und wurden mit den folgenden
-Einstellungen erstellt:
+Die Audiodateien sind mit dem Vorbis-Codec erstellt und liegen in Form
+von Ogg-Dateien vor.
 
-```
-ffmpeg -i <eingabe> -c:a libopus -vbr on -application audio <ausgabe>
-```
-
-Um das Opus-Format mithilfe der Java Sound API verwenden zu können, wurde
+Um das Ogg-Vorbis-Format mithilfe der Java Sound API verwenden zu können, wurde
 die [FFSampledSP](https://github.com/hendriks73/ffsampledsp)-Bibliothek (LGPL-2.1)
 von Hendrik Schreiber eingebunden.
