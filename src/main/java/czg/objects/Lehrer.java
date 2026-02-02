@@ -1,4 +1,4 @@
-
+// Doku siehe Markdown Datei lehrermitErklaerung
 import java.util.ArrayList;
 import java.util.List;
 
