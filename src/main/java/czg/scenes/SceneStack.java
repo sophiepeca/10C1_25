@@ -1,5 +1,8 @@
 package czg.scenes;
 
+import czg.scenes.cover_settings.Rules;
+import czg.scenes.cover_settings.Setting;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -186,15 +189,15 @@ public class SceneStack extends JPanel {
 
     /**
      * Iteriert über {@link #scenes} bzw. eine Kopie davon. Ermittelt für
-     * jede Szene die effektiven {@link CoverSettings.Rules} und
+     * jede Szene die effektiven {@link Rules} und
      * bestimmt mithilfe der {@code settingExtractor}-Funtktion, ob der
      * {@code processor} für diese Szene aufgerufen werden soll.
-     * @param settingExtractor {@link Function}, die eine {@link CoverSettings.Setting} aus einem Satz {@link CoverSettings.Rules} abfragt
+     * @param settingExtractor {@link Function}, die eine {@link Setting} aus einem Satz {@link Rules} abfragt
      * @param processor {@link Consumer}, der ggf. auf die Szene angewendet wird
      * @param useCopy Ob eine Kopie von {@link #scenes} oder die Liste selbst verwendet werden soll
      */
     private void processScenes(
-            Function<CoverSettings.Rules, CoverSettings.Setting> settingExtractor,
+            Function<Rules, Setting> settingExtractor,
             Consumer<BaseScene> processor,
             boolean useCopy
     ) {
@@ -220,7 +223,7 @@ public class SceneStack extends JPanel {
      * Logik-Code der einzelnen Szenen ausführen
      */
     public void update() {
-        processScenes(CoverSettings.Rules::coverPausesLogic, BaseScene::update, true);
+        processScenes(Rules::coverPausesLogic, BaseScene::update, true);
     }
 
     /**
@@ -240,7 +243,7 @@ public class SceneStack extends JPanel {
 
         // Alle Szenen zeichnen, die nicht verdeckt und so eingestellt sind,
         // dass sie deshalb ausgeblendet sein sollte.
-        processScenes(CoverSettings.Rules::coverDisablesDrawing, scene -> scene.draw(g2), false);
+        processScenes(Rules::coverDisablesDrawing, scene -> scene.draw(g2), false);
     }
 
 }

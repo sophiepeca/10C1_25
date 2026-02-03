@@ -1,4 +1,4 @@
-package czg.scenes;
+package czg.scenes.cover_settings;
 
 import java.util.*;
 
@@ -29,6 +29,13 @@ public final class CoverSettings {
      */
     private final Rules defaultValues;
 
+
+    /**
+     * Neue Einstellungen erstellen mit allen Standardwerten auf {@code false}
+     */
+    public CoverSettings() {
+        this(false, false, false);
+    }
 
     /**
      * Neue Einstellungen erstellen und Standardwerte setzen
@@ -95,63 +102,4 @@ public final class CoverSettings {
         return result;
     }
 
-    /**
-     * Regelsatz
-     * @param coverDisablesDrawing Ob die Szene ausgeblendet werden sollte, wenn sie verdeckt ist
-     * @param coverPausesLogic Ob die Szene noch ihren Code ausführen sollte, wenn sie verdeckt ist
-     * @param coverPausesAudio Ob die Szene ihre Musik oder Effekte pausieren sollte, wenn sie verdeckt ist
-     */
-    public record Rules(Setting coverDisablesDrawing, Setting coverPausesLogic, Setting coverPausesAudio) {
-
-        /**
-         * Ermittelt den Regelsatz, welcher entsteht, wenn {@code other} <b>über</b> diesen
-         * angewendet wird.
-         * @param other Anderer Regelsatz
-         * @return Kombinierter Regelsatz
-         */
-        public Rules combineWith(Rules other) {
-            return new Rules(
-                    other.coverDisablesDrawing == Setting.KEEP ? coverDisablesDrawing : other.coverDisablesDrawing,
-                    other.coverPausesLogic == Setting.KEEP ? coverPausesLogic : other.coverPausesLogic,
-                    other.coverPausesAudio == Setting.KEEP ? coverPausesAudio : other.coverPausesAudio
-            );
-        }
-    }
-
-    /**
-     * Eine Einstellung für {@link Rules}
-     */
-    public enum Setting {
-        /**
-         * Einstellung behält ihren Standardwert bzw. ihren Wert von einer anderen Regel
-         */
-        KEEP,
-
-        /**
-         * Einstellung wird überschrieben und auf "An" gesetzt
-         */
-        ON,
-
-        /**
-         * Einstellung wird überschrieben und auf "An" gesetzt
-         */
-        OFF;
-
-        /**
-         * In einen Boolean-Wert umwandeln
-         * @return {@code this == ON}
-         */
-        public boolean toBoolean() {
-            return this == ON;
-        }
-
-        /**
-         * Aus einem Boolean-Wert erstellen
-         * @param value Boolean-Wert
-         * @return {@link #ON}, wenn {@code true}, sonst {@code OFF}
-         */
-        public static Setting fromBoolean(boolean value) {
-            return value ? ON : OFF;
-        }
-    }
 }

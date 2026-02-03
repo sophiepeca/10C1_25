@@ -1,6 +1,7 @@
 package czg.scenes;
 
 import czg.objects.BaseObject;
+import czg.scenes.cover_settings.CoverSettings;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
