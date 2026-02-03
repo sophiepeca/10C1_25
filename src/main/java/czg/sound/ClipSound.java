@@ -17,6 +17,11 @@ public class ClipSound extends BaseSound {
     private final Clip clip;
 
     /**
+     * Wiedergabezustand
+     */
+    private boolean isPlaying;
+
+    /**
      * Lädt die angegebene Datei
      * @param audioPath Pfad zur Audio-Datei
      * @throws RuntimeException Wenn ein Fehler auftritt
@@ -37,11 +42,16 @@ public class ClipSound extends BaseSound {
 
     @Override
     public void setPlaying(boolean playing) {
-        if(playing) {
+        if(isPlaying()) {
             clip.start();
         } else {
             clip.stop();
         }
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return isPlaying;
     }
 
     @Override

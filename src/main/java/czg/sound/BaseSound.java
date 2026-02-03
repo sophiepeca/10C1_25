@@ -57,4 +57,8 @@ public abstract class BaseSound {
         return (BooleanControl) getLine().getControl(BooleanControl.Type.MUTE);
     }
 
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
 }
