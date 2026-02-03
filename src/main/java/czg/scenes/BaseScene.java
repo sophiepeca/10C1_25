@@ -5,7 +5,9 @@ import czg.objects.BaseObject;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.SequencedSet;
 import java.util.stream.Collectors;
 
 /**
@@ -20,21 +22,38 @@ public abstract class BaseScene {
     public final List<BaseObject> objects = new ArrayList<>();
 
     /**
+     * Liste der Tags, die diese Szene hat. <b>Sollte nur beim Erstellen der Szene
+     * (d.h. im Konstruktor) festgelegt werden.</b>
+     */
+    public final SequencedSet<String> tags = new LinkedHashSet<>();
+
+    /**
      * Ob die Szene verdeckt ist
      */
     public boolean isCovered = false;
+
     /**
-     * Ob die Szene ausgeblendet werden sollte, wenn sie verdeckt ist
+     * Einstellungen, wenn die Szene von anderen verdeckt ist
      */
-    public boolean coverDisablesDrawing = false;
+    public final CoverSettings coverSettings;
+
     /**
-     * Ob die Szene noch ihren Code ausführen sollte, wenn sie verdeckt ist
+     * Szene erstellen. Alle {@code CoverSettings}-Einstellungen werden
+     * auf {@code false} gesetzt.
      */
-    public boolean coverPausesLogic = false;
+    protected BaseScene() {
+        this(new CoverSettings(false, false, false));
+    }
+
     /**
-     * Ob die Szene ihre Musik oder Effekte pausieren sollte, wenn sie verdeckt ist
+     * Szene mit {@code CoverSettings} erstellen. Das Erstellen dieser
+     * Einstellungen kann über verkettete Funktionsaufrufe erfolgen. Siehe
+     * Dokumentation ({@code Fenster_Szenen_Objekte.md}).
+     * @param coverSettings {@code CoverSettings}-Objekte
      */
-    public boolean coverPausesAudio = false;
+    protected BaseScene(CoverSettings coverSettings) {
+        this.coverSettings = coverSettings;
+    }
 
     /**
      * Alle Objekte abfragen, die mit dem gegebenen überlappen (damit "kollidieren")
@@ -59,6 +78,11 @@ public abstract class BaseScene {
     }
 
     /**
+     * Wird aufgerufen, wenn die Szene aus dem Szenen-Stapel entfernt wird
+     */
+    public void unload() {}
+
+    /**
      * Ruft {@link BaseObject#update(BaseScene)} für jedes Objekt in der {@link #objects}-Liste auf.
      * Übergibt diese Szene als Parameter.
      */
@@ -76,5 +100,11 @@ public abstract class BaseScene {
     public void draw(Graphics2D g) {
         // Objekte zeichnen
         objects.forEach(o -> o.draw(g));
+    }
+
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
     }
 }

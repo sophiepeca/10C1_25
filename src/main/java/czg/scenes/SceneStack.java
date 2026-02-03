@@ -3,7 +3,11 @@ package czg.scenes;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.SequencedSet;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Der Szenen-Stapel enthält beliebig viele Szenen (siehe {@link BaseScene}), die übereinander
@@ -26,6 +30,29 @@ public class SceneStack extends JPanel {
     private final List<BaseScene> scenes = new ArrayList<>();
 
     /**
+     * Cache, der für jeden Index in der {@link #scenes}-Liste eine Liste
+     * mit den Tags von allen darüber liegenden Szenen speichert
+     */
+    private final List<SequencedSet<String>> overlyingTagsCache = new ArrayList<>();
+
+    /**
+     * Aktualisiert {@link #overlyingTagsCache}
+     * @param belowIndex Alle Szenen mit einem Index kleiner als dieser werden berücksichtigt
+     */
+    private void updateOverlyingTagsCache(int belowIndex) {
+        for (int i = belowIndex-1; i >= 0; i--) {
+            // Set nehmen
+            SequencedSet<String> tags = overlyingTagsCache.get(i);
+
+            // Tags sammeln
+            for(int j = i+1; j < scenes.size(); j++) {
+                tags.addAll(scenes.get(j).tags);
+            }
+        }
+
+    }
+
+    /**
      * Zeigt eine weitere Szene über allen bestehenden Szenen an
      * @param scene Beliebige Szene
      */
@@ -35,6 +62,11 @@ public class SceneStack extends JPanel {
         if(last != null) {
             last.isCovered = true;
         }
+
+        // Neues Set für Tags anlegen
+        overlyingTagsCache.add(new LinkedHashSet<>());
+        // Cache aktualisieren: alle Szenen außer die oberste
+        updateOverlyingTagsCache(scenes.size()-1);
 
         // In die Liste aufnehmen
         scenes.add(scene);
@@ -46,14 +78,19 @@ public class SceneStack extends JPanel {
     public void pop() {
         BaseScene last = getTop();
         if(last != null) {
-            // Aus der Liste entfernen
-            scenes.removeLast();
+            // Aus der Liste entfernen & unload() ausführen
+            scenes.removeLast().unload();
 
             // Aktualisieren
             last = getTop();
             // Nicht mehr bedecken
             if(last != null)
                 last.isCovered = false;
+
+            // Set mit Tags entfernen
+            overlyingTagsCache.removeLast();
+            // Cache aktualisieren: alle Szenen
+            updateOverlyingTagsCache(scenes.size());
         } else
             System.err.println("Es wurde versucht, eine Szene zu entfernen, obwohl keine Szenen mehr auf dem Stapel sind!");
     }
@@ -78,6 +115,11 @@ public class SceneStack extends JPanel {
             return;
         }
 
+        // Neues Set für die neu eingefügte Szene einfügen
+        overlyingTagsCache.add(index, new LinkedHashSet<>());
+        // Cache aktualisieren: alle Szenen ab der, die eingefügt wurde (inklusiv)
+        updateOverlyingTagsCache(index+1);
+
         System.err.printf("Kann keine Szene an Stelle %d einfügen%n", index);
     }
 
@@ -93,6 +135,12 @@ public class SceneStack extends JPanel {
             if(scenes.get(i) == toBeReplaced) {
                 // ... und ersetzen
                 scenes.set(i, replacement);
+                // unload() ausführen
+                toBeReplaced.unload();
+
+                // Cache aktualisieren: alle Szenen ab der, die neu eingefügt wurde (inklusiv)
+                updateOverlyingTagsCache(i+1);
+
                 return;
             }
         }
@@ -113,8 +161,11 @@ public class SceneStack extends JPanel {
                     // Ggf. die darunterliegende Szene nicht mehr verdecken
                     pop();
                 } else {
-                    // Entfernen
-                    scenes.remove(i);
+                    // Entfernen & unload() ausführen
+                    scenes.remove(i).unload();
+
+                    // Cache aktualisieren: alle Szenen, die unter der eben entfernten liegen/lagen
+                    updateOverlyingTagsCache(i);
                 }
 
                 return;
@@ -125,26 +176,51 @@ public class SceneStack extends JPanel {
     }
 
     /**
+     * Szene ganz oben auf dem Stapel abfragen
      * @return Szene oben auf dem Stapel
      */
     private BaseScene getTop() {
         return scenes.isEmpty() ? null : scenes.getLast();
     }
 
+
     /**
-     * Logik-Code der einzelnen Szenen ausführen. Szenen die verdeckt sind
-     * {@link BaseScene#isCovered} und für die {@link BaseScene#coverPausesLogic}
-     * {@code true} ist, werden nicht beachtet.
+     * Iteriert über {@link #scenes} bzw. eine Kopie davon. Ermittelt für
+     * jede Szene die effektiven {@link CoverSettings.Rules} und
+     * bestimmt mithilfe der {@code settingExtractor}-Funtktion, ob der
+     * {@code processor} für diese Szene aufgerufen werden soll.
+     * @param settingExtractor {@link Function}, die eine {@link CoverSettings.Setting} aus einem Satz {@link CoverSettings.Rules} abfragt
+     * @param processor {@link Consumer}, der ggf. auf die Szene angewendet wird
+     * @param useCopy Ob eine Kopie von {@link #scenes} oder die Liste selbst verwendet werden soll
      */
-    public void update() {
+    private void processScenes(
+            Function<CoverSettings.Rules, CoverSettings.Setting> settingExtractor,
+            Consumer<BaseScene> processor,
+            boolean useCopy
+    ) {
         // Es wird mit einer Kopie der scenes-Liste gearbeitet, da diese
         // sich ändern kann (z.B. durch Code in den update()-Methoden von
         // Objekten), während sie hier eigentlich noch durchlaufen wird.
         // Würde hier die scenes-Liste direkt benutzt werden, könnte es
         // so zu einer ConcurrentModificationException kommen!
-        new ArrayList<>(scenes).stream()
-                .filter(scene -> !(scene.isCovered && scene.coverPausesLogic))
-                .forEach(BaseScene::update);
+        List<BaseScene> iterList = useCopy ? new ArrayList<>(scenes) : scenes;
+        for (int i = 0; i < iterList.size(); i++) {
+            BaseScene scene = iterList.get(i);
+
+            boolean filterSetting = settingExtractor.apply(
+                    scene.coverSettings.getEffectiveRules(overlyingTagsCache.get(i))
+            ).toBoolean();
+
+            if(! (scene.isCovered && filterSetting))
+                processor.accept(scene);
+        }
+    }
+
+    /**
+     * Logik-Code der einzelnen Szenen ausführen
+     */
+    public void update() {
+        processScenes(CoverSettings.Rules::coverPausesLogic, BaseScene::update, true);
     }
 
     /**
@@ -164,9 +240,7 @@ public class SceneStack extends JPanel {
 
         // Alle Szenen zeichnen, die nicht verdeckt und so eingestellt sind,
         // dass sie deshalb ausgeblendet sein sollte.
-        scenes.stream()
-                .filter(scene -> !(scene.isCovered && scene.coverDisablesDrawing))
-                .forEach(scene -> scene.draw(g2));
+        processScenes(CoverSettings.Rules::coverDisablesDrawing, scene -> scene.draw(g2), false);
     }
 
 }
