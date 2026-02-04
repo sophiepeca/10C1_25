@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * Eine Szene besteht aus einem Hintergrund und einer beliebigen Menge von
  * sich darauf bewegenden Objekten.
  */
-public abstract class BaseScene {
+public class BaseScene {
 
     /**
      * Liste der Objekte in diese Szene
@@ -42,7 +42,7 @@ public abstract class BaseScene {
      * Szene erstellen. Alle {@code CoverSettings}-Einstellungen werden
      * auf {@code false} gesetzt.
      */
-    protected BaseScene() {
+    public BaseScene() {
         this(new CoverSettings(false, false, false));
     }
 
@@ -52,7 +52,7 @@ public abstract class BaseScene {
      * Dokumentation ({@code Fenster_Szenen_Objekte.md}).
      * @param coverSettings {@code CoverSettings}-Objekte
      */
-    protected BaseScene(CoverSettings coverSettings) {
+    public BaseScene(CoverSettings coverSettings) {
         this.coverSettings = coverSettings;
     }
 
