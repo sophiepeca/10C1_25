@@ -103,6 +103,10 @@ public class BaseScene {
         objects.forEach(o -> o.draw(g));
     }
 
+    @Override
+    public String toString() {
+        return getClass().getTypeName();
+    }
 
     @Override
     public int hashCode() {

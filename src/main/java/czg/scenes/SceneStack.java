@@ -5,10 +5,8 @@ import czg.scenes.cover_settings.Setting;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.*;
 import java.util.List;
-import java.util.SequencedSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -36,20 +34,34 @@ public class SceneStack extends JPanel {
      * Cache, der für jeden Index in der {@link #scenes}-Liste eine Liste
      * mit den Tags von allen darüber liegenden Szenen speichert
      */
-    private final List<SequencedSet<String>> overlyingTagsCache = new ArrayList<>();
+    private final List<SequencedMap<String,Integer>> overlyingTags = new ArrayList<>();
 
     /**
-     * Aktualisiert {@link #overlyingTagsCache}
-     * @param belowIndex Alle Szenen mit einem Index kleiner als dieser werden berücksichtigt
+     * Aktualisiert {@link #overlyingTags}, indem die Tags der Szene an Stelle {@code fromIndex}
+     * im Stapel genommen werden und die jeweils zugeordneten Zahlen in den Cache-Maps der darunterliegenden
+     * Szenen um {@code counterDelta} ändert
+     * @param fromIndex Die Cache-Maps aller Szenen unter diesem Index werden aktualisiert
      */
-    private void updateOverlyingTagsCache(int belowIndex) {
-        for (int i = belowIndex-1; i >= 0; i--) {
-            // Set nehmen
-            SequencedSet<String> tags = overlyingTagsCache.get(i);
+    private void propagateOverlyingTags(int fromIndex, int counterDelta) {
+        assert overlyingTags.size() == scenes.size();
 
-            // Tags sammeln
-            for(int j = i+1; j < scenes.size(); j++) {
-                tags.addAll(scenes.get(j).tags);
+        // Tags nehmen
+        SequencedSet<String> tags = scenes.get(fromIndex).tags;
+
+        // Über alle Indices < fromIndex gehen
+        for (int i = fromIndex-1; i >= 0; i--) {
+            // Map nehmen
+            Map<String,Integer> overlying = overlyingTags.get(i);
+
+            // Zähler für die Tags aktualisieren
+            for(String t : tags) {
+                int newCount = overlying.getOrDefault(t, 0) + counterDelta;
+
+                if(newCount > 0)
+                    overlying.put(t, newCount);
+                else {
+                    overlying.remove(t);
+                }
             }
         }
 
@@ -67,12 +79,12 @@ public class SceneStack extends JPanel {
         }
 
         // Neues Set für Tags anlegen
-        overlyingTagsCache.add(new LinkedHashSet<>());
-        // Cache aktualisieren: alle Szenen außer die oberste
-        updateOverlyingTagsCache(scenes.size()-1);
-
+        overlyingTags.add(new LinkedHashMap<>());
         // In die Liste aufnehmen
         scenes.add(scene);
+        // Cache aktualisieren: Counter für die Tags der neuen Szene bei den darunterliegenden Szenen erhöhen
+        propagateOverlyingTags(scenes.size()-1, 1);
+
     }
 
     /**
@@ -81,19 +93,18 @@ public class SceneStack extends JPanel {
     public void pop() {
         BaseScene last = getTop();
         if(last != null) {
+            // Cache aktualisieren: Tag-Counter der Tags der entfernten Szene bei allen Szenen im Stapel dekrementieren
+            propagateOverlyingTags(scenes.size()-1, -1);
+            // Map mit Tags entfernen
+            overlyingTags.removeLast();
             // Aus der Liste entfernen & unload() ausführen
             scenes.removeLast().unload();
 
-            // Aktualisieren
+            // last-Variable Aktualisieren
             last = getTop();
             // Nicht mehr bedecken
             if(last != null)
                 last.isCovered = false;
-
-            // Set mit Tags entfernen
-            overlyingTagsCache.removeLast();
-            // Cache aktualisieren: alle Szenen
-            updateOverlyingTagsCache(scenes.size());
         } else
             System.err.println("Es wurde versucht, eine Szene zu entfernen, obwohl keine Szenen mehr auf dem Stapel sind!");
     }
@@ -112,18 +123,33 @@ public class SceneStack extends JPanel {
             return;
         }
 
-        // Irgendwo innerhalb des Stapels einfügen
-        if(index >= 0) {
-            scenes.add(index, scene);
-            return;
+        // Ungültiger Index: Fehlermeldung
+        if(index < 0) {
+            throw new ArrayIndexOutOfBoundsException(index);
         }
 
-        // Neues Set für die neu eingefügte Szene einfügen
-        overlyingTagsCache.add(index, new LinkedHashSet<>());
-        // Cache aktualisieren: alle Szenen ab der, die eingefügt wurde (inklusiv)
-        updateOverlyingTagsCache(index+1);
+        // Neue Map für die neu eingefügte Szene einfügen
+        if(index == 0) {
+            // ==> Ganz unten in den Stapel einfügen
+            // Tags von der Szene kopieren, die vorher ganz unten war (und jetzt zu Index 1 geschoben wurde)
+            overlyingTags.addFirst(new LinkedHashMap<>(overlyingTags.getFirst()));
+            // In die Szenen-Liste einfügen
+            scenes.addFirst(scene);
+            // Die Tags der Szene, die jetzt an Index 1 geschoben wurde, zu der neu eingefügten Szene hinzufügen
+            propagateOverlyingTags(1, 1);
+        } else {
+            // ==> Nicht ganz unten in den Stapel einfügen
+            // Tags von der Szene kopieren, die vorher unter der Szene lag, unter der
+            // jetzt die neu eingefügte Szene ist
+            overlyingTags.addFirst(new LinkedHashMap<>(overlyingTags.get(index-1)));
+            // In die Szenen-Liste einfügen
+            scenes.add(index, scene);
+            // Die Tags der neu eingefügten Szene zu den darunterliegenden hinzufügen
+            propagateOverlyingTags(index, 1);
+        }
 
-        System.err.printf("Kann keine Szene an Stelle %d einfügen%n", index);
+
+
     }
 
     /**
@@ -134,15 +160,22 @@ public class SceneStack extends JPanel {
      */
     public void replace(BaseScene toBeReplaced, BaseScene replacement) {
         for (int i = 0; i < scenes.size(); i++) {
-            // toBeReplaced suchen...
+            // Index von toBeReplaced suchen
             if(scenes.get(i) == toBeReplaced) {
-                // ... und ersetzen
-                scenes.set(i, replacement);
-                // unload() ausführen
-                toBeReplaced.unload();
+                // Counter für die Tags der ersetzten Szene dekrementieren
+                propagateOverlyingTags(i, -1);
 
-                // Cache aktualisieren: alle Szenen ab der, die neu eingefügt wurde (inklusiv)
-                updateOverlyingTagsCache(i+1);
+                // Wir können für die Szene, die gerade eingefügt wurde, einfach
+                // die bestehende Map bei overlyingTagsCache[i] verwenden!
+
+                // Szene ersetzen
+                scenes.set(i, replacement);
+
+                // Counter für die Tags der neu eingefügten Szene inkrementieren
+                propagateOverlyingTags(i, 1);
+
+                // unload() für die ersetzte Szene ausführen
+                toBeReplaced.unload();
 
                 return;
             }
@@ -158,18 +191,21 @@ public class SceneStack extends JPanel {
      * @param toBeRemoved Die zu entfernende Szene
      */
     public void remove(BaseScene toBeRemoved) {
+        if(toBeRemoved == scenes.getLast()) {
+            // An pop() weitergeben
+            pop();
+            return;
+        }
+
         for(int i = 0; i < scenes.size(); i++) {
             if(scenes.get(i) == toBeRemoved) {
-                if(i == scenes.size()-1) {
-                    // Ggf. die darunterliegende Szene nicht mehr verdecken
-                    pop();
-                } else {
-                    // Entfernen & unload() ausführen
-                    scenes.remove(i).unload();
+                // Counter für die Tags der zu entfernenden Szene dekrementieren
+                propagateOverlyingTags(i, -1);
+                // Map entfernen
+                overlyingTags.remove(i);
 
-                    // Cache aktualisieren: alle Szenen, die unter der eben entfernten liegen/lagen
-                    updateOverlyingTagsCache(i);
-                }
+                // Aus der scenes-Liste entfernen & unload() ausführen
+                scenes.remove(i).unload();
 
                 return;
             }
@@ -181,11 +217,11 @@ public class SceneStack extends JPanel {
 
     /**
      * setzt {@link BaseScene#isCovered} für alle Szenen im Stapel auf {@code false},
-     * leert den {@link #overlyingTagsCache} und entfernt alle Szenen vom Stapel.
+     * leert den {@link #overlyingTags} und entfernt alle Szenen vom Stapel.
      */
     public void clear() {
         scenes.forEach(scene -> scene.isCovered = false);
-        overlyingTagsCache.clear();
+        overlyingTags.clear();
         scenes.clear();
     }
 
@@ -223,7 +259,7 @@ public class SceneStack extends JPanel {
             BaseScene scene = iterList.get(i);
 
             boolean filterSetting = settingExtractor.apply(
-                    scene.coverSettings.getEffectiveRules(overlyingTagsCache.get(i))
+                    scene.coverSettings.getEffectiveRules(overlyingTags.get(i).sequencedKeySet())
             ).toBoolean();
 
             if(! (scene.isCovered && filterSetting))
