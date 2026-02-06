@@ -2,9 +2,11 @@ package czg.scenes;
 
 import czg.scenes.cover_settings.Rules;
 import czg.scenes.cover_settings.Setting;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
@@ -267,11 +269,32 @@ public class SceneStack extends JPanel {
         }
     }
 
+    public SequencedSet<String> getOverlyingTags(int index) {
+        return Collections.unmodifiableSequencedSet(overlyingTags.get(index).sequencedKeySet());
+    }
+
     /**
      * Logik-Code der einzelnen Szenen ausführen
      */
     public void update() {
         processScenes(Rules::coverPausesLogic, BaseScene::update, true);
+    }
+
+
+    /**
+     * Von außen erreichbare Zeichen-Funktion. Für Unit-Tests gedacht.
+     * @param g Normalerweise von {@link #paintComponent(Graphics)} bereitgestellt. Unit-Test sollten hier {@code null} übergeben.
+     */
+    public void draw(@Nullable Graphics2D g) {
+        final Graphics2D g2 = g == null ? new BufferedImage(1,1, BufferedImage.TYPE_INT_RGB).createGraphics() : g;
+
+        // Anti-aliasing aktivieren (Text nicht pixelig darstellen)
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Alle Szenen zeichnen, die nicht verdeckt und so eingestellt sind,
+        // dass sie deshalb ausgeblendet sein sollte.
+        processScenes(Rules::coverDisablesDrawing, scene -> scene.draw(g2), false);
     }
 
     /**
@@ -282,16 +305,7 @@ public class SceneStack extends JPanel {
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-
-        Graphics2D g2 = (Graphics2D) graphics;
-
-        // Anti-aliasing aktivieren (Text nicht pixelig darstellen)
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Alle Szenen zeichnen, die nicht verdeckt und so eingestellt sind,
-        // dass sie deshalb ausgeblendet sein sollte.
-        processScenes(Rules::coverDisablesDrawing, scene -> scene.draw(g2), false);
+        draw((Graphics2D) graphics);
     }
 
 }
