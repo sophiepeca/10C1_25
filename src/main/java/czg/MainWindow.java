@@ -31,7 +31,7 @@ public class MainWindow extends JFrame implements Runnable {
     /**
      * Einzelbilder pro Sekunde
      */
-    public static final int FPS = 30;
+    public static final int FPS = 60;
 
     public static final MainWindow INSTANCE = new MainWindow();
 
