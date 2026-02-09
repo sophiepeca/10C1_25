@@ -80,9 +80,6 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
-        // Haupt-Schleife in einem neuen Thread starten
-        new Thread(INSTANCE).start();
-
         //WICHTIG!!!!!!
         BiogangScene start = new BiogangScene();
         SceneStack.INSTANCE.push(start);
@@ -96,7 +93,8 @@ public class MainWindow extends JFrame implements Runnable {
             Insets insets = INSTANCE.getInsets();
             INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
         });
-        new Thread(INSTANCE).start();
+
+        new Thread(INSTANCE, "GameLoop").start();
 
     }
 
