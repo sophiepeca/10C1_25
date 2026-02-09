@@ -14,11 +14,7 @@ public class ExampleScene2 extends BaseScene {
     public ExampleScene2() {
         objects.add(new BackdropObject(Images.get("/assets/background/example.png")));
 
-        ExampleDoorObject door = new ExampleDoorObject(0, 0, () -> {
-            ExampleScene1 newScene = new ExampleScene1();
-            newScene.sounds.get().addAllSounds(sounds.get().stop());
-            return newScene;
-        });
+        ExampleDoorObject door = new ExampleDoorObject(0, 0, ExampleScene1::new);
 
         door.x = Math.round(door.width * 0.5f);
         door.y = HEIGHT / 2 - door.height / 2;

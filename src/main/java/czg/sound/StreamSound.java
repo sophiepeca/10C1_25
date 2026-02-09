@@ -109,6 +109,7 @@ public class StreamSound extends BaseSound {
 
         // Ggf. den Wiedergabe-Thread starten bzw. aufwecken
         if(! playbackThread.isAlive()) {
+            //playbackThread.setDaemon(true);
             playbackThread.start();
         }
 

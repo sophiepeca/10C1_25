@@ -3,6 +3,9 @@ package czg;
 import czg.objects.ExamplePlayerObject;
 import czg.scenes.ExampleScene1;
 import czg.scenes.SceneStack;
+import czg.sound.EndOfFileBehaviour;
+import czg.sound.SoundGroup;
+import czg.sound.StreamSound;
 import czg.util.Input;
 
 import javax.swing.*;
@@ -78,13 +81,17 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
-        // Haupt-Schleife in einem neuen Thread starten
-        new Thread(INSTANCE).start();
-
         // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
+        SoundGroup.GLOBAL_SOUNDS.addSound(
+                new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
+        );
+
         ExampleScene1 s1 = new ExampleScene1();
         s1.objects.add(ExamplePlayerObject.INSTANCE);
         SceneStack.INSTANCE.push(s1);
+
+        // Haupt-Schleife in einem neuen Thread starten
+        new Thread(INSTANCE).start();
     }
 
     /**

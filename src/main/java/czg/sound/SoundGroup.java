@@ -1,7 +1,6 @@
 package czg.sound;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,15 +39,14 @@ public class SoundGroup {
 
     /**
      * Fügt mehrere Sounds auf einmal zur Gruppe hinzu
-     * @param sounds {@link Set} von Sounds. Wahrscheinlich von {@link #stop()} erhalten.
+     * @param sounds {@link Set} von Sounds. Wahrscheinlich von {@link #removeAllSounds()} erhalten.
      */
     public void addAllSounds(Set<BaseSound> sounds) {
         sounds.forEach(this::addSound);
     }
 
     /**
-     * Entfernt einen Sound aus der Sound-Gruppe. Falls {@link BaseSound#persistentAcrossSceneChange} {@code true} ist,
-     * wird {@link BaseSound#stop()} aufgerufen.
+     * {@link BaseSound#stop()}t einen Sound und entfernt ihn aus der Sound-Gruppe
      * @param sound Der zu entfernende Sound
      */
     public void removeSound(BaseSound sound) {
@@ -57,34 +55,17 @@ public class SoundGroup {
             return;
         }
 
-        if(!sound.persistentAcrossSceneChange)
-            sound.stop();
-
+        sound.stop();
         soundsAndResumePlaybackStates.remove(sound);
     }
 
 
     /**
-     * Stoppt alle Sounds, für die {@link BaseSound#persistentAcrossSceneChange} auf {@code true} gesetzt ist.
-     * @return Ein {@link Set} mit allen Sounds, die in die nächste Szene übertragen werden sollten
+     * Stoppt alle Sounds und entfernt sie aus der Gruppe
      */
-    public Set<BaseSound> stop() {
-        if(soundsAndResumePlaybackStates.isEmpty())
-            return Set.of();
-
-        Set<BaseSound> persistent = new HashSet<>();
-
-        for(BaseSound sound : soundsAndResumePlaybackStates.keySet()) {
-            if(sound.persistentAcrossSceneChange) {
-                persistent.add(sound);
-            } else {
-                sound.stop();
-            }
-        }
-
+    public void removeAllSounds() {
+        soundsAndResumePlaybackStates.keySet().forEach(BaseSound::stop);
         soundsAndResumePlaybackStates.clear();
-
-        return persistent;
     }
 
     /**

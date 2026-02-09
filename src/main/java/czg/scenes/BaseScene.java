@@ -2,7 +2,6 @@ package czg.scenes;
 
 import czg.objects.BaseObject;
 import czg.scenes.cover_settings.CoverSettings;
-import czg.sound.BaseSound;
 import czg.sound.SoundGroup;
 import czg.util.Lazy;
 
@@ -126,9 +125,7 @@ public class BaseScene {
         // Position im Szenen-Stapel vergessen
         sceneStackPosition = -1;
         // Ggf. Sounds stoppen
-        sounds.ifPresent(sounds -> sounds.stop().stream()
-                .filter(sound -> ! sound.isStopped())
-                .forEach(BaseSound::stop));
+        sounds.ifPresent(SoundGroup::removeAllSounds);
     }
 
     /**

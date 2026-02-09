@@ -8,13 +8,6 @@ import javax.sound.sampled.*;
 public abstract class BaseSound {
 
     /**
-     * Wenn {@code true}, wird der Sound beim Entladen der Szene,
-     * in der er sich befindet <b>ggf.</b> an die als nächstes geladene
-     * Szene übergeben.
-     */
-    public boolean persistentAcrossSceneChange = false;
-
-    /**
      * Ob der Sound gestoppt wurde
      */
     protected boolean isStopped = false;
