@@ -1,7 +1,15 @@
 package czg;
 
 import czg.objects.ExamplePlayerObject;
-import czg.scenes.ExampleScene1;
+import czg.scenes.BiogangScene;
+import czg.scenes.GangTestScene;
+import czg.scenes.PhysikgangScene;
+import czg.scenes.MathegangScene;
+import czg.scenes.InfogangScene;
+import czg.scenes.ChemiegangScene;
+import czg.scenes.GangHausmeisterScene;
+import czg.scenes.GangObenScene;
+import czg.scenes.ExampleScene2;
 import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
@@ -19,7 +27,7 @@ public class MainWindow extends JFrame implements Runnable {
     /**
      * Wie viele Bildschirm-Pixel ein Textur-Pixel beansprucht
      */
-    public static final int PIXEL_SCALE = 6;
+    public static final int PIXEL_SCALE = 4;
 
     /**
      * Wie viele Bildschirm-Pixel das Fenster breit ist
@@ -81,6 +89,19 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
+        // Haupt-Schleife in einem neuen Thread starten
+        new Thread(INSTANCE).start();
+
+        //WICHTIG!!!!!!
+        BiogangScene start = new BiogangScene();
+        SceneStack.INSTANCE.push(start);
+        
+        /*
+        PhysikgangScene physik = new PhysikgangScene();
+        start.objects.add(ExamplePlayerObject.INSTANCE);
+        INSTANCE.SCENE_STACK.push(physik);
+        */
+
         // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
         SoundGroup.GLOBAL_SOUNDS.addSound(
                 new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
@@ -98,6 +119,7 @@ public class MainWindow extends JFrame implements Runnable {
             System.out.println(INSTANCE.getSize());
         });
         new Thread(INSTANCE).start();
+
     }
 
     /**

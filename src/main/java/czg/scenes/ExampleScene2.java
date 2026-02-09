@@ -2,7 +2,6 @@ package czg.scenes;
 
 import czg.MainWindow;
 import czg.objects.BackdropObject;
-import czg.objects.ExampleDoorObject;
 import czg.util.Draw;
 import czg.util.Images;
 
@@ -14,11 +13,20 @@ public class ExampleScene2 extends BaseScene {
     public ExampleScene2() {
         objects.add(new BackdropObject(Images.get("/assets/background/example.png")));
 
+/*
+        PfeilLinksObject links = new PfeilLinksObject(0, 0, BiogangScene::new);
+        linPfeilLinksObject links = new PfeilLinksObject(0, 0, BiogangScene::new);ks.x = Math.round(links.width * 0.5f);
+        links.y = HEIGHT / 2 - links.height / 2;
+        objects.add(links);
+*/
+
+
         ExampleDoorObject door = new ExampleDoorObject(0, 0, ExampleScene1::new);
 
         door.x = Math.round(door.width * 0.5f);
         door.y = HEIGHT / 2 - door.height / 2;
         objects.add(door);
+
     }
 
     @Override
