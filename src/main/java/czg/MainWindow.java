@@ -46,7 +46,7 @@ public class MainWindow extends JFrame implements Runnable {
         super("CZGame");
 
         // Feste Größe
-        setSize(new Dimension(WIDTH,HEIGHT));
+        setSize(WIDTH,HEIGHT);
         setResizable(false);
 
         // Manuelles platzieren von Elementen
@@ -91,6 +91,12 @@ public class MainWindow extends JFrame implements Runnable {
         SceneStack.INSTANCE.push(s1);
 
         // Haupt-Schleife in einem neuen Thread starten
+        SwingUtilities.invokeLater(() -> {
+            Insets insets = INSTANCE.getInsets();
+            System.out.println(insets);
+            INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
+            System.out.println(INSTANCE.getSize());
+        });
         new Thread(INSTANCE).start();
     }
 
