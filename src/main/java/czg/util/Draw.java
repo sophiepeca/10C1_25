@@ -26,4 +26,10 @@ public final class Draw {
         g.drawString(text, (int) (x - bounds.getWidth()/2), (int) (y - bounds.getHeight()/2));
     }
 
+
+    /**
+     * Soll nicht instanziiert werden
+     */
+    private Draw() {}
+
 }

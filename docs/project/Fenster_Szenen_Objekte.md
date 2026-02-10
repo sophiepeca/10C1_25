@@ -29,6 +29,17 @@ Hier sollte also eine Instanz der ersten Szene (z.B. Hauptmenü) erstellt werden
 die Spielfigur zu dieser hinzugefügt werden und schließlich die Szene auf den
 Szenen-Stapel gelegt werden.
 
+Beispiel (angenommen `GangScene` ist die Klasse für die Start-Szene):
+
+```java
+GangScene start = new GangScene();
+start.objects.add(Player.INSTANCE);
+SceneStack.INSTANCE.push(start);
+```
+
+Diese Szene könnte dann Pfeile oder Türen enthalten, die zu anderen Szenen führen.
+Analog könnte die erste Szene auch ein Menü sein, welches zu anderen Szenen führt.
+
 
 ## Szene ([czg.scenes.BaseScene](../../src/main/java/czg/scenes/BaseScene.java))
 

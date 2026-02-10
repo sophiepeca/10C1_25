@@ -15,6 +15,9 @@ import static czg.MainWindow.PIXEL_SCALE;
  */
 public class Images {
 
+    /**
+     * Cache für geladene Bilder
+     */
     private static final Map<String, Image> loaded = new HashMap<>();
 
     /**
@@ -64,5 +67,11 @@ public class Images {
         });
 
     }
+
+
+    /**
+     * Soll nicht instanziiert werden
+     */
+    private Images() {}
 
 }

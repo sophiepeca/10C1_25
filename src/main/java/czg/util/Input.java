@@ -1,24 +1,23 @@
 package czg.util;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * Zentraler zugriff auf gedrückte Tasten der Tastatur und Maus
  */
-public class Input implements KeyListener, MouseListener {
+public class Input implements KeyListener, MouseListener, FocusListener {
 
     /**
      * Singleton der Klasse
      */
     public static final Input INSTANCE = new Input();
 
+    /**
+     * Soll nicht von außerhalb instanziiert werden
+     */
     private Input() {}
 
 
@@ -41,7 +40,8 @@ public class Input implements KeyListener, MouseListener {
 
 
         /**
-         * @return Ob die Taste gedrückt ist, egal wie lange schon
+         * Abfragen, ob eine Taste gedrückt ist, egal wie lange schon
+         * @return Siehe Beschreibung
          */
         public boolean isDown() {
             return this == PRESSED || this == HELD;
@@ -89,7 +89,7 @@ public class Input implements KeyListener, MouseListener {
                         // Die gefilterten key codes in eine Liste speichern. Sonst
                         // würde die folgende forEach-Funktion die Daten der Maps ändern,
                         // während noch über die gefilterten Schlüssel iteriert wird
-                        .collect(Collectors.toList())
+                        .toList()
                         .forEach(
                                 code -> map.put(code, KeyState.HELD)
                         )
@@ -117,6 +117,13 @@ public class Input implements KeyListener, MouseListener {
         keyStates.remove(keyEvent.getKeyCode());
     }
 
+    @Override
+    public void focusLost(FocusEvent e) {
+        // Beim Fokuswechsel sofort alle Tasten nicht mehr drücken
+        keyStates.clear();
+        mouseStates.clear();
+    }
+
 
     // Nicht verwendet
 
@@ -137,6 +144,11 @@ public class Input implements KeyListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
 
     }
 }

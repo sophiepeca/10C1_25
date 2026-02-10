@@ -1,18 +1,23 @@
 package czg.scenes;
 
 import czg.objects.BaseObject;
+import czg.scenes.cover_settings.CoverSettings;
+import czg.sound.SoundGroup;
+import czg.util.Lazy;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.SequencedSet;
 import java.util.stream.Collectors;
 
 /**
  * Eine Szene besteht aus einem Hintergrund und einer beliebigen Menge von
  * sich darauf bewegenden Objekten.
  */
-public abstract class BaseScene {
+public class BaseScene {
 
     /**
      * Liste der Objekte in diese Szene
@@ -20,21 +25,51 @@ public abstract class BaseScene {
     public final List<BaseObject> objects = new ArrayList<>();
 
     /**
-     * Ob die Szene verdeckt ist
+     * Sounds in dieser Szene
      */
-    public boolean isCovered = false;
+    public final Lazy<SoundGroup> sounds = new Lazy<>(SoundGroup::new);
+
+
     /**
-     * Ob die Szene ausgeblendet werden sollte, wenn sie verdeckt ist
+     * Liste der Tags, die diese Szene hat. <b>Sollte nur beim Erstellen der Szene
+     * (d.h. im Konstruktor) festgelegt werden.</b>
      */
-    public boolean coverDisablesDrawing = false;
+    public final Lazy<SequencedSet<String>> tags = new Lazy<>(LinkedHashSet::new);
+
     /**
-     * Ob die Szene noch ihren Code ausführen sollte, wenn sie verdeckt ist
+     * Ob im Szenen-Stapel eine andere Szene über dieser liegt
      */
-    public boolean coverPausesLogic = false;
+    protected boolean isCovered = false;
+
     /**
-     * Ob die Szene ihre Musik oder Effekte pausieren sollte, wenn sie verdeckt ist
+     * <b>Wird vom {@link SceneStack} gesetzt, nicht selbst anfassen!!</b>
+     * An welcher Position im Szenen-Stapel sich diese Szene befindet. Wird
+     * auf {@code -1} gesetzt, wenn gar nicht.
      */
-    public boolean coverPausesAudio = false;
+    public int sceneStackPosition = -1;
+
+    /**
+     * Einstellungen, wenn die Szene von anderen verdeckt ist
+     */
+    public final CoverSettings coverSettings;
+
+    /**
+     * Szene erstellen. Alle {@code CoverSettings}-Einstellungen werden
+     * auf {@code false} gesetzt.
+     */
+    public BaseScene() {
+        this(new CoverSettings(false, false, false));
+    }
+
+    /**
+     * Szene mit {@code CoverSettings} erstellen. Das Erstellen dieser
+     * Einstellungen kann über verkettete Funktionsaufrufe erfolgen. Siehe
+     * Dokumentation ({@code Fenster_Szenen_Objekte.md}).
+     * @param coverSettings {@code CoverSettings}-Objekte
+     */
+    public BaseScene(CoverSettings coverSettings) {
+        this.coverSettings = coverSettings;
+    }
 
     /**
      * Alle Objekte abfragen, die mit dem gegebenen überlappen (damit "kollidieren")
@@ -59,6 +94,41 @@ public abstract class BaseScene {
     }
 
     /**
+     * Die Szene verdecken bzw. nicht mehr verdecken
+     * @param covered Ob die Szene ab jetzt als verdeckt gilt oder nicht
+     */
+    public void setCovered(boolean covered) {
+        if(covered == isCovered)
+            return;
+
+        if((isCovered = covered) && coverSettings.getEffectiveRules(SceneStack.INSTANCE.getOverlyingTags(sceneStackPosition)).coverPausesAudio().toBoolean()) {
+            // Bedecken
+            sounds.ifPresent(SoundGroup::pause);
+        } else {
+            // Nicht mehr bedecken
+            sounds.ifPresent(SoundGroup::resume);
+        }
+    }
+
+    /**
+     * Abfragen, ob im Szenen-Stapel eine andere Szene auf dieser liegt
+     * @return Ob die Szene verdeckt ist
+     */
+    public boolean isCovered() {
+        return isCovered;
+    }
+
+    /**
+     * Wird aufgerufen, wenn die Szene aus dem Szenen-Stapel entfernt wird
+     */
+    public void unload() {
+        // Position im Szenen-Stapel vergessen
+        sceneStackPosition = -1;
+        // Ggf. Sounds stoppen
+        sounds.ifPresent(SoundGroup::removeAllSounds);
+    }
+
+    /**
      * Ruft {@link BaseObject#update(BaseScene)} für jedes Objekt in der {@link #objects}-Liste auf.
      * Übergibt diese Szene als Parameter.
      */
@@ -76,5 +146,15 @@ public abstract class BaseScene {
     public void draw(Graphics2D g) {
         // Objekte zeichnen
         objects.forEach(o -> o.draw(g));
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getTypeName();
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
     }
 }

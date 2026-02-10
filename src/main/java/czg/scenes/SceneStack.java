@@ -1,9 +1,16 @@
 package czg.scenes;
 
+import czg.scenes.cover_settings.Rules;
+import czg.scenes.cover_settings.Setting;
+import org.jetbrains.annotations.Nullable;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.util.*;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Der Szenen-Stapel enthält beliebig viele Szenen (siehe {@link BaseScene}), die übereinander
@@ -26,6 +33,45 @@ public class SceneStack extends JPanel {
     private final List<BaseScene> scenes = new ArrayList<>();
 
     /**
+     * Cache, der für jeden Index in der {@link #scenes}-Liste eine Liste
+     * mit den Tags von allen darüber liegenden Szenen speichert
+     */
+    private final List<SequencedMap<String,Integer>> overlyingTags = new ArrayList<>();
+
+    private static final SequencedSet<String> EMPTY_TAG_SET = new LinkedHashSet<>();
+
+    /**
+     * Aktualisiert {@link #overlyingTags}, indem die Tags der Szene an Stelle {@code fromIndex}
+     * im Stapel genommen werden und die jeweils zugeordneten Zahlen in den Cache-Maps der darunterliegenden
+     * Szenen um {@code counterDelta} ändert
+     * @param fromIndex Die Cache-Maps aller Szenen unter diesem Index werden aktualisiert
+     */
+    private void propagateOverlyingTags(int fromIndex, int counterDelta) {
+        assert overlyingTags.size() == scenes.size();
+
+        // Tags nehmen
+        SequencedSet<String> tags = scenes.get(fromIndex).tags.getOrDefault(EMPTY_TAG_SET);
+
+        // Über alle Indices < fromIndex gehen
+        for (int i = fromIndex-1; i >= 0; i--) {
+            // Map nehmen
+            Map<String,Integer> overlying = overlyingTags.get(i);
+
+            // Zähler für die Tags aktualisieren
+            for(String t : tags) {
+                int newCount = overlying.getOrDefault(t, 0) + counterDelta;
+
+                if(newCount > 0)
+                    overlying.put(t, newCount);
+                else {
+                    overlying.remove(t);
+                }
+            }
+        }
+
+    }
+
+    /**
      * Zeigt eine weitere Szene über allen bestehenden Szenen an
      * @param scene Beliebige Szene
      */
@@ -33,11 +79,18 @@ public class SceneStack extends JPanel {
         // Ggf. letzte Szene verdecken
         BaseScene last = getTop();
         if(last != null) {
-            last.isCovered = true;
+            last.setCovered(true);
         }
 
+        // Neues Set für Tags anlegen
+        overlyingTags.add(new LinkedHashMap<>());
         // In die Liste aufnehmen
         scenes.add(scene);
+        // Der Szene ihre Position mitteilen
+        scene.sceneStackPosition = scenes.size()-1;
+        // Cache aktualisieren: Counter für die Tags der neuen Szene bei den darunterliegenden Szenen erhöhen
+        propagateOverlyingTags(scenes.size()-1, 1);
+
     }
 
     /**
@@ -46,14 +99,18 @@ public class SceneStack extends JPanel {
     public void pop() {
         BaseScene last = getTop();
         if(last != null) {
-            // Aus der Liste entfernen
-            scenes.remove(scenes.size()-1);
+            // Cache aktualisieren: Tag-Counter der Tags der entfernten Szene bei allen Szenen im Stapel dekrementieren
+            propagateOverlyingTags(scenes.size()-1, -1);
+            // Map mit Tags entfernen
+            overlyingTags.removeLast();
+            // Aus der Liste entfernen & unload() ausführen
+            scenes.removeLast().unload();
 
-            // Aktualisieren
+            // last-Variable Aktualisieren
             last = getTop();
             // Nicht mehr bedecken
             if(last != null)
-                last.isCovered = false;
+                last.setCovered(false);
         } else
             System.err.println("Es wurde versucht, eine Szene zu entfernen, obwohl keine Szenen mehr auf dem Stapel sind!");
     }
@@ -72,13 +129,35 @@ public class SceneStack extends JPanel {
             return;
         }
 
-        // Irgendwo innerhalb des Stapels einfügen
-        if(index >= 0) {
-            scenes.add(index, scene);
-            return;
+        // Ungültiger Index: Fehlermeldung
+        if(index < 0) {
+            throw new ArrayIndexOutOfBoundsException(index);
         }
 
-        System.err.printf("Kann keine Szene an Stelle %d einfügen%n", index);
+        // Neue Map für die neu eingefügte Szene einfügen
+        if(index == 0) {
+            // → Ganz unten in den Stapel einfügen
+            // Tags von der Szene kopieren, die vorher ganz unten war (und jetzt zu Index 1 geschoben wurde)
+            overlyingTags.addFirst(new LinkedHashMap<>(overlyingTags.getFirst()));
+            // In die Szenen-Liste einfügen
+            scenes.addFirst(scene);
+            // Die Tags der Szene, die jetzt an Index 1 geschoben wurde, zu der neu eingefügten Szene hinzufügen
+            propagateOverlyingTags(1, 1);
+        } else {
+            // → Nicht ganz unten in den Stapel einfügen
+            // Tags von der Szene kopieren, die vorher unter der Szene lag, unter der
+            // jetzt die neu eingefügte Szene ist
+            overlyingTags.addFirst(new LinkedHashMap<>(overlyingTags.get(index-1)));
+            // In die Szenen-Liste einfügen
+            scenes.add(index, scene);
+            // Die Tags der neu eingefügten Szene zu den darunterliegenden hinzufügen
+            propagateOverlyingTags(index, 1);
+        }
+
+        // Den Szenen ihre neuen Positionen mitteilen
+        for(int i = index; i < scenes.size(); i++)
+            scenes.get(i).sceneStackPosition = i;
+
     }
 
     /**
@@ -89,10 +168,26 @@ public class SceneStack extends JPanel {
      */
     public void replace(BaseScene toBeReplaced, BaseScene replacement) {
         for (int i = 0; i < scenes.size(); i++) {
-            // toBeReplaced suchen...
+            // Index von toBeReplaced suchen
             if(scenes.get(i) == toBeReplaced) {
-                // ... und ersetzen
+                // Counter für die Tags der ersetzten Szene dekrementieren
+                propagateOverlyingTags(i, -1);
+
+                // Wir können für die Szene, die gerade eingefügt wurde, einfach
+                // die bestehende Map bei overlyingTagsCache[i] verwenden!
+
+                // Szene ersetzen
                 scenes.set(i, replacement);
+
+                // Der eingefügten Szene ihre Position mitteilen
+                replacement.sceneStackPosition = i;
+
+                // Counter für die Tags der neu eingefügten Szene inkrementieren
+                propagateOverlyingTags(i, 1);
+
+                // unload() für die ersetzte Szene ausführen
+                toBeReplaced.unload();
+
                 return;
             }
         }
@@ -107,15 +202,26 @@ public class SceneStack extends JPanel {
      * @param toBeRemoved Die zu entfernende Szene
      */
     public void remove(BaseScene toBeRemoved) {
+        if(toBeRemoved == scenes.getLast()) {
+            // An pop() weitergeben
+            pop();
+            return;
+        }
+
         for(int i = 0; i < scenes.size(); i++) {
             if(scenes.get(i) == toBeRemoved) {
-                if(i == scenes.size()-1) {
-                    // Ggf. die darunterliegende Szene nicht mehr verdecken
-                    pop();
-                } else {
-                    // Entfernen
-                    scenes.remove(i);
-                }
+                // Counter für die Tags der zu entfernenden Szene dekrementieren
+                propagateOverlyingTags(i, -1);
+
+                // Map entfernen
+                overlyingTags.remove(i);
+
+                // Aus der scenes-Liste entfernen & unload() ausführen
+                scenes.remove(i).unload();
+
+                // Den nach unten gerutschten Szenen ihre neuen Positionen mitteilen
+                for(int j = i; j < scenes.size(); j++)
+                    scenes.get(j).sceneStackPosition = j;
 
                 return;
             }
@@ -124,27 +230,88 @@ public class SceneStack extends JPanel {
         System.err.printf("Es wurde versucht, %s aus dem Szenen-Stapel zu entfernen, obwohl diese Szene nicht darin vorkommt%n", toBeRemoved);
     }
 
+
     /**
+     * setzt {@link BaseScene#isCovered} für alle Szenen im Stapel auf {@code false},
+     * leert den {@link #overlyingTags} und entfernt alle Szenen vom Stapel.
+     */
+    public void clear() {
+        scenes.forEach(scene -> {
+            scene.setCovered(false);
+            scene.unload();
+        });
+        overlyingTags.clear();
+        scenes.clear();
+    }
+
+
+    /**
+     * Szene ganz oben auf dem Stapel abfragen
      * @return Szene oben auf dem Stapel
      */
     private BaseScene getTop() {
-        return scenes.isEmpty() ? null : scenes.get(scenes.size()-1);
+        return scenes.isEmpty() ? null : scenes.getLast();
     }
 
+
     /**
-     * Logik-Code der einzelnen Szenen ausführen. Szenen die verdeckt sind
-     * {@link BaseScene#isCovered} und für die {@link BaseScene#coverPausesLogic}
-     * {@code true} ist, werden nicht beachtet.
+     * Iteriert über {@link #scenes} bzw. eine Kopie davon. Ermittelt für
+     * jede Szene die effektiven {@link Rules} und
+     * bestimmt mithilfe der {@code settingExtractor}-Funtktion, ob der
+     * {@code processor} für diese Szene aufgerufen werden soll.
+     * @param settingExtractor {@link Function}, die eine {@link Setting} aus einem Satz {@link Rules} abfragt
+     * @param processor {@link Consumer}, der ggf. auf die Szene angewendet wird
+     * @param useCopy Ob eine Kopie von {@link #scenes} oder die Liste selbst verwendet werden soll
      */
-    public void update() {
+    private void processScenes(
+            Function<Rules, Setting> settingExtractor,
+            Consumer<BaseScene> processor,
+            boolean useCopy
+    ) {
         // Es wird mit einer Kopie der scenes-Liste gearbeitet, da diese
         // sich ändern kann (z.B. durch Code in den update()-Methoden von
         // Objekten), während sie hier eigentlich noch durchlaufen wird.
         // Würde hier die scenes-Liste direkt benutzt werden, könnte es
         // so zu einer ConcurrentModificationException kommen!
-        new ArrayList<>(scenes).stream()
-                .filter(scene -> !(scene.isCovered && scene.coverPausesLogic))
-                .forEach(BaseScene::update);
+        List<BaseScene> iterList = useCopy ? new ArrayList<>(scenes) : scenes;
+        for (int i = 0; i < iterList.size(); i++) {
+            BaseScene scene = iterList.get(i);
+
+            boolean filterSetting = settingExtractor.apply(
+                    scene.coverSettings.getEffectiveRules(overlyingTags.get(i).sequencedKeySet())
+            ).toBoolean();
+
+            if(! (scene.isCovered() && filterSetting))
+                processor.accept(scene);
+        }
+    }
+
+    public SequencedSet<String> getOverlyingTags(int index) {
+        return Collections.unmodifiableSequencedSet(overlyingTags.get(index).sequencedKeySet());
+    }
+
+    /**
+     * Logik-Code der einzelnen Szenen ausführen
+     */
+    public void update() {
+        processScenes(Rules::coverPausesLogic, BaseScene::update, true);
+    }
+
+
+    /**
+     * Von außen erreichbare Zeichen-Funktion. Für Unit-Tests gedacht.
+     * @param g Normalerweise von {@link #paintComponent(Graphics)} bereitgestellt. Unit-Test sollten hier {@code null} übergeben.
+     */
+    public void draw(@Nullable Graphics2D g) {
+        final Graphics2D g2 = g == null ? new BufferedImage(1,1, BufferedImage.TYPE_INT_RGB).createGraphics() : g;
+
+        // Anti-aliasing aktivieren (Text nicht pixelig darstellen)
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Alle Szenen zeichnen, die nicht verdeckt und so eingestellt sind,
+        // dass sie deshalb ausgeblendet sein sollte.
+        processScenes(Rules::coverDisablesDrawing, scene -> scene.draw(g2), false);
     }
 
     /**
@@ -155,18 +322,7 @@ public class SceneStack extends JPanel {
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-
-        Graphics2D g2 = (Graphics2D) graphics;
-
-        // Anti-aliasing aktivieren (Text nicht pixelig darstellen)
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Alle Szenen zeichnen, die nicht verdeckt und so eingestellt sind,
-        // dass sie deshalb ausgeblendet sein sollte.
-        scenes.stream()
-                .filter(scene -> !(scene.isCovered && scene.coverDisablesDrawing))
-                .forEach(scene -> scene.draw(g2));
+        draw((Graphics2D) graphics);
     }
 
 }

@@ -1,6 +1,5 @@
 package czg.objects;
 
-import czg.MainWindow;
 import czg.scenes.BaseScene;
 import czg.util.Input;
 import czg.util.Input.KeyState;
@@ -17,8 +16,18 @@ import static czg.MainWindow.*;
  */
 public abstract class BaseObject {
 
+    /**
+     * Position
+     */
     public int x, y;
+    /**
+     * Größe
+     */
     public int width, height;
+    /**
+     * Angezeigtes Bild. Kann {@code null} sein, wenn das Objekt
+     * unsichtbar sein soll.
+     */
     public Image sprite;
 
     /**
@@ -76,9 +85,11 @@ public abstract class BaseObject {
      * @return Ob das Objekt angeklickt wurde
      */
     protected boolean isClicked() {
-        return MainWindow.INSTANCE.getMousePosition() != null
-                && getHitbox().contains(MainWindow.INSTANCE.getMousePosition())
-                && Input.INSTANCE.getMouseState(MouseEvent.BUTTON1) == Input.KeyState.PRESSED;
+        Point mousePos = INSTANCE.getMousePosition();
+        if(mousePos == null)
+            return false;
+
+        return getHitbox().contains(mousePos) && Input.INSTANCE.getMouseState(MouseEvent.BUTTON1) == Input.KeyState.PRESSED;
     }
 
     /**
