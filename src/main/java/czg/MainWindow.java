@@ -1,15 +1,9 @@
 package czg;
 
 import czg.objects.ExamplePlayerObject;
+import czg.scenes.FoyerScene;
 import czg.scenes.BiogangScene;
-import czg.scenes.GangTestScene;
-import czg.scenes.PhysikgangScene;
-import czg.scenes.MathegangScene;
-import czg.scenes.InfogangScene;
-import czg.scenes.ChemiegangScene;
-import czg.scenes.GangHausmeisterScene;
-import czg.scenes.GangObenScene;
-import czg.scenes.ExampleScene2;
+import czg.scenes.ExampleScene1;
 import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
@@ -93,15 +87,10 @@ public class MainWindow extends JFrame implements Runnable {
         new Thread(INSTANCE).start();
 
         //WICHTIG!!!!!!
-        BiogangScene start = new BiogangScene();
+        FoyerScene start = new FoyerScene();
         SceneStack.INSTANCE.push(start);
-        
-        /*
-        PhysikgangScene physik = new PhysikgangScene();
-        start.objects.add(ExamplePlayerObject.INSTANCE);
-        INSTANCE.SCENE_STACK.push(physik);
-        */
 
+        /*
         // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
         SoundGroup.GLOBAL_SOUNDS.addSound(
                 new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
@@ -113,6 +102,7 @@ public class MainWindow extends JFrame implements Runnable {
 
         // Haupt-Schleife in einem neuen Thread starten
         new Thread(INSTANCE).start();
+        */
 
     }
 

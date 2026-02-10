@@ -4,32 +4,28 @@
  */
 package czg.scenes;
 
-import czg.MainWindow;
 import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
-import czg.objects.ExamplePlayerObject;
-import czg.util.Draw;
 import czg.util.Images;
-import java.awt.*;
 
 /**
  *
- * @author guest-nie2d3
+ * @author guest-ku1dtt
  */
-public class BiogangScene extends BaseScene{
-    public BiogangScene(){
-        objects.add(new BackdropObject(Images.get("/assets/background/Biogang.png")));
+public class erstesOGScene extends BaseScene{
+    public erstesOGScene(){
+        objects.add(new BackdropObject(Images.get("/assets/background/1_OG.png")));
         
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {
-                    erstesOGScene erstes = new erstesOGScene();
+                    MathegangScene mathe = new MathegangScene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    erstes.objects.add(ExamplePlayerObject.INSTANCE);
+                    mathe.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, erstes);
+                    SceneStack.INSTANCE.replace(this, mathe);
                 });
 
         rechts.x = 880;
@@ -39,12 +35,12 @@ public class BiogangScene extends BaseScene{
         ButtonObject links = new ButtonObject(
                 Images.get("/assets/background/PfeilLinks.png"),
                 () -> {
-                    TreppeLinksScene treppel = new TreppeLinksScene();
+                    BiogangScene bio = new BiogangScene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    treppel.objects.add(ExamplePlayerObject.INSTANCE);
+                    mathe.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, treppel);
+                    SceneStack.INSTANCE.replace(this, bio);
                 });
 
         links.x = 9;
@@ -52,5 +48,4 @@ public class BiogangScene extends BaseScene{
         objects.add(links);
         
     }
-
 }

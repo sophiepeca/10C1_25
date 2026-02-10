@@ -2,6 +2,7 @@ package czg.scenes;
 
 import czg.MainWindow;
 import czg.objects.BackdropObject;
+import czg.objects.ExampleDoorObject;
 import czg.util.Draw;
 import czg.util.Images;
 

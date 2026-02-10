@@ -4,40 +4,36 @@
  */
 package czg.scenes;
 
-import czg.MainWindow;
 import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
-import czg.objects.ExamplePlayerObject;
-import czg.util.Draw;
 import czg.util.Images;
-import java.awt.*;
 
 /**
  *
- * @author guest-nie2d3
+ * @author guest-ku1dtt
  */
-public class BiogangScene extends BaseScene{
-    public BiogangScene(){
-        objects.add(new BackdropObject(Images.get("/assets/background/Biogang.png")));
+public class TreppeLinksScene extends BaseScene{
+    public TreppeLinksScene(){
+        objects.add(new BackdropObject(Images.get("/assets/background/kleines_treppenhaus.png")));
         
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {
-                    erstesOGScene erstes = new erstesOGScene();
+                    BiogangScene bio = new BiogangScene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    erstes.objects.add(ExamplePlayerObject.INSTANCE);
+                    bio.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, erstes);
+                    SceneStack.INSTANCE.replace(this, bio);
                 });
 
         rechts.x = 880;
         rechts.y = (HEIGHT/2) - (rechts.height/2);
         objects.add(rechts);
         
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
+        ButtonObject unten = new ButtonObject(
+                Images.get("/assets/background/PfeilUnten.png"),
                 () -> {
                     TreppeLinksScene treppel = new TreppeLinksScene();
                     /*
@@ -47,10 +43,9 @@ public class BiogangScene extends BaseScene{
                     SceneStack.INSTANCE.replace(this, treppel);
                 });
 
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
+        unten.x = 300;
+        unten.y = 300;
+        objects.add(unten);
         
     }
-
 }
