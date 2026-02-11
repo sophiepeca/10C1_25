@@ -27,6 +27,10 @@ public class SceneStack extends JPanel {
      */
     public static final SceneStack INSTANCE = new SceneStack();
 
+    private SceneStack() {
+        setDoubleBuffered(true);
+    }
+
     /**
      * Eigene Liste mit Szenen weil contentPane.getComponents()
      */
