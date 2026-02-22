@@ -14,7 +14,7 @@ import static czg.MainWindow.*;
 /**
  * Ein minimales Spiel-Objekt, bestehend aus einer Position und einem Bild.
  */
-public abstract class BaseObject {
+public class BaseObject {
 
     /**
      * Position
@@ -35,7 +35,7 @@ public abstract class BaseObject {
      * Die Größe des Objekts entspricht der Größe des Bildes.
      * @param sprite Bild
      */
-    protected BaseObject(Image sprite) {
+    public BaseObject(Image sprite) {
         this(sprite, WIDTH / 2, HEIGHT / 2);
     }
 
@@ -46,7 +46,7 @@ public abstract class BaseObject {
      * @param x X-Position
      * @param y Y-Position
      */
-    protected BaseObject(Image sprite, int x, int y) {
+    public BaseObject(Image sprite, int x, int y) {
         this(sprite, x, y,
                 sprite.getWidth(null) * PIXEL_SCALE,
                 sprite.getHeight(null) * PIXEL_SCALE);
@@ -60,7 +60,7 @@ public abstract class BaseObject {
      * @param width Breite
      * @param height Höhe
      */
-    protected BaseObject(Image sprite, int x, int y, int width, int height) {
+    public BaseObject(Image sprite, int x, int y, int width, int height) {
         this.sprite = sprite;
         this.x = x;
         this.y = y;
@@ -84,7 +84,7 @@ public abstract class BaseObject {
      * und die linke Maustaste geklickt wurde ({@link KeyState#PRESSED}).
      * @return Ob das Objekt angeklickt wurde
      */
-    protected boolean isClicked() {
+    public boolean isClicked() {
         Point mousePos = INSTANCE.getMousePosition();
         if(mousePos == null)
             return false;
@@ -113,7 +113,7 @@ public abstract class BaseObject {
      * Logik des Objektes. Muss von einer Unterklasse implementiert werden.
      * @param scene Die Szene, in welcher sich das Objekt befindet
      */
-    public abstract void update(BaseScene scene);
+    public void update(BaseScene scene) {}
 
     @Override
     public String toString() {
