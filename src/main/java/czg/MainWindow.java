@@ -1,6 +1,5 @@
 package czg;
 
-import czg.scenes.FoyerScene;
 import czg.scenes.InfogangScene;
 import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
@@ -103,10 +102,6 @@ public class MainWindow extends JFrame implements Runnable {
         INSTANCE.SCENE_STACK.push(physik);
         */
 
-        //WICHTIG!!!!!!
-        FoyerScene start = new FoyerScene();
-        SceneStack.INSTANCE.push(start);
-
         // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
         SoundGroup.GLOBAL_SOUNDS.addSound(
                 new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
@@ -160,6 +155,8 @@ public class MainWindow extends JFrame implements Runnable {
                 SceneStack.INSTANCE.update();
                 // Grafik
                 SceneStack.INSTANCE.repaint();
+
+                Input.INSTANCE.updateToHeld();
 
                 // Durchlauf abgeschlossen, Zähler kann um 1 verringert werden
                 delta--;
