@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
  *
  * @author guest-0wphjm
  */
-/*public class Player extends BaseObject{
+public class Player extends BaseObject{
     //Festlegen der benötigten Variablen (Lebenspunkte, veränderliche Charaktereigentschaften)
     public String name;
     public int[] inventar;
