@@ -7,10 +7,9 @@ package czg.scenes.minigame_scenes;
 import czg.MainWindow;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
-import czg.scenes.*;
+import czg.scenes.BaseScene;
+import czg.scenes.SceneStack;
 import czg.util.Images;
-
-import java.awt.*;
 
 /**
  *

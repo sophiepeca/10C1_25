@@ -1,7 +1,12 @@
 package czg;
 
+<<<<<<< HEAD
 import czg.objects.ExamplePlayerObject;
 import czg.scenes.*;
+=======
+import czg.scenes.FoyerScene;
+import czg.scenes.SceneStack;
+>>>>>>> ashydashy/main
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
@@ -45,7 +50,7 @@ public class MainWindow extends JFrame implements Runnable {
         super("CZGame");
 
         // Feste Größe
-        setSize(new Dimension(WIDTH,HEIGHT));
+        setSize(WIDTH,HEIGHT);
         setResizable(false);
 
         // Manuelles platzieren von Elementen
@@ -80,6 +85,7 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
+<<<<<<< HEAD
         InfogangScene mgtest = new InfogangScene();
         SceneStack.INSTANCE.push(mgtest);
         /*
@@ -92,12 +98,28 @@ public class MainWindow extends JFrame implements Runnable {
         INSTANCE.SCENE_STACK.push(physik);
         */
 
+=======
+        //WICHTIG!!!!!!
+        FoyerScene start = new FoyerScene();
+        SceneStack.INSTANCE.push(start);
+
+        // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
+>>>>>>> ashydashy/main
         SoundGroup.GLOBAL_SOUNDS.addSound(
                 new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
         );
 
         // Haupt-Schleife in einem neuen Thread starten
+<<<<<<< HEAD
         new Thread(INSTANCE).start();
+=======
+        SwingUtilities.invokeLater(() -> {
+            Insets insets = INSTANCE.getInsets();
+            INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
+        });
+
+        new Thread(INSTANCE, "GameLoop").start();
+>>>>>>> ashydashy/main
 
     }
 

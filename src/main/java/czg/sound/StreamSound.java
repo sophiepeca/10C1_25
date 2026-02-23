@@ -80,6 +80,7 @@ public class StreamSound extends BaseSound {
 
     /**
      * Öffnet den internen {@link AudioInputStream} für die angegebene Datei
+     *
      * @param audioPath Pfad zur Audio-Datei
      * @throws RuntimeException Wenn ein Fehler auftritt
      */
@@ -108,7 +109,7 @@ public class StreamSound extends BaseSound {
         setEndOfFileBehaviour(endOfFileBehaviour);
 
         // Ggf. den Wiedergabe-Thread starten bzw. aufwecken
-        if(! playbackThread.isAlive()) {
+        if (!playbackThread.isAlive()) {
             //playbackThread.setDaemon(true);
             playbackThread.start();
         }
@@ -141,15 +142,15 @@ public class StreamSound extends BaseSound {
     @Override
     public void stop() {
         super.stop();
-        if(isStopped())
+        if (isStopped())
             return;
 
-        if(inStream != null) {
+        if (inStream != null) {
             try {
                 inStream.close();
                 inStream = null;
             } catch (IOException e) {
-                System.err.println("Konnte AudioInputStream nicht schließen: "+this);
+                System.err.println("Konnte AudioInputStream nicht schließen: " + this);
             }
         }
         playbackInstances.remove(this);
@@ -157,11 +158,11 @@ public class StreamSound extends BaseSound {
 
     @Override
     public String toString() {
-        return getClass().getTypeName()+"["+audioFilePath+"]";
+        return getClass().getTypeName() + "[" + audioFilePath + "]";
     }
 
     /**
-     * Ermittelt, wie viele Bytes ein {@link AudioInputStream} von {@link Sounds#getInputStream(String)} liefert
+     * Ermittelt, wie viele Bytes ein {@link AudioInputStream} im {@link Sounds#TARGET_AUDIO_FORMAT} liefert
      * @param audioFilePath Pfad zur Audiodatei
      * @return Die länge des {@link AudioInputStream}s in Bytes
      */
@@ -169,12 +170,12 @@ public class StreamSound extends BaseSound {
         return trackLengthCache.computeIfAbsent(audioFilePath, p -> {
             long counter = 0;
             long skipped;
-            try(AudioInputStream stream = Sounds.getInputStream(audioFilePath)) {
+            try (AudioInputStream stream = Sounds.getInputStream(audioFilePath)) {
                 while ((skipped = stream.skip(Long.MAX_VALUE)) != 0) {
                     counter += skipped;
                 }
-            } catch (IOException e) {
-                System.err.printf("IOException beim ermitteln der Größe von '%s', wird als %d behandelt: %s%n",
+            } catch (IOException  e) {
+                System.err.printf("Exception beim ermitteln der Größe von '%s', wird als %d behandelt: %s%n",
                         audioFilePath, counter, e
                 );
             }
@@ -188,12 +189,12 @@ public class StreamSound extends BaseSound {
      * Funktion, die vom {@link #playbackThread} ausgeführt wird
      */
     private static void playback() {
-        while(true) {
-            while(!playbackInstances.isEmpty()) {
+        while (true) {
+            while (!playbackInstances.isEmpty()) {
                 for (StreamSound sound : playbackInstances) {
                     // Überspringen, wenn dieser StreamSound nicht abspielen soll
                     if (!sound.isPlaying()) {
-                        if(sound.dataLine.isRunning()) sound.dataLine.stop();
+                        if (sound.dataLine.isRunning()) sound.dataLine.stop();
                         continue;
                     }
 
@@ -258,7 +259,7 @@ public class StreamSound extends BaseSound {
                     playbackThread.wait();
                 }
             } catch (InterruptedException e) {
-                System.err.println("Konnte nicht auf das Fortsetzungs-Signal für den SoundStream-Thread warten: "+e);
+                System.err.println("Konnte nicht auf das Fortsetzungs-Signal für den SoundStream-Thread warten: " + e);
             }
         }
     }

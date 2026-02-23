@@ -4,14 +4,12 @@
  */
 package czg.scenes;
 
-import czg.MainWindow;
-import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
 import czg.objects.ExamplePlayerObject;
-import czg.util.Draw;
 import czg.util.Images;
-import java.awt.*;
+
+import static czg.MainWindow.HEIGHT;
 
 /**
  *
