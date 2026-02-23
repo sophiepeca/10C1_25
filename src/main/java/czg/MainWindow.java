@@ -64,12 +64,6 @@ public class MainWindow extends JFrame implements Runnable {
         setContentPane(SceneStack.INSTANCE);
         SceneStack.INSTANCE.setBounds(0,0, WIDTH, HEIGHT);
 
-        // Tastatur- und Maus-Eingaben empfangen
-        addKeyListener(Input.INSTANCE);
-        addMouseListener(Input.INSTANCE);
-        addMouseMotionListener(Input.INSTANCE);
-        addFocusListener(Input.INSTANCE);
-
         // Gesamtes Programm wird beendet, wenn das Fenster geschlossen wird
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

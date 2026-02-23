@@ -2,6 +2,7 @@ package czg.scenes;
 
 import czg.scenes.cover_settings.Rules;
 import czg.scenes.cover_settings.Setting;
+import czg.util.Input;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -29,6 +30,12 @@ public class SceneStack extends JPanel {
 
     private SceneStack() {
         setDoubleBuffered(true);
+
+        // Tastatur- und Maus-Eingaben empfangen
+        addKeyListener(Input.INSTANCE);
+        addMouseListener(Input.INSTANCE);
+        addMouseMotionListener(Input.INSTANCE);
+        addFocusListener(Input.INSTANCE);
     }
 
     /**
