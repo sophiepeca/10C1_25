@@ -23,6 +23,12 @@ public class Player extends BaseObject{
     public String name;
     public int[] inventar;
     
+    public PlayerObject INSTANCE = new PlayerObject();
+
+    public PlayerObject() {
+        super(Images.get("/assets/characters/PlayerBase.png"));
+    }
+    
     
     public Player(Image sprite, int x, int y, String name, int[] inventar){
           super (sprite, x, y);
@@ -33,7 +39,8 @@ public class Player extends BaseObject{
     }
     @Override
     public void update(BaseScene scene) {
-        if(isClicked());
+        if(isClicked())
+            SceneStack.INSTANCE.push(new InventarScene());
     }
     
 }
