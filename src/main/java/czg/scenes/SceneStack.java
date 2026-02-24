@@ -56,6 +56,7 @@ public class SceneStack extends JPanel {
      * im Stapel genommen werden und die jeweils zugeordneten Zahlen in den Cache-Maps der darunterliegenden
      * Szenen um {@code counterDelta} ändert
      * @param fromIndex Die Cache-Maps aller Szenen unter diesem Index werden aktualisiert
+     * @param counterDelta Um wie viel die Counter geändert werden sollen
      */
     private void propagateOverlyingTags(int fromIndex, int counterDelta) {
         assert overlyingTags.size() == scenes.size();
@@ -284,12 +285,18 @@ public class SceneStack extends JPanel {
         // Objekten), während sie hier eigentlich noch durchlaufen wird.
         // Würde hier die scenes-Liste direkt benutzt werden, könnte es
         // so zu einer ConcurrentModificationException kommen!
-        List<BaseScene> iterList = useCopy ? new ArrayList<>(scenes) : scenes;
-        for (int i = 0; i < iterList.size(); i++) {
-            BaseScene scene = iterList.get(i);
+        List<BaseScene> iterSceneList = useCopy ? new ArrayList<>(scenes) : scenes;
+        List<SequencedMap<String,Integer>> iterOverlyingTagsList =
+                useCopy ? overlyingTags.stream().map(
+                        map -> (SequencedMap<String, Integer>) new LinkedHashMap<>(map))
+                            .toList()
+                        : overlyingTags;
+
+        for (int i = 0; i < iterSceneList.size(); i++) {
+            BaseScene scene = iterSceneList.get(i);
 
             boolean filterSetting = settingExtractor.apply(
-                    scene.coverSettings.getEffectiveRules(overlyingTags.get(i).sequencedKeySet())
+                    scene.coverSettings.getEffectiveRules(iterOverlyingTagsList.get(i).sequencedKeySet())
             ).toBoolean();
 
             if(! (scene.isCovered() && filterSetting))
@@ -297,6 +304,14 @@ public class SceneStack extends JPanel {
         }
     }
 
+    /**
+     * Gibt die Vereinigungsmenge aller Tags von allen Szenen über der
+     * Szene am gegebenem Index im Stapel zurück. <b>Wichtig:</b> Änderungen,
+     * die während {@link #update()} entstanden sind, werden durch diese Funktion
+     * erst beim nächsten Durchlauf sichtbar!
+     * @param index Index der Szene im Stapel
+     * @return Set der Tags aller darüberliegenden Szenen
+     */
     public SequencedSet<String> getOverlyingTags(int index) {
         return Collections.unmodifiableSequencedSet(overlyingTags.get(index).sequencedKeySet());
     }
