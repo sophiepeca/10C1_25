@@ -27,7 +27,7 @@ public class ExamplePlayerObject extends BaseObject {
     }
 
     private ExamplePlayerObject() {
-        super(Images.get("/assets/characters/bre.png"));
+        super(Images.get("/assets/characters/example.png"));
     }
 
     @Override

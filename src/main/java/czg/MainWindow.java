@@ -2,8 +2,7 @@ package czg;
 
 import czg.objects.ExamplePlayerObject;
 import czg.scenes.FoyerScene;
-import czg.scenes.BiogangScene;
-import czg.scenes.ExampleScene1;
+import czg.scenes.zweitesOGScene;
 import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
