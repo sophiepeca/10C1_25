@@ -7,10 +7,9 @@ package czg.scenes.minigame_scenes;
 import czg.MainWindow;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
-import czg.scenes.*;
+import czg.scenes.BaseScene;
+import czg.scenes.SceneStack;
 import czg.util.Images;
-
-import java.awt.*;
 
 /**
  *
@@ -23,7 +22,7 @@ public class LevelSelectorScene extends BaseScene {
         ButtonObject buttonLevel1 = new ButtonObject(Images.get("/assets/minigames/general/button_level_1.png"), () -> SceneStack.INSTANCE.push(level1));
         ButtonObject buttonLevel2 = new ButtonObject(Images.get("/assets/minigames/general/button_level_2.png"), () -> SceneStack.INSTANCE.push(level2));
         ButtonObject buttonLevel3 = new ButtonObject(Images.get("/assets/minigames/general/button_level_3.png"), () -> SceneStack.INSTANCE.push(level3));
-        ButtonObject buttonExit = new ButtonObject(Images.get("/assets/minigames/informatics/button.png"), SceneStack.INSTANCE::pop);
+        ButtonObject buttonExit = new ButtonObject(Images.get("/assets/minigames/general/exit_button.png"), SceneStack.INSTANCE::pop);
 
         buttonLevel1.x = MainWindow.WIDTH / 2 - buttonLevel1.width / 2;
         buttonLevel1.y = (int) (MainWindow.HEIGHT * 0.35);
@@ -34,8 +33,10 @@ public class LevelSelectorScene extends BaseScene {
         buttonLevel3.x = MainWindow.WIDTH / 2 - buttonLevel3.width / 2;
         buttonLevel3.y = (int) (MainWindow.HEIGHT * 0.75);
 
-        buttonExit.x = (int) (MainWindow.WIDTH - buttonExit.width * 1.5);
-        buttonExit.y = (int) (buttonExit.height * 0.2);
+        buttonExit.width /= 2;
+        buttonExit.height /= 2;
+        buttonExit.x = (int) (MainWindow.WIDTH - buttonExit.width * 2);
+        buttonExit.y = (int) (buttonExit.height * 0.5);
 
         objects.add(buttonLevel1);
         objects.add(buttonLevel2);

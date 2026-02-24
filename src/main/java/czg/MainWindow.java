@@ -1,9 +1,6 @@
 package czg;
 
-import czg.objects.ExamplePlayerObject;
-import czg.scenes.FoyerScene;
-import czg.scenes.zweitesOGScene;
-import czg.scenes.SceneStack;
+import czg.scenes.*;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
@@ -37,7 +34,16 @@ public class MainWindow extends JFrame implements Runnable {
      */
     public static final int FPS = 60;
 
+    /**
+     * Singleton des Fensters
+     */
     public static final MainWindow INSTANCE = new MainWindow();
+
+    /**
+     * Damit {@link Input.KeyState#fromTimePressed(long)} bei einem Durchlauf
+     * auch immer denselben {@link System#nanoTime()}-Wert benutzt
+     */
+    public long TIME_AT_UPDATE_START;
 
 
     /**
@@ -47,7 +53,7 @@ public class MainWindow extends JFrame implements Runnable {
         super("CZGame");
 
         // Feste Größe
-        setSize(new Dimension(WIDTH,HEIGHT));
+        setSize(WIDTH,HEIGHT);
         setResizable(false);
 
         // Manuelles platzieren von Elementen
@@ -56,11 +62,6 @@ public class MainWindow extends JFrame implements Runnable {
         // Szenen-Stapel hinzufügen
         setContentPane(SceneStack.INSTANCE);
         SceneStack.INSTANCE.setBounds(0,0, WIDTH, HEIGHT);
-
-        // Tastatur- und Maus-Eingaben empfangen
-        addKeyListener(Input.INSTANCE);
-        addMouseListener(Input.INSTANCE);
-        addFocusListener(Input.INSTANCE);
 
         // Gesamtes Programm wird beendet, wenn das Fenster geschlossen wird
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,26 +83,31 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
-        // Haupt-Schleife in einem neuen Thread starten
-        new Thread(INSTANCE).start();
-
-        //WICHTIG!!!!!!
-        FoyerScene start = new FoyerScene();
-        SceneStack.INSTANCE.push(start);
-
+        InfogangScene mgtest = new InfogangScene();
+        SceneStack.INSTANCE.push(mgtest);
         /*
+        BiogangScene start = new BiogangScene();
+        SceneStack.INSTANCE.push(start);
+        */
+        /*
+        PhysikgangScene physik = new PhysikgangScene();
+        start.objects.add(ExamplePlayerObject.INSTANCE);
+        INSTANCE.SCENE_STACK.push(physik);
+        */
+
         // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
         SoundGroup.GLOBAL_SOUNDS.addSound(
                 new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
         );
 
-        ExampleScene1 s1 = new ExampleScene1();
-        s1.objects.add(ExamplePlayerObject.INSTANCE);
-        SceneStack.INSTANCE.push(s1);
-
         // Haupt-Schleife in einem neuen Thread starten
-        new Thread(INSTANCE).start();
-        */
+
+        SwingUtilities.invokeLater(() -> {
+            Insets insets = INSTANCE.getInsets();
+            INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
+        });
+
+        new Thread(INSTANCE, "GameLoop").start();
 
     }
 
@@ -137,13 +143,14 @@ public class MainWindow extends JFrame implements Runnable {
 
             // Alle nötigen Durchläufe abarbeiten
             while(delta >= 1) {
+                TIME_AT_UPDATE_START = System.nanoTime();
+
                 // Code für Szenen und Objekte ausführen
                 SceneStack.INSTANCE.update();
-                // Zuvor nur als KeyState.PRESSED eingetragene Tasten
-                // jetzt als KeyState.HELD behandeln
-                Input.INSTANCE.updatePressedToHeld();
                 // Grafik
                 SceneStack.INSTANCE.repaint();
+
+                Input.INSTANCE.updateToHeld();
 
                 // Durchlauf abgeschlossen, Zähler kann um 1 verringert werden
                 delta--;

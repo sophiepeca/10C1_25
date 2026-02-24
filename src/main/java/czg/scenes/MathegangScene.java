@@ -4,10 +4,11 @@
  */
 package czg.scenes;
 
-import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
 import czg.util.Images;
+
+import static czg.MainWindow.HEIGHT;
 
 /**
  *

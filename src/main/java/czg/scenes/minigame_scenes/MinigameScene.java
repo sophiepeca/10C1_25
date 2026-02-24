@@ -4,17 +4,18 @@
  */
 package czg.scenes.minigame_scenes;
 
-import czg.scenes.*;
+import czg.scenes.BaseScene;
+import czg.scenes.SceneStack;
 
 /**
  * Ein Minigame Template bestehend aus einer {@code LevelSelectorScene}, welche die einzelnen Level verknüpft
  * und jeweils drei Leveln.
  */
 public class MinigameScene extends BaseScene {
-    LevelSelectorScene levelSelector;
-    BaseScene level1;
-    BaseScene level2;
-    BaseScene level3;
+    final LevelSelectorScene levelSelector;
+    final BaseScene level1;
+    final BaseScene level2;
+    final BaseScene level3;
 
     /**
      * Einen neues Minigame erstellen.

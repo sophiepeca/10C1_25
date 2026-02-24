@@ -16,30 +16,30 @@
 - Übergangsszene  
   - schwarzes -> wieder hell
   - „Frohes Schaffen …“  
-- neue Umgebung  
-- Wer startet? Nach Startwert
+- Kampf findet in Gang der Fachschaft statt
+- Lehrer startet
 
 ---
 
 ### Lehrerzug
 
 - Benutzt Item seiner Fachschaft  
-- 10s Zeit zur Verteidigung mit eigenem Item  
-- Verteidigt, kleine Animation, wenig Schaden (a-b Schaden) 
-- nicht / falsch verteidigt: voller Schaden
+- Verteidigt
+- kleine Animation?
 
 ---
 
 ### Schülerzug
 
-- Auswählen von Item / Aufgeben
-- Lehrer kann Item auswählen → Schaden wie oben
+- Auswählen von Item innerhalb von 10 s/ Aufgeben
+- kleine Animation?
 
 ---
 
 ### Ende
 
-- Aufgeben → Lehrer gewinnt  
+- Aufgeben → Lehrer gewinnt
+- a-b Schaden
 - Schüler hat keine HP mehr → Spruch von Lehrer  
-- Lehrer keine HP mehr → 4–5 Items, die zu Lehrer passen
+- Lehrer keine HP mehr → erhält Item von Lehrer
 

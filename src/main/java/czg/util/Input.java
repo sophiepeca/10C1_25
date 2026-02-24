@@ -1,14 +1,19 @@
 package czg.util;
 
+import czg.MainWindow;
+import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 /**
  * Zentraler zugriff auf gedrückte Tasten der Tastatur und Maus
  */
-public class Input implements KeyListener, MouseListener, FocusListener {
+public class Input implements KeyListener, MouseListener, MouseMotionListener, FocusListener {
 
     /**
      * Singleton der Klasse
@@ -20,6 +25,11 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      */
     private Input() {}
 
+    /**
+     * Wie lange eine Taste gedrückt sein muss, um als {@link KeyState#HELD}
+     * und nicht mehr als {@link KeyState#PRESSED} gesehen zu werden.
+     */
+    private static final long HELD_THRESHOLD = 100_000_000;
 
     /**
      * Zustände einer Taste
@@ -46,16 +56,40 @@ public class Input implements KeyListener, MouseListener, FocusListener {
         public boolean isDown() {
             return this == PRESSED || this == HELD;
         }
+
+        /**
+         * Von dem Zeitstempel, seit dem eine Taste gedrückt wurde, ihren {@link KeyState} ableiten
+         * @param time Wert von {@link System#nanoTime()}, als die Taste gedrückt wurde
+         * @return Entsprechenden {@link KeyState}
+         */
+        public static KeyState fromTimePressed(long time) {
+            if(time == -1)
+                return NOT_PRESSED;
+            if(MainWindow.INSTANCE.TIME_AT_UPDATE_START - time >= HELD_THRESHOLD)
+                return HELD;
+            else
+                return PRESSED;
+        }
     }
 
     /**
-     * Zustände der Tastatur-Tasten
+     * Zustände der Tastatur-Tasten. {@code keycode -> value of System.nanoTime() when pressed}
      */
-    private final Map<Integer, KeyState> keyStates = new ConcurrentHashMap<>();
+    private final Map<Integer, Long> keyStates = new ConcurrentHashMap<>();
+
+    private final List<Integer> keyButtonsToUpdateToHeld = new ArrayList<>();
+
     /**
-     * Zustände der Maus-Tasten
+     * Zustände der Maus-Tasten. {@code keycode -> value of System.nanoTime() when pressed}
      */
-    private final Map<Integer, KeyState> mouseStates = new ConcurrentHashMap<>();
+    private final Map<Integer, Long> mouseStates = new ConcurrentHashMap<>();
+
+    private final List<Integer> mouseButtonsToUpdateToHeld = new ArrayList<>();
+
+    /**
+     * Maus-Position
+     */
+    private Point mousePosition = null;
 
     /**
      * Abfrage des Zustandes einer Tastatur-Taste
@@ -63,7 +97,10 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      * @return Zustand der Taste. Siehe {@link KeyState}.
      */
     public KeyState getKeyState(int keyCode) {
-        return keyStates.getOrDefault(keyCode, KeyState.NOT_PRESSED);
+        KeyState result = KeyState.fromTimePressed(keyStates.getOrDefault(keyCode, -1L));
+        if(result == KeyState.PRESSED)
+            keyButtonsToUpdateToHeld.add(keyCode);
+        return result;
     }
 
     /**
@@ -72,39 +109,39 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      * @return Zustand der Taste. Siehe {@link KeyState}.
      */
     public KeyState getMouseState(int button) {
-        return mouseStates.getOrDefault(button, KeyState.NOT_PRESSED);
+        KeyState result = KeyState.fromTimePressed(mouseStates.getOrDefault(button, -1L));
+        if(result == KeyState.PRESSED)
+            mouseButtonsToUpdateToHeld.add(button);
+        return result;
     }
 
     /**
-     * Alle Tasten, die aktuell {@link KeyState#PRESSED} sind, werden
-     * von dieser Funktion stattdessen als {@link KeyState#HELD} eingetragen.
+     * Maus-Position abfragen. Gibt {@code null} zurück, wenn die Maus
+     * noch nicht bewegt wurde.
+     * @return Die Maus-Positon in Form eines {@link Point}
      */
-    public void updatePressedToHeld() {
-        // Den Code in der forEach-Funktion für jede der beiden Maps
-        // ausführen, um keinen Code zu doppeln
-        Stream.of(keyStates, mouseStates)
-                .forEach(map -> map.keySet().stream()
-                        // Die key codes herausfiltern, denen KeyState.PRESSED zugeordnet ist
-                        .filter(code -> map.get(code) == KeyState.PRESSED)
-                        // Die gefilterten key codes in eine Liste speichern. Sonst
-                        // würde die folgende forEach-Funktion die Daten der Maps ändern,
-                        // während noch über die gefilterten Schlüssel iteriert wird
-                        .toList()
-                        .forEach(
-                                code -> map.put(code, KeyState.HELD)
-                        )
-                );
+    @Nullable
+    public Point getMousePosition() {
+        return mousePosition;
+    }
+
+
+    public void updateToHeld() {
+        keyButtonsToUpdateToHeld.forEach(code -> keyStates.put(code, HELD_THRESHOLD));
+        mouseButtonsToUpdateToHeld.forEach(code -> mouseStates.put(code, HELD_THRESHOLD));
+        keyButtonsToUpdateToHeld.clear();
+        mouseButtonsToUpdateToHeld.clear();
     }
 
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        keyStates.put(keyEvent.getKeyCode(), KeyState.PRESSED);
+        keyStates.put(keyEvent.getKeyCode(), System.nanoTime());
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        mouseStates.put(mouseEvent.getButton(), KeyState.PRESSED);
+        mouseStates.put(mouseEvent.getButton(), System.nanoTime());
     }
 
     @Override
@@ -122,6 +159,11 @@ public class Input implements KeyListener, MouseListener, FocusListener {
         // Beim Fokuswechsel sofort alle Tasten nicht mehr drücken
         keyStates.clear();
         mouseStates.clear();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        mousePosition = e.getPoint();
     }
 
 
@@ -149,6 +191,11 @@ public class Input implements KeyListener, MouseListener, FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
 
     }
 }
