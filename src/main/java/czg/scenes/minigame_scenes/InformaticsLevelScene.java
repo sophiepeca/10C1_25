@@ -14,7 +14,11 @@ public class InformaticsLevelScene extends BaseScene {
     public InformaticsLevelScene(InfoPuzzleObject puzzle) {
         objects.add(new BackdropObject(Images.get("/assets/minigames/informatics/background.png")));
 
-        ButtonObject exitButton = new ButtonObject(Images.get("/assets/minigames/general/exit_button.png"), () -> {/*SceneStack.INSTANCE.pop();*/SceneStack.INSTANCE.pop();});
+        ButtonObject exitButton = new ButtonObject(Images.get("/assets/minigames/general/exit_button.png"),
+                () -> {
+                    /*SceneStack.INSTANCE.pop();*/SceneStack.INSTANCE.pop();
+                }
+        );
         exitButton.width /= 2;
         exitButton.height /= 2;
         exitButton.x = (int) (MainWindow.WIDTH - exitButton.width * 2);

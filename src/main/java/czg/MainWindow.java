@@ -1,7 +1,7 @@
 package czg;
 
-import czg.scenes.InfogangScene;
-import czg.scenes.SceneStack;
+
+import czg.scenes.*;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
@@ -102,6 +102,7 @@ public class MainWindow extends JFrame implements Runnable {
         );
 
         // Haupt-Schleife in einem neuen Thread starten
+
         SwingUtilities.invokeLater(() -> {
             Insets insets = INSTANCE.getInsets();
             INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
