@@ -1,6 +1,8 @@
 package czg;
 
-import czg.scenes.*;
+import czg.objects.ExamplePlayerObject;
+import czg.scenes.InfogangScene;
+import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
@@ -58,6 +60,11 @@ public class MainWindow extends JFrame implements Runnable {
 
         // Manuelles platzieren von Elementen
         setLayout(null);
+
+        // Key- und FocusListener müssen hier sein, warum auch immer.
+        // Die anderen Listener sind beim SceneStack.
+        addKeyListener(Input.INSTANCE);
+        addFocusListener(Input.INSTANCE);
 
         // Szenen-Stapel hinzufügen
         setContentPane(SceneStack.INSTANCE);

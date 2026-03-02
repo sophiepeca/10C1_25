@@ -32,10 +32,8 @@ public class SceneStack extends JPanel {
         setDoubleBuffered(true);
 
         // Tastatur- und Maus-Eingaben empfangen
-        addKeyListener(Input.INSTANCE);
         addMouseListener(Input.INSTANCE);
         addMouseMotionListener(Input.INSTANCE);
-        addFocusListener(Input.INSTANCE);
     }
 
     /**
