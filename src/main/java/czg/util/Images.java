@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static czg.MainWindow.PIXEL_SCALE;
 
@@ -18,7 +18,7 @@ public class Images {
     /**
      * Cache für geladene Bilder
      */
-    private static final Map<String, Image> loaded = new HashMap<>();
+    private static final Map<String, Image> loaded = new ConcurrentHashMap<>();
 
     /**
      * Bild, welches verwendet wird für den Fall, dass das eigentliche

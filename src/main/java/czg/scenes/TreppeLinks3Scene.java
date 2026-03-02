@@ -5,27 +5,28 @@
 package czg.scenes;
 
 import static czg.MainWindow.HEIGHT;
+import static czg.MainWindow.WIDTH;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
 import czg.util.Images;
 
 /**
  *
- * @author guest-ku1dtt
+ * @author guest-19szge
  */
-public class TreppeLinksScene extends BaseScene{
-    public TreppeLinksScene(){
-        objects.add(new BackdropObject(Images.get("/assets/background/kleines_treppenhaus.png")));
+public class TreppeLinks3Scene extends BaseScene{
+    public TreppeLinks3Scene(){
+        objects.add(new BackdropObject(Images.get("/assets/background/treppeL3.png")));
         
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {
-                    BiogangScene bio = new BiogangScene();
+                    ChemiegangScene chemie = new ChemiegangScene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    bio.objects.add(ExamplePlayerObject.INSTANCE);
+                    chemie.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, bio);
+                    SceneStack.INSTANCE.replace(this, chemie);
                 });
 
         rechts.x = 880;
@@ -35,17 +36,16 @@ public class TreppeLinksScene extends BaseScene{
         ButtonObject unten = new ButtonObject(
                 Images.get("/assets/background/PfeilUnten.png"),
                 () -> {
-                    TreppeLinksScene treppel = new TreppeLinksScene();
+                    TreppeLinks2Scene tl2 = new TreppeLinks2Scene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
                     treppel.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, treppel);
+                    SceneStack.INSTANCE.replace(this, tl2);
                 });
 
-        unten.x = 300;
-        unten.y = 300;
+        unten.x = (WIDTH/2) - (unten.width/2);
+        unten.y = 440;
         objects.add(unten);
-        
-    }
+    }    
 }

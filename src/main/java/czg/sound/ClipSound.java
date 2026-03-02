@@ -49,11 +49,14 @@ public class ClipSound extends BaseSound {
     protected void setPlayingActual(boolean playing) {
         if(playing) {
             // Daten laden, wenn noch nicht geschehen
-            try {
-                if (!clip.isOpen())
+            if(! clip.isOpen()) {
+                try {
                     clip.open(Sounds.getInputStream(audioFilePath));
-            } catch (IOException | LineUnavailableException e) {
-                throw new RuntimeException(e);
+                } catch (IOException | LineUnavailableException e) {
+                    throw new RuntimeException(e);
+                } catch (IllegalStateException e) {
+                    // Well well well
+                }
             }
 
             clip.start();

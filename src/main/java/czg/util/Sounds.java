@@ -1,9 +1,12 @@
 package czg.util;
 
+import czg.sound.SoundGroup;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -33,7 +36,11 @@ public class Sounds {
         try {
             return AudioSystem.getAudioInputStream(
                     TARGET_AUDIO_FORMAT,
-                    AudioSystem.getAudioInputStream(Objects.requireNonNull(Sounds.class.getResource(audioPath)))
+                    AudioSystem.getAudioInputStream(
+                            new BufferedInputStream(
+                                    Objects.requireNonNull(SoundGroup.class.getResourceAsStream(audioPath))
+                            )
+                    )
             );
         } catch (UnsupportedAudioFileException | IOException e) {
             throw new RuntimeException(e);
