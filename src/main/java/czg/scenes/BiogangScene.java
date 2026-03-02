@@ -37,12 +37,12 @@ public class BiogangScene extends BaseScene{
         ButtonObject links = new ButtonObject(
                 Images.get("/assets/background/PfeilLinks.png"),
                 () -> {
-                    TreppeLinksScene treppel = new TreppeLinksScene();
+                    TreppeLinks2Scene tl2 = new TreppeLinks2Scene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    treppel.objects.add(ExamplePlayerObject.INSTANCE);
+                    tl2.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, treppel);
+                    SceneStack.INSTANCE.replace(this, tl2);
                 });
 
         links.x = 9;

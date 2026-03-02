@@ -32,5 +32,20 @@ public class PhysikgangScene extends BaseScene{
         rechts.x = 880;
         rechts.y = (HEIGHT/2) - (rechts.height/2);
         objects.add(rechts);
+        
+        ButtonObject links = new ButtonObject(
+                Images.get("/assets/background/PfeilLinks.png"),
+                () -> {
+                    TreppeLinks1Scene tl1 = new TreppeLinks1Scene();
+                    /*
+                    this.objects.remove(ExamplePlayerObject.INSTANCE);
+                    tl1.objects.add(ExamplePlayerObject.INSTANCE);
+                    */
+                    SceneStack.INSTANCE.replace(this, tl1);
+                });
+
+        links.x = 9;
+        links.y = (HEIGHT/2) - (links.height/2);
+        objects.add(links);
     }
 }

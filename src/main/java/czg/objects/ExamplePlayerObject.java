@@ -18,7 +18,7 @@ public class ExamplePlayerObject extends BaseObject {
     public static final ExamplePlayerObject INSTANCE = new ExamplePlayerObject();
 
     private ExamplePlayerObject() {
-        super(Images.get("/assets/characters/bre.png"));
+        super(Images.get("/assets/characters/example.png"));
     }
 
     @Override

@@ -12,14 +12,14 @@ import czg.util.Images;
 
 /**
  *
- * @author guest-ku1dtt
+ * @author guest-19szge
  */
-public class erstesOGScene extends BaseScene{
-    public erstesOGScene(){
-        objects.add(new BackdropObject(Images.get("/assets/background/1_OG.png")));
+public class TreppeRechts2Scene extends BaseScene{
+    public TreppeRechts2Scene(){
+        objects.add(new BackdropObject(Images.get("/assets/background/treppeR2.png")));
         
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
+        ButtonObject links = new ButtonObject(
+                Images.get("/assets/background/PfeilLinks.png"),
                 () -> {
                     MathegangScene mathe = new MathegangScene();
                     /*
@@ -29,34 +29,34 @@ public class erstesOGScene extends BaseScene{
                     SceneStack.INSTANCE.replace(this, mathe);
                 });
 
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
-        
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    BiogangScene bio = new BiogangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    mathe.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, bio);
-                });
-
         links.x = 9;
         links.y = (HEIGHT/2) - (links.height/2);
         objects.add(links);
         
+        ButtonObject rechts = new ButtonObject(
+                Images.get("/assets/background/PfeilRechts.png"),
+                () -> {
+                    InfogangScene info = new InfogangScene();
+                    /*
+                    this.objects.remove(ExamplePlayerObject.INSTANCE);
+                    info.objects.add(ExamplePlayerObject.INSTANCE);
+                    */
+                    SceneStack.INSTANCE.replace(this, info);
+                });
+
+        rechts.x = 880;
+        rechts.y = (HEIGHT/2) - (rechts.height/2);
+        objects.add(rechts);
+        
         ButtonObject unten = new ButtonObject(
                 Images.get("/assets/background/PfeilUnten.png"),
                 () -> {
-                   FoyerScene foyer = new FoyerScene();
+                    TreppeRechts1Scene tr1 = new TreppeRechts1Scene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    foyer.objects.add(ExamplePlayerObject.INSTANCE);
+                    tr1.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, foyer);
+                    SceneStack.INSTANCE.replace(this, tr1);
                 });
 
         unten.x = (WIDTH/2) - (unten.width/2);
@@ -66,16 +66,16 @@ public class erstesOGScene extends BaseScene{
         ButtonObject oben = new ButtonObject(
                 Images.get("/assets/background/PfeilOben.png"),
                 () -> {
-                   zweitesOGScene zweites = new zweitesOGScene();
+                    TreppeRechts3Scene tr3 = new TreppeRechts3Scene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    zweites.objects.add(ExamplePlayerObject.INSTANCE);
+                    tr3.objects.add(ExamplePlayerObject.INSTANCE);
                     */
-                    SceneStack.INSTANCE.replace(this, zweites);
+                    SceneStack.INSTANCE.replace(this, tr3);
                 });
 
         oben.x = (WIDTH/2) - (oben.width/2);
         oben.y = 4;
         objects.add(oben);
-    }
+    }    
 }

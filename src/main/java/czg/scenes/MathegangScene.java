@@ -18,6 +18,21 @@ public class MathegangScene extends BaseScene{
     public MathegangScene(){
         objects.add(new  BackdropObject(Images.get("/assets/background/Mathegang.png")));
         
+        ButtonObject rechts = new ButtonObject(
+                Images.get("/assets/background/PfeilRechts.png"),
+                () -> {
+                    TreppeRechts2Scene tr2 = new TreppeRechts2Scene();
+                    /*
+                    this.objects.remove(ExamplePlayerObject.INSTANCE);
+                    tr2.objects.add(ExamplePlayerObject.INSTANCE);
+                    */
+                    SceneStack.INSTANCE.replace(this, tr2);
+                });
+
+        rechts.x = 880;
+        rechts.y = (HEIGHT/2) - (rechts.height/2);
+        objects.add(rechts);
+        
         ButtonObject links = new ButtonObject(
                 Images.get("/assets/background/PfeilLinks.png"),
                 () -> {
