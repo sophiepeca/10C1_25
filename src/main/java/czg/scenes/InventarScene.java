@@ -8,6 +8,6 @@ package czg.scenes;
  *
  * @author guest-emo3k7
  */
-public class InventarScene {
+public class InventarScene extends BaseScene {
     
 }
