@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="21" />
     <option name="MAIN_CLASS_NAME" value="czg.MainWindow" />
     <module name="CZGame" />
     <option name="VM_PARAMETERS" value="-Dsun.java2d.opengl=true" />
