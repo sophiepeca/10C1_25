@@ -1,9 +1,9 @@
 package czg.scenes.minigame_scenes;
 
-import czg.objects.minigame_objects.MinigameNameObject;
+import czg.objects.DepartmentObject;
 
 public class MathematicsLevelScene extends LevelScene {
     public MathematicsLevelScene(int level) {
-        super(MinigameNameObject.MATHEMATICS, level);
+        super(DepartmentObject.MATHEMATICS, level);
     }
 }

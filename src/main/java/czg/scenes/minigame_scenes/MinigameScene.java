@@ -5,9 +5,8 @@
 package czg.scenes.minigame_scenes;
 
 import czg.objects.ButtonObject;
-import czg.objects.minigame_objects.MinigameNameObject;
+import czg.objects.DepartmentObject;
 import czg.scenes.BaseScene;
-import czg.scenes.InfogangScene;
 import czg.scenes.SceneStack;
 
 /**
@@ -43,11 +42,11 @@ public class MinigameScene extends BaseScene {
 
     /**
      * Ein Minigame generieren.
-     * @param minigameType Die Fachschaft des Minigames
+     * @param department Die Fachschaft des Minigames
      */
-    public static MinigameScene generateMinigame(MinigameNameObject minigameType) {
-        switch(minigameType) {
-            case INFORMATICS -> {
+    public static MinigameScene generateMinigame(DepartmentObject department) {
+        switch(department) {
+            case COMPUTER_SCIENCE -> {
                 return new MinigameScene(
                     new InformaticsLevelScene(0),
                     new InformaticsLevelScene(1),
@@ -65,16 +64,16 @@ public class MinigameScene extends BaseScene {
         }
     }
 
-    public static void resetMinigame(MinigameNameObject minigameType, BaseScene scene) {
-        MinigameScene newMinigame = MinigameScene.generateMinigame(minigameType);
+    public static void resetMinigame(DepartmentObject department, BaseScene scene) {
+        MinigameScene newMinigame = MinigameScene.generateMinigame(department);
 
         if (scene.objects.getLast() instanceof ButtonObject) {
             ((ButtonObject) scene.objects.getLast()).method = newMinigame::startMinigame;
         }
     }
 
-    protected static void resetAndStartMinigame(MinigameNameObject minigameType, BaseScene scene, int level) {
-        MinigameScene newMinigame = MinigameScene.generateMinigame(minigameType);
+    protected static void resetAndStartMinigame(DepartmentObject department, BaseScene scene, int level) {
+        MinigameScene newMinigame = MinigameScene.generateMinigame(department);
 
         if (scene.objects.getLast() instanceof ButtonObject) {
             ((ButtonObject) scene.objects.getLast()).method = newMinigame::startMinigame;

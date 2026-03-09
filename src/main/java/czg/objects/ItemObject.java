@@ -4,7 +4,6 @@
  */
 package czg.objects;
 
-import czg.objects.minigame_objects.MinigameNameObject;
 import czg.util.Images;
 
 import java.awt.*;
@@ -22,7 +21,7 @@ public enum ItemObject{
     CHROME("Chrome", "/assets/items/chrome.png", 1),
     DNA("DNA", "/assets/items/dna.png", 1),
     FELDSTECHER("Feldstecher", "/assets/items/feldstecher.png", 1),
-    GLÜHBIRNE("Glühbirne", "/assets/items/glühbirne.png", 2),
+    GLUEHBIRNE("Glühbirne", "/assets/items/glühbirne.png", 2),
     IKOSAEDER("Ikosaeder", "/assets/items/Ikosaeder.png", 1),
     KRAFTMESSER("Federkraftmesser", "/assets/items/kraftmesser.png", 0),
     LAUTSPRECHER("Lautsprecher", "/assets/items/lautsprecher.png", 0),
@@ -33,10 +32,10 @@ public enum ItemObject{
     NEWTONSAPFEL("Newtons Apfel", "/assets/items/newtons_apfel.png", 0),
     THALES("Satz des Thales", "/assets/items/Satz_des_Thales.png", 1),
     SCHUTZBRILLE("Schutzbrille", "/assets/items/schutzbrille.png", 1),
-    SCHÄDEL("Schädel", "/assets/items/schädel.png", 1),
+    SCHAEDEL("Schädel", "/assets/items/schädel.png", 1),
     SEIZUREDFROG("Sezierter Frosch", "/assets/items/seizured_frog.png", 2),
     SPRITZFLASCHE("Spritzflasche", "/assets/items/spritzflasche.png", 0),
-    SÄURE("Säure", "/assets/items/säure.png", 2),
+    SAEURE("Säure", "/assets/items/säure.png", 2),
     TASTATUR("Tastatur", "/assets/items/tastatur.png", 2),
     THERMOMETER("Thermometer", "/assets/items/thermometer.png", 2),
     VIRUS("Virus", "/assets/items/virus.png", 0),
@@ -60,9 +59,9 @@ public enum ItemObject{
      * @param minigame Das Minispiel, welches beendet wurde
      * @param level Das Level, welches beendet wurde
      */
-    public static ItemObject getMinigameReward(MinigameNameObject minigame, int level) {
+    public static ItemObject getMinigameReward(DepartmentObject minigame, int level) {
         switch(minigame) {
-            case INFORMATICS -> {
+            case COMPUTER_SCIENCE -> {
                 switch(level) {
                     case 0 -> {
                         return ItemObject.CD;
@@ -79,7 +78,7 @@ public enum ItemObject{
                     } case 1 -> {
                         return ItemObject.MAGNET;
                     } case 2 -> {
-                        return ItemObject.GLÜHBIRNE;
+                        return ItemObject.GLUEHBIRNE;
                     }
                 }
             } case MATHEMATICS -> {
@@ -97,7 +96,7 @@ public enum ItemObject{
                     case 0 -> {
                         return ItemObject.VIRUS;
                     } case 1 -> {
-                        return ItemObject.SCHÄDEL;
+                        return ItemObject.SCHAEDEL;
                     } case 2 -> {
                         return ItemObject.SEIZUREDFROG;
                     }
@@ -109,7 +108,7 @@ public enum ItemObject{
                     } case 1 -> {
                         return ItemObject.SCHUTZBRILLE;
                     } case 2 -> {
-                        return ItemObject.SÄURE;
+                        return ItemObject.SAEURE;
                     }
                 }
             }  

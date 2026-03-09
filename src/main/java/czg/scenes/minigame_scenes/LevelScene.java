@@ -2,25 +2,25 @@ package czg.scenes.minigame_scenes;
 
 import czg.MainWindow;
 import czg.objects.*;
-import czg.objects.minigame_objects.MinigameNameObject;
+import czg.objects.DepartmentObject;
 import czg.scenes.BaseScene;
 import czg.scenes.SceneStack;
 import czg.scenes.cover_settings.CoverSettings;
 import czg.util.Images;
 
 public abstract class LevelScene extends BaseScene {
-    final MinigameNameObject MINIGAME_TYPE;
+    final DepartmentObject DEPARTMENT;
     final int LEVEL;
     final ItemObject REWARD;
 
-    public LevelScene(MinigameNameObject minigameType, int level) {
+    public LevelScene(DepartmentObject department, int level) {
         super(new CoverSettings(false, true, false));
 
-        this.MINIGAME_TYPE = minigameType;
+        this.DEPARTMENT = department;
         this.LEVEL = level;
-        this.REWARD = ItemObject.getMinigameReward(minigameType, level);
+        this.REWARD = ItemObject.getMinigameReward(department, level);
 
-        objects.add(new BackdropObject(Images.get(String.format("/assets/minigames/%s/background.png", minigameType.name().toLowerCase()))));
+        objects.add(new BackdropObject(Images.get(String.format("/assets/minigames/%s/background.png", department.name().toLowerCase()))));
 
         ButtonObject exitButton = new ButtonObject(Images.get("/assets/minigames/general/button_exit.png"), () -> {SceneStack.INSTANCE.pop(); SceneStack.INSTANCE.pop();}
         );
@@ -41,12 +41,12 @@ public abstract class LevelScene extends BaseScene {
     }
 
     protected void minigameWon() {
-        SceneStack.INSTANCE.push(new MinigameEndScene(this.MINIGAME_TYPE, true, LEVEL, REWARD));
+        SceneStack.INSTANCE.push(new MinigameEndScene(this.DEPARTMENT, true, LEVEL, REWARD));
 
         PlayerObject.INSTANCE.inventar.add(REWARD);
     }
 
     protected void minigameLost() {
-        SceneStack.INSTANCE.push(new MinigameEndScene(this.MINIGAME_TYPE, false, LEVEL, REWARD));
+        SceneStack.INSTANCE.push(new MinigameEndScene(this.DEPARTMENT, false, LEVEL, REWARD));
     }
 }
