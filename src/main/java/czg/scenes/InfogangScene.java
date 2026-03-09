@@ -7,6 +7,7 @@ package czg.scenes;
 import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
+import czg.objects.minigame_objects.MinigameNameObject;
 import czg.scenes.minigame_scenes.InformaticsLevelScene;
 import czg.scenes.minigame_scenes.MinigameScene;
 import czg.util.Images;
@@ -36,7 +37,7 @@ public class InfogangScene extends BaseScene{
         links.y = (HEIGHT/2) - (links.height/2);
         objects.add(links);
 
-        MinigameScene informaticsTest = InformaticsLevelScene.generateInformaticsMinigame();
+        MinigameScene informaticsTest = MinigameScene.generateMinigame(MinigameNameObject.INFORMATICS);
 
         objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_menu.png"), informaticsTest::startMinigame));
     }

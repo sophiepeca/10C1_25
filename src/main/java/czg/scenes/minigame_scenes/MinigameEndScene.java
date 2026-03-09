@@ -5,12 +5,13 @@ import czg.objects.BackdropObject;
 import czg.objects.BaseObject;
 import czg.objects.ButtonObject;
 import czg.objects.ItemObject;
+import czg.objects.minigame_objects.MinigameNameObject;
 import czg.scenes.BaseScene;
 import czg.scenes.SceneStack;
 import czg.util.Images;
 
 public class MinigameEndScene extends BaseScene {
-    public MinigameEndScene(boolean won, int level, ItemObject reward) {
+    public MinigameEndScene(MinigameNameObject minigameType, boolean won, int level, ItemObject reward) {
         objects.add(new BackdropObject(Images.get("/assets/minigames/general/background_overlay.png")));
 
         if(won) {
@@ -44,7 +45,7 @@ public class MinigameEndScene extends BaseScene {
             SceneStack.INSTANCE.pop();
             SceneStack.INSTANCE.pop();
 
-            InformaticsLevelScene.resetAndStartMinigame(level);
+            MinigameScene.resetAndStartMinigame(minigameType, SceneStack.INSTANCE.getTop(), level);
         });
 
         retryButton.x = (int)((MainWindow.WIDTH - retryButton.width) * 0.4);
@@ -57,7 +58,7 @@ public class MinigameEndScene extends BaseScene {
             SceneStack.INSTANCE.pop();
             SceneStack.INSTANCE.pop();
 
-            InformaticsLevelScene.resetAndStartMinigame(-1);
+            MinigameScene.resetAndStartMinigame(minigameType, SceneStack.INSTANCE.getTop(), -1);
         });
 
         menuButton.x = (int)((MainWindow.WIDTH - menuButton.width) * 0.5);
@@ -70,7 +71,7 @@ public class MinigameEndScene extends BaseScene {
             SceneStack.INSTANCE.pop();
             SceneStack.INSTANCE.pop();
 
-            InformaticsLevelScene.resetMinigame();
+            MinigameScene.resetMinigame(minigameType, SceneStack.INSTANCE.getTop());
         });
 
         exitButton.x = (int)((MainWindow.WIDTH - exitButton.width) * 0.6);

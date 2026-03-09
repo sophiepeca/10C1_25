@@ -40,9 +40,10 @@ public class LevelSelectorScene extends BaseScene {
         buttonExit.x = (int) (MainWindow.WIDTH - buttonExit.width * 2);
         buttonExit.y = (int) (buttonExit.height * 0.5);
 
+        objects.add(buttonExit);
+
         objects.add(buttonLevel1);
         objects.add(buttonLevel2);
         objects.add(buttonLevel3);
-        objects.add(buttonExit);
     }
 }
