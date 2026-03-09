@@ -5,7 +5,6 @@
 package czg.objects;
 
 import czg.objects.minigame_objects.MinigameNameObject;
-import czg.scenes.BaseScene;
 import czg.util.Images;
 
 import java.awt.*;
@@ -18,33 +17,33 @@ public enum ItemObject{
     ATOM("Atom", "/assets/items/Atom.png", 0),
     BSOD("Error-Screen", "/assets/items/BSOD.png", 2),
     BRENNER("Brenner", "/assets/items/Brenner.png", 2),
-    CAS("Taschenrechner", "assets/items/CAS.png", 2),
+    CAS("Taschenrechner", "/assets/items/CAS.png", 2),
     CD("CD", "/assets/items/CD.png", 0),
-    CHROME("Chrome", "assets/items/Chrome.png", 1), 
-    DNA("DNA", "assets/items/DNA.png", 1), 
-    FELDSTECHER("Feldstecher", "assets/items/Feldstecher.png", 1), 
-    GLÜHBIRNE("Glühbirne", "assets/items/Glühbirne.png", 2),
-    IKOSAEDER("Ikosaeder", "assets/items/Ikosaeder.png", 1),
-    KRAFTMESSER("Federkraftmesser", "assets/items/Kraftmesser.png", 0),
-    LAUTSPRECHER("Lautsprecher", "assets/items/Lautsprecher.png", 0), 
-    LINEAL("Lineal", "assets/items/Lineal.png", 0),
-    MAGNET("Magnet", "assets/items/Magnet.png", 1),
-    MIKROSKOP("Mikroskop", "assets/items/Mikroskop.png", 2),
-    NERV("Nervenzelle", "assets/items/Nerv.png", 0),
-    NEWTONSAPFEL("Newtons Apfel", "assets/iterms/NJewtons_Apfel.png", 0),
-    THALES("Satz des Thales", "assets/items/Satz_des_Thales.png", 1),
-    SCHUTZBRILLE("Schutzbrille", "assets/items/Schutzbrille.png", 1), 
-    SCHÄDEL("Schädel", "assets/items/Schädel.png", 1),
-    SEIZUREDFROG("Sezierter Frosch", "assets/items/Seizured_Frog.png", 2),
-    SPRITZFLASCHE("Spritzflasche", "assets/items/Spritzflasche.png", 0),
-    SÄURE("Säure", "assets/items/Säure.png", 2),
-    TASTATUR("Tastatur", "assets/items/Tastatur.png", 2),
-    THERMOMETER("Thermometer", "assets/items/Thermometer.png", 2),
-    VIRUS("Virus", "assets/items/Virus.png", 0),
-    WLAN("Wlan", "assets/items/WLAN.png", 1),
-    WUNDERKERZE("Wunderkerze", "assets/items/Wunderkerze.png", 1),
-    ZETTEL("Zettel", "assets/items/Zettel.png", 2),
-    ZIRKEL("Zirkel", "assets/items/Zirkel.png", 0);
+    CHROME("Chrome", "/assets/items/Chrome.png", 1),
+    DNA("DNA", "/assets/items/DNA.png", 1),
+    FELDSTECHER("Feldstecher", "/assets/items/Feldstecher.png", 1),
+    GLÜHBIRNE("Glühbirne", "/assets/items/Glühbirne.png", 2),
+    IKOSAEDER("Ikosaeder", "/assets/items/Ikosaeder.png", 1),
+    KRAFTMESSER("Federkraftmesser", "/assets/items/Kraftmesser.png", 0),
+    LAUTSPRECHER("Lautsprecher", "/assets/items/Lautsprecher.png", 0),
+    LINEAL("Lineal", "/assets/items/Lineal.png", 0),
+    MAGNET("Magnet", "/assets/items/Magnet.png", 1),
+    MIKROSKOP("Mikroskop", "/assets/items/Mikroskop.png", 2),
+    NERV("Nervenzelle", "/assets/items/Nerv.png", 0),
+    NEWTONSAPFEL("Newtons Apfel", "/assets/iterms/NJewtons_Apfel.png", 0),
+    THALES("Satz des Thales", "/assets/items/Satz_des_Thales.png", 1),
+    SCHUTZBRILLE("Schutzbrille", "/assets/items/Schutzbrille.png", 1),
+    SCHÄDEL("Schädel", "/assets/items/Schädel.png", 1),
+    SEIZUREDFROG("Sezierter Frosch", "/assets/items/Seizured_Frog.png", 2),
+    SPRITZFLASCHE("Spritzflasche", "/assets/items/Spritzflasche.png", 0),
+    SÄURE("Säure", "/assets/items/Säure.png", 2),
+    TASTATUR("Tastatur", "/assets/items/Tastatur.png", 2),
+    THERMOMETER("Thermometer", "/assets/items/Thermometer.png", 2),
+    VIRUS("Virus", "/assets/items/Virus.png", 0),
+    WLAN("Wlan", "/assets/items/WLAN.png", 1),
+    WUNDERKERZE("Wunderkerze", "/assets/items/Wunderkerze.png", 1),
+    ZETTEL("Zettel", "/assets/items/Zettel.png", 2),
+    ZIRKEL("Zirkel", "/assets/items/Zirkel.png", 0);
         
     public final String name;
     public final Image sprite;
