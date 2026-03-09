@@ -14,6 +14,7 @@ import czg.util.Images;
  */
 public class GangTestScene extends BaseScene{
     public GangTestScene(){
+        //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/TestGang.png")));
     }
 }

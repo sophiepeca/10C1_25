@@ -16,8 +16,10 @@ import static czg.MainWindow.HEIGHT;
  */
 public class MathegangScene extends BaseScene{
     public MathegangScene(){
+        //Einfügen des Hintergrunds
         objects.add(new  BackdropObject(Images.get("/assets/background/Mathegang.png")));
         
+        //Buttons zum Klicken in andere Gangszenen
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {
@@ -36,7 +38,7 @@ public class MathegangScene extends BaseScene{
         ButtonObject links = new ButtonObject(
                 Images.get("/assets/background/PfeilLinks.png"),
                 () -> {
-                    erstesOGScene erstes = new erstesOGScene();
+                    ErstesOGScene erstes = new ErstesOGScene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
                     mathe.objects.add(ExamplePlayerObject.INSTANCE);

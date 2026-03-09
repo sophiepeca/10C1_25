@@ -16,8 +16,10 @@ import czg.util.Images;
  */
 public class TreppeRechts3Scene extends BaseScene{
     public TreppeRechts3Scene(){
+        //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/treppeR3.png")));
         
+        //Buttons zum Klicken in andere Gangszenen
         ButtonObject links = new ButtonObject(
                 Images.get("/assets/background/PfeilLinks.png"),
                 () -> {

@@ -16,8 +16,10 @@ import czg.util.Images;
  */
 public class FoyerScene extends BaseScene{
     public FoyerScene(){
+        //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Foyer.png")));
         
+        //Buttons zum Klicken in andere Gangszenen
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {
@@ -51,7 +53,11 @@ public class FoyerScene extends BaseScene{
         ButtonObject oben = new ButtonObject(
                 Images.get("/assets/background/PfeilOben.png"),
                 () -> {
-                   erstesOGScene erstes = new erstesOGScene();
+<<<<<<< HEAD
+                   ErstesOGScene erstes = new ErstesOGScene();
+=======
+                    ErstesOGScene erstes = new ErstesOGScene();
+>>>>>>> 3a497c5 (Kommentare)
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
                     erstes.objects.add(ExamplePlayerObject.INSTANCE);

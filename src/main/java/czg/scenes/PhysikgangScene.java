@@ -16,8 +16,10 @@ import czg.util.Images;
  */
 public class PhysikgangScene extends BaseScene{
     public PhysikgangScene(){
+        //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Physikgang.png")));
         
+        //Buttons zum Klicken in andere Gangszenen
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {

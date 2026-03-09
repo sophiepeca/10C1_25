@@ -1,6 +1,5 @@
 package czg;
 
-import czg.scenes.InfogangScene;
 import czg.scenes.SceneStack;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
@@ -94,9 +93,14 @@ public class MainWindow extends JFrame implements Runnable {
         music.getVolumeControl().setValue(-16f);
         SoundGroup.GLOBAL_SOUNDS.addSound(music);
 
-        // Erste Szene
-        InfogangScene mgtest = new InfogangScene();
-        SceneStack.INSTANCE.push(mgtest);
+        //Startszene
+        FoyerScene foyer = new FoyerScene();
+        SceneStack.INSTANCE.push(foyer);
+
+        // BEISPIEL-SZENE (nur zur Referenz, später entfernen!)
+        SoundGroup.GLOBAL_SOUNDS.addSound(
+                new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP)
+        );
 
         // Fenstergröße beheben
         SwingUtilities.invokeLater(() -> {

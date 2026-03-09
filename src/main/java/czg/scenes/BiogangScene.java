@@ -16,12 +16,14 @@ import static czg.MainWindow.HEIGHT;
  */
 public class BiogangScene extends BaseScene{
     public BiogangScene(){
+        //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Biogang.png")));
         
+        //Buttons zum Klicken in andere Gangszenen
         ButtonObject rechts = new ButtonObject(
                 Images.get("/assets/background/PfeilRechts.png"),
                 () -> {
-                    erstesOGScene erstes = new erstesOGScene();
+                    ErstesOGScene erstes = new ErstesOGScene();
                     /*
                     this.objects.remove(ExamplePlayerObject.INSTANCE);
                     erstes.objects.add(ExamplePlayerObject.INSTANCE);
