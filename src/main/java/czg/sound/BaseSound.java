@@ -8,6 +8,11 @@ import javax.sound.sampled.*;
 public abstract class BaseSound {
 
     /**
+     * Gruppen, in welchen sich der Sound befindet
+     */
+    public SoundGroup soundGroup = null;
+
+    /**
      * Ob der Sound gestoppt wurde
      */
     protected boolean isStopped = false;
@@ -96,6 +101,11 @@ public abstract class BaseSound {
         setPlaying(false);
         isStopped = true;
         getLine().close();
+
+        if(soundGroup != null) {
+            // Entfernt den Sound ggf. aus seiner Gruppe
+            soundGroup.removeSound(this, false);
+        }
     }
 
     /**

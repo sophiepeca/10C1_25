@@ -1,6 +1,7 @@
 package czg.sound;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +35,14 @@ public class SoundGroup {
             return;
         }
 
+        // Ggf. aus der vorherigen SoundGroup entfernen
+        if(sound.soundGroup != null && sound.soundGroup != this) {
+            System.err.println("Sound "+sound+" befindet sich bereits in einer SoundGroup und wird jetzt von dieser in "+this+" verschoben");
+            sound.soundGroup.soundsAndResumePlaybackStates.remove(sound);
+        }
+
+        sound.soundGroup = this;
+
         soundsAndResumePlaybackStates.putIfAbsent(sound, true);
     }
 
@@ -46,17 +55,30 @@ public class SoundGroup {
     }
 
     /**
-     * {@link BaseSound#stop()}t einen Sound und entfernt ihn aus der Sound-Gruppe
+     * {@link BaseSound#stop()}t einen Sound, wenn gewünscht, und entfernt ihn aus der Sound-Gruppe
      * @param sound Der zu entfernende Sound
      */
-    public void removeSound(BaseSound sound) {
+    public void removeSound(BaseSound sound, boolean stop) {
         if(! soundsAndResumePlaybackStates.containsKey(sound)) {
             System.err.println("Kann nicht aus der Sound-Gruppe entfernt werden (nicht enthalten): "+sound);
             return;
         }
 
-        sound.stop();
+        if(! sound.isStopped()) {
+            if(stop) {
+                // Wenn der Sound nicht gestoppt ist, es
+                // aber werden soll, geschieht dies hier
+                sound.stop();
+            } else if(! isPlaying()) {
+                // Wenn der Sound nicht gestoppt werden soll und
+                // die Gruppe gerade pausiert ist, wird der Wieder-
+                // gabezustand wiederhergestellt
+                sound.setPlaying(soundsAndResumePlaybackStates.get(sound));
+            }
+        }
+
         soundsAndResumePlaybackStates.remove(sound);
+        sound.soundGroup = null;
     }
 
 
@@ -64,7 +86,7 @@ public class SoundGroup {
      * Stoppt alle Sounds und entfernt sie aus der Gruppe
      */
     public void removeAllSounds() {
-        soundsAndResumePlaybackStates.keySet().forEach(BaseSound::stop);
+        soundsAndResumePlaybackStates.keySet().iterator().forEachRemaining(sound -> removeSound(sound, true));
         soundsAndResumePlaybackStates.clear();
     }
 
@@ -114,6 +136,17 @@ public class SoundGroup {
      * Entfernt alle Sound-Objekte aus der Gruppe die {@link BaseSound#isStopped()} sind.
      */
     private void clean() {
-        soundsAndResumePlaybackStates.keySet().removeIf(BaseSound::isStopped);
+        for (Iterator<BaseSound> it = soundsAndResumePlaybackStates.keySet().iterator(); it.hasNext(); ) {
+            BaseSound sound = it.next();
+            if(sound.isStopped()) {
+                it.remove();
+                sound.soundGroup = null;
+            }
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return System.identityHashCode(this);
     }
 }
