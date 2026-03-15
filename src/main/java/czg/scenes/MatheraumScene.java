@@ -43,18 +43,15 @@ public class MatheraumScene extends BaseScene{
         // TEST
         SoundGroup.GLOBAL_SOUNDS.pause();
 
-        BaseSound intro = new StreamSound("/assets/sound/fight_intro.ogg", false, EndOfFileBehaviour.STOP);
-        BaseSound loop1 = new StreamSound("/assets/sound/fight_loop.ogg", false, EndOfFileBehaviour.RESTART_AND_PAUSE);
-        BaseSound loop2 = new StreamSound("/assets/sound/fight_loop.ogg", false, EndOfFileBehaviour.RESTART_AND_PAUSE);
+        BaseSound intro = sounds.get().addSound(new StreamSound("/assets/sound/fight_intro.ogg", false, EndOfFileBehaviour.STOP));
+        BaseSound loop1 = sounds.get().addSound(new StreamSound("/assets/sound/fight_loop.ogg", false, EndOfFileBehaviour.RESTART_AND_PAUSE));
+        BaseSound loop2 = sounds.get().addSound(new StreamSound("/assets/sound/fight_loop.ogg", false, EndOfFileBehaviour.RESTART_AND_PAUSE));
 
-        sounds.get().addSound(intro);
-        sounds.get().addSound(loop1);
-        sounds.get().addSound(loop2);
-
-        MusicLoopObject music = new MusicLoopObject();
-        music.addTrackSegment(intro, new SegmentChangeMarker(0.928560587d, loop1));
-        music.addTrackSegment(loop1, new SegmentChangeMarker(0.972987461d, loop2));
-        music.addTrackSegment(loop2, new SegmentChangeMarker(0.972987461d, loop1));
+        MusicLoopObject music = new MusicLoopObject()
+                .addTrackSegment(intro, new SegmentChangeMarker(0.928560587d, loop1))
+                .addTrackSegment(loop1, new SegmentChangeMarker(0.972987461d, loop2))
+                .addTrackSegment(loop2, new SegmentChangeMarker(0.972987461d, loop1))
+                .start();
 
         objects.add(music);
     }

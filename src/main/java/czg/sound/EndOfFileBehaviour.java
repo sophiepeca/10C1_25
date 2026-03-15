@@ -13,8 +13,8 @@ public enum EndOfFileBehaviour {
      * Zurück zum Anfang spulen und pausieren
      */
     RESTART_AND_PAUSE(sound -> {
-        LOOP.function.accept(sound);
         sound.setPlaying(false);
+        LOOP.function.accept(sound);
     }),
 
     /**

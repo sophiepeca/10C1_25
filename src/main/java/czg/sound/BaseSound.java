@@ -97,6 +97,8 @@ public abstract class BaseSound {
 
     /**
      * Stoppt den Sound. <b>Danach kann er nicht mehr verwendet werden.</b>
+     * Wenn der Sound sich in einer {@link SoundGroup} befindet, entfernt
+     * er sich selbst mittels {@link SoundGroup#removeSound(BaseSound, boolean)}.
      */
     public void stop() {
         if(isStopped) {

@@ -21,12 +21,12 @@ public class StreamSound extends BaseSound {
     /**
      * Buffer für den {@link AudioInputStream}
      */
-    private static final byte[] buffer = new byte[TARGET_AUDIO_FORMAT.getFrameSize() * 128];
+    private static final byte[] buffer = new byte[TARGET_AUDIO_FORMAT.getFrameSize() * 64];
 
     /**
      * Separater Thread, der alle {@code StreamSound}-Instanzen verwaltet und abspielt
      */
-    private static final Thread playbackThread = new Thread(StreamSound::playback);
+    private static final Thread playbackThread = new Thread(StreamSound::playback, "StreamSound-PlaybackThread");
 
     /**
      * Set mit allen {@code StreamSound}-Instanzen
@@ -199,7 +199,7 @@ public class StreamSound extends BaseSound {
             while (!playbackInstances.isEmpty()) {
                 for (StreamSound sound : playbackInstances) {
                     // Überspringen, wenn dieser StreamSound nicht abspielen soll
-                    if (!sound.isPlaying()) {
+                    if (sound.isStopped || !sound.isPlaying()) {
                         if (sound.dataLine.isRunning()) sound.dataLine.stop();
                         continue;
                     }
@@ -226,7 +226,7 @@ public class StreamSound extends BaseSound {
                                 // Neuen Stream erstellen
                                 sound.inStream = Sounds.getInputStream(sound.audioFilePath);
                                 // Entsprechende Anzahl an Bytes überspringen
-                                sound.bytesRead += sound.inStream.skip(seekToByte);
+                                sound.bytesRead = sound.inStream.skip(seekToByte);
                             }
                         }
 
@@ -265,7 +265,7 @@ public class StreamSound extends BaseSound {
                     playbackThread.wait();
                 }
             } catch (InterruptedException e) {
-                System.err.println("Konnte nicht auf das Fortsetzungs-Signal für den SoundStream-Thread warten: " + e);
+                System.err.println("Konnte nicht auf das Fortsetzungs-Signal für den "+playbackThread.getName()+" warten: " + e);
             }
         }
     }
