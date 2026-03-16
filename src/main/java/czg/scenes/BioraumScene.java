@@ -9,6 +9,7 @@ import czg.objects.ButtonObject;
 import czg.util.Images;
 
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 
 /**
  * @author Jonas648
@@ -17,22 +18,9 @@ public class BioraumScene extends BaseScene{
     public BioraumScene(){
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Bio-Raum.png")));
-
-
-        ButtonObject unten = new ButtonObject(
-                Images.get("/assets/background/PfeilUnten.png"),
-                () -> {
-                    BiogangScene bio = new BiogangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tr1.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, bio);
-                });
-
-        unten.x = (WIDTH/2) - (unten.width/2);
-        unten.y = 452;
-        objects.add(unten);
+        
+        //Pfeilobjekt für den Wechsel in die Gangszene
+        objects.add(new PfeilObject(this, BiogangScene::new, 4));
 
     }
 }

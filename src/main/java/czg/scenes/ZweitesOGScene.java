@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -17,51 +18,13 @@ import static czg.MainWindow.WIDTH;
  */
 public class ZweitesOGScene extends BaseScene{
     public ZweitesOGScene(){
+        //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/2_OG.png")));
         
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    GangObenScene oben = new GangObenScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    oben.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, oben);
-                });
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, GangObenScene::new, 1));
+        objects.add(new PfeilObject(this, ChemiegangScene::new, 2));
+        objects.add(new PfeilObject(this, ErstesOGScene::new, 4));
 
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
-        
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    ChemiegangScene chemie = new ChemiegangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    chemie.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, chemie);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
-        
-        ButtonObject unten = new ButtonObject(
-                Images.get("/assets/background/PfeilUnten.png"),
-                () -> {
-                   ErstesOGScene erstes = new ErstesOGScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    erstes.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, erstes);
-                });
-
-        unten.x = (WIDTH/2) - (unten.width/2);
-        unten.y = 452;
-        objects.add(unten);
     }
 }

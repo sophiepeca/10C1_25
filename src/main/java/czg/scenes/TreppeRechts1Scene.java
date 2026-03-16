@@ -8,6 +8,7 @@ import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
+import czg.objects.PfeilObject;
 import czg.util.Images;
 
 /**
@@ -19,35 +20,9 @@ public class TreppeRechts1Scene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/treppeR1.png")));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    GangHausmeisterScene hausm = new GangHausmeisterScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    hausm.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, hausm);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, GangHausmeisterScene::new, 2));
+        objects.add(new PfeilObject(this, TreppeRechts2Scene::new, 3));
         
-        ButtonObject oben = new ButtonObject(
-                Images.get("/assets/background/PfeilOben.png"),
-                () -> {
-                    TreppeRechts2Scene tr2 = new TreppeRechts2Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tr2.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tr2);
-                });
-
-        oben.x = (WIDTH/2) - (oben.width/2);
-        oben.y = 4;
-        objects.add(oben);
     }    
 }

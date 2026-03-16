@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -20,35 +21,8 @@ public class TreppeLinks3Scene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/treppeL3.png")));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    ChemiegangScene chemie = new ChemiegangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    chemie.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, chemie);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
-        
-        ButtonObject unten = new ButtonObject(
-                Images.get("/assets/background/PfeilUnten.png"),
-                () -> {
-                    TreppeLinks2Scene tl2 = new TreppeLinks2Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    treppel.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tl2);
-                });
-
-        unten.x = (WIDTH/2) - (unten.width/2);
-        unten.y = 452;
-        objects.add(unten);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, ChemiegangScene::new, 1));
+        objects.add(new PfeilObject(this, TreppeLinks2Scene::new, 4));
     }    
 }
