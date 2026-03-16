@@ -30,36 +30,36 @@ public class TangramPieceObject extends DragObject{
     public static void generatePacked(int x, int y, int width, int height) {
         PIECES[0].x = x;
         PIECES[0].y = y;
-        PIECES[0].width = width/2;
-        PIECES[0].height = height;
+        PIECES[0].width = width;
+        PIECES[0].height = height/2;
         
         PIECES[1].x = x;
         PIECES[1].y = y;
-        PIECES[1].width = width;
-        PIECES[1].height = height/2;
+        PIECES[1].width = width/2;
+        PIECES[1].height = height;
         
         PIECES[2].x = x + width/2;
         PIECES[2].y = y + height/2;
         PIECES[2].width = width/2;
         PIECES[2].height = height/2;
         
-        PIECES[3].x = x + (int) (width*0.75);
-        PIECES[3].y = y;
-        PIECES[3].width = width/4;
-        PIECES[3].height = height/2;
+        PIECES[3].x = x;
+        PIECES[3].y = y + (int) (height*0.75);
+        PIECES[3].width = width/2;
+        PIECES[3].height = height/4;
         
-        PIECES[4].x = x + width/4;
-        PIECES[4].y = y + height/2;
-        PIECES[4].width = width/2;
-        PIECES[4].height = height/4;
+        PIECES[4].x = x + width/2;
+        PIECES[4].y = y + height/4;
+        PIECES[4].width = width/4;
+        PIECES[4].height = height/2;
         
-        PIECES[5].x = x;
-        PIECES[5].y = y + (int) (height*0.75);
-        PIECES[5].width = (int) (width*0.75);
-        PIECES[5].height = height/4;
+        PIECES[5].x = x + (int) (width*0.75);
+        PIECES[5].y = y;
+        PIECES[5].width = width/4;
+        PIECES[5].height = (int) (height*0.75);
         
-        PIECES[6].x = x + width/2;
-        PIECES[6].y = y + height/4;
+        PIECES[6].x = x + width/4;
+        PIECES[6].y = y + height/2;
         PIECES[6].width = width/2;
         PIECES[6].height = height/2;
     }
