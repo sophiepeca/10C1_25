@@ -10,6 +10,7 @@ import czg.objects.InvisibleDoorObject;
 import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -23,38 +24,9 @@ public class BiogangScene extends BaseScene{
         //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
         objects.add(new InvisibleDoorObject(656, 180,this, BioraumScene::new));
         
-        
-        
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    ErstesOGScene erstes = new ErstesOGScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    erstes.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, erstes);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
-        
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    TreppeLinks2Scene tl2 = new TreppeLinks2Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tl2.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tl2);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, ErstesOGScene::new, 1));
+        objects.add(new PfeilObject(this, TreppeLinks2Scene::new, 2));
         
     }
 

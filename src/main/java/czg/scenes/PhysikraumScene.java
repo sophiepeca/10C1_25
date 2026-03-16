@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -20,21 +21,8 @@ public class PhysikraumScene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Physik-Raum.png")));
         
-
-        ButtonObject unten = new ButtonObject(
-                Images.get("/assets/background/PfeilUnten.png"),
-                () -> {
-                    PhysikgangScene hausm = new PhysikgangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tr1.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, hausm);
-                });
-
-        unten.x = (WIDTH/2) - (unten.width/2);
-        unten.y = 440;
-        objects.add(unten);
+        //Pfeilobjekt für den Wechsel in die Gangszene
+        objects.add(new PfeilObject(this, PhysikgangScene::new, 4));
         
     }
 }

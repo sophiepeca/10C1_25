@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -20,50 +21,10 @@ public class TreppeLinks2Scene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/treppeL2.png")));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    BiogangScene bio = new BiogangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    bio.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, bio);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, BiogangScene::new, 1));
+        objects.add(new PfeilObject(this, TreppeLinks3Scene::new, 3));
+        objects.add(new PfeilObject(this, TreppeLinks1Scene::new, 4));
         
-        ButtonObject unten = new ButtonObject(
-                Images.get("/assets/background/PfeilUnten.png"),
-                () -> {
-                    TreppeLinks1Scene tl1 = new TreppeLinks1Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    treppel.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tl1);
-                });
-
-        unten.x = (WIDTH/2) - (unten.width/2);
-        unten.y = 452;
-        objects.add(unten);
-        
-        ButtonObject oben = new ButtonObject(
-                Images.get("/assets/background/PfeilOben.png"),
-                () -> {
-                    TreppeLinks3Scene tl3 = new TreppeLinks3Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tl3.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tl3);
-                });
-
-        oben.x = (WIDTH/2) - (oben.width/2);
-        oben.y = 4;
-        objects.add(oben);
     }    
 }

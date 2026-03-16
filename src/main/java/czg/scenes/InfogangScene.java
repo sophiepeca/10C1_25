@@ -4,6 +4,7 @@
  */
 package czg.scenes;
 
+import czg.MainWindow;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
 import czg.objects.Department;
@@ -11,6 +12,8 @@ import czg.scenes.minigame_scenes.MinigameScene;
 import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
+import czg.objects.InvisibleDoorObject;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -21,24 +24,11 @@ public class InfogangScene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new  BackdropObject(Images.get("/assets/background/Infogang.png")));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    TreppeRechts2Scene tr2 = new TreppeRechts2Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tr2.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tr2);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
-
-        MinigameScene informaticsTest = MinigameScene.generateMinigame(Department.COMPUTER_SCIENCE);
-
-        objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_menu.png"), informaticsTest::startMinigame));
+        //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
+        objects.add(new InvisibleDoorObject(MainWindow.PIXEL_SCALE * 36, MainWindow.PIXEL_SCALE * 45,this, InforaumScene::new));
+  
+        //Pfeilobjekt für den Wechsel in die nebenliegende Szene
+        objects.add(new PfeilObject(this, TreppeRechts2Scene::new, 2));
+        
     }
 }

@@ -15,6 +15,7 @@ import czg.sound.StreamSound;
 import czg.util.Images;
 
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 /**
  *
  * @author guest-rwl69f
@@ -24,21 +25,8 @@ public class MatheraumScene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Matheraum.png")));
         
-
-        ButtonObject unten = new ButtonObject(
-                Images.get("/assets/background/PfeilUnten.png"),
-                () -> {
-                    MathegangScene hausm = new MathegangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tr1.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, hausm);
-                });
-
-        unten.x = (WIDTH/2) - (unten.width/2);
-        unten.y = 440;
-        objects.add(unten);
+        //Pfeilobjekt für den Wechsel in die Gangszene
+        objects.add(new PfeilObject(this, MathegangScene::new, 4));
 
         // TEST
         SoundGroup.GLOBAL_SOUNDS.pause();

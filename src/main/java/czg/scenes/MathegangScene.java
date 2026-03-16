@@ -13,6 +13,7 @@ import czg.scenes.minigame_scenes.MinigameScene;
 import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -26,36 +27,9 @@ public class MathegangScene extends BaseScene{
         //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
         objects.add(new InvisibleDoorObject(MainWindow.PIXEL_SCALE * 177, MainWindow.PIXEL_SCALE * 45,this, MatheraumScene::new));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    TreppeRechts2Scene tr2 = new TreppeRechts2Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tr2.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tr2);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
-        
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    ErstesOGScene erstes = new ErstesOGScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    mathe.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, erstes);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, TreppeRechts2Scene::new, 1));
+        objects.add(new PfeilObject(this, ErstesOGScene::new, 2));
 
         MinigameScene mathematicsTest = MinigameScene.generateMinigame(Department.MATHEMATICS);
 

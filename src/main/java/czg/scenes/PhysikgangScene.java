@@ -5,9 +5,12 @@
  */
 package czg.scenes;
 
+import czg.MainWindow;
 import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
+import czg.objects.InvisibleDoorObject;
+import czg.objects.PfeilObject;
 import czg.util.Images;
 
 /**
@@ -19,35 +22,12 @@ public class PhysikgangScene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Physikgang.png")));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    FoyerScene foyer = new FoyerScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    foyer.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, foyer);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
+        //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
+        objects.add(new InvisibleDoorObject(MainWindow.PIXEL_SCALE * 164, MainWindow.PIXEL_SCALE * 45,this, PhysikraumScene::new));
         
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    TreppeLinks1Scene tl1 = new TreppeLinks1Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tl1.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tl1);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, FoyerScene::new, 1));
+        objects.add(new PfeilObject(this, TreppeLinks1Scene::new, 2));
+        
     }
 }

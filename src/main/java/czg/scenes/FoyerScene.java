@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
+import czg.objects.PfeilObject;
 
 /**
  *
@@ -19,6 +20,11 @@ public class FoyerScene extends BaseScene{
     public FoyerScene(){
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Foyer.png")));
+        
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, GangHausmeisterScene::new, 1));
+        objects.add(new PfeilObject(this, PhysikgangScene::new, 2));
+        objects.add(new PfeilObject(this, ErstesOGScene::new, 3));
         
         //Buttons zum Klicken in andere Gangszenen
         ButtonObject rechts = new ButtonObject(

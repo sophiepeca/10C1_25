@@ -4,9 +4,12 @@
  */
 package czg.scenes;
 
+import czg.MainWindow;
 import static czg.MainWindow.HEIGHT;
 import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
+import czg.objects.InvisibleDoorObject;
+import czg.objects.PfeilObject;
 import czg.util.Images;
 
 /**
@@ -18,35 +21,12 @@ public class ChemiegangScene extends BaseScene{
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Chemiegang.png")));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    ZweitesOGScene zweites = new ZweitesOGScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    zweites.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, zweites);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
+        //Einfügen des unsichtbaren Tür-Objektes auf Position der Tür
+        objects.add(new InvisibleDoorObject(MainWindow.PIXEL_SCALE * 144, MainWindow.PIXEL_SCALE * 45,this, ChemieraumScene::new));
         
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    TreppeLinks3Scene tl3 = new TreppeLinks3Scene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    tl2.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, tl3);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
+        //Pfeilobjekte für den Wechsel in nebenliegende Szenen
+        objects.add(new PfeilObject(this, ZweitesOGScene::new, 1));
+        objects.add(new PfeilObject(this, TreppeLinks3Scene::new, 2));
+        
     }
 }
