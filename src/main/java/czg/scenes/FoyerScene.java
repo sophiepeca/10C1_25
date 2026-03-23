@@ -11,6 +11,7 @@ import czg.util.Images;
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 
 /**
  *
@@ -26,50 +27,10 @@ public class FoyerScene extends BaseScene{
         objects.add(new PfeilObject(this, PhysikgangScene::new, 2));
         objects.add(new PfeilObject(this, ErstesOGScene::new, 3));
         
-        //Buttons zum Klicken in andere Gangszenen
-        ButtonObject rechts = new ButtonObject(
-                Images.get("/assets/background/PfeilRechts.png"),
-                () -> {
-                    GangHausmeisterScene hausm = new GangHausmeisterScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    hausm.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, hausm);
-                });
-
-        rechts.x = 880;
-        rechts.y = (HEIGHT/2) - (rechts.height/2);
-        objects.add(rechts);
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = 330;
+        PlayerObject.INSTANCE.y = 295;
         
-        ButtonObject links = new ButtonObject(
-                Images.get("/assets/background/PfeilLinks.png"),
-                () -> {
-                    PhysikgangScene füüüü = new PhysikgangScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    füüüü.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, füüüü);
-                });
-
-        links.x = 9;
-        links.y = (HEIGHT/2) - (links.height/2);
-        objects.add(links);
-
-        ButtonObject oben = new ButtonObject(
-                Images.get("/assets/background/PfeilOben.png"),
-                () -> {
-                    ErstesOGScene erstes = new ErstesOGScene();
-                    /*
-                    this.objects.remove(ExamplePlayerObject.INSTANCE);
-                    erstes.objects.add(ExamplePlayerObject.INSTANCE);
-                    */
-                    SceneStack.INSTANCE.replace(this, erstes);
-                });
-
-        oben.x = (WIDTH/2) - (oben.width/2);
-        oben.y = 4;
-        objects.add(oben);
     }
 }

@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.WIDTH;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 
 /**
  * @author Jonas648
@@ -22,5 +23,10 @@ public class BioraumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, BiogangScene::new, 4));
 
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = 150;
+        PlayerObject.INSTANCE.y = 290;
+        
     }
 }

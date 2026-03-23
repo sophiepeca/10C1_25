@@ -10,6 +10,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.WIDTH;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 
 /**
  *
@@ -22,6 +23,11 @@ public class ChemieraumScene extends BaseScene{
         
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, ChemiegangScene::new, 4));
+        
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = 170;
+        PlayerObject.INSTANCE.y = 290;
         
         }
 }

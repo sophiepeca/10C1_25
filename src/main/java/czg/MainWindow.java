@@ -99,7 +99,6 @@ public class MainWindow extends JFrame implements Runnable {
 
         //Startszene
         FoyerScene foyer = new FoyerScene();
-        foyer.objects.add(PlayerObject.INSTANCE);
         SceneStack.INSTANCE.push(foyer);
 
         // Fenstergröße beheben

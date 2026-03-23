@@ -10,6 +10,7 @@ import czg.objects.BackdropObject;
 import czg.objects.ButtonObject;
 import czg.objects.InvisibleDoorObject;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 import czg.util.Images;
 
 /**
@@ -27,6 +28,11 @@ public class GangHausmeisterScene extends BaseScene{
         //Pfeilobjekte für den Wechsel in nebenliegende Szenen
         objects.add(new PfeilObject(this, TreppeRechts1Scene::new, 1));
         objects.add(new PfeilObject(this, FoyerScene::new, 2));
+        
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = PlayerObject.GetRandomX();
+        PlayerObject.INSTANCE.y = 295;
         
     }
 }

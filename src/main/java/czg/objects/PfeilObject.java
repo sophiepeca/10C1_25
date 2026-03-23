@@ -81,10 +81,6 @@ public class PfeilObject extends BaseObject{
         if(isClicked()){
             BaseScene neu = target.get();
             SceneStack.INSTANCE.replace(origin, neu);
-            
-            //Spieler in neue Szene versetzen
-            origin.objects.remove(PlayerObject.INSTANCE);
-            neu.objects.add(PlayerObject.INSTANCE);
         }
     }
 }

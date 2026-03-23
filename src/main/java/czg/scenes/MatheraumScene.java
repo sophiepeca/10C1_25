@@ -16,6 +16,7 @@ import czg.util.Images;
 
 import static czg.MainWindow.WIDTH;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 /**
  *
  * @author guest-rwl69f
@@ -27,6 +28,11 @@ public class MatheraumScene extends BaseScene{
         
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, MathegangScene::new, 4));
+        
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = 270;
+        PlayerObject.INSTANCE.y = 295;
 
         // TEST
         SoundGroup.GLOBAL_SOUNDS.pause();

@@ -14,6 +14,7 @@ import czg.util.Images;
 import static czg.MainWindow.HEIGHT;
 import czg.objects.InvisibleDoorObject;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 
 /**
  *
@@ -29,6 +30,11 @@ public class InfogangScene extends BaseScene{
   
         //Pfeilobjekt für den Wechsel in die nebenliegende Szene
         objects.add(new PfeilObject(this, TreppeRechts2Scene::new, 2));
+        
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = PlayerObject.GetRandomX();
+        PlayerObject.INSTANCE.y = 295;
         
     }
 }

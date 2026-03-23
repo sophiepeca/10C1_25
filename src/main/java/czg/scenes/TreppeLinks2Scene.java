@@ -11,6 +11,7 @@ import czg.util.Images;
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
 import czg.objects.PfeilObject;
+import czg.objects.PlayerObject;
 
 /**
  *
@@ -20,6 +21,11 @@ public class TreppeLinks2Scene extends BaseScene{
     public TreppeLinks2Scene(){
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/treppeL2.png")));
+        
+        //Einfügen der Spieler-Figur
+        this.objects.add(PlayerObject.INSTANCE);
+        PlayerObject.INSTANCE.x = PlayerObject.GetRandomX();
+        PlayerObject.INSTANCE.y = 295;
         
         //Pfeilobjekte für den Wechsel in nebenliegende Szenen
         objects.add(new PfeilObject(this, BiogangScene::new, 1));
