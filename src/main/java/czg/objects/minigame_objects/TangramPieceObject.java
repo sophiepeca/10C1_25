@@ -4,26 +4,32 @@
  */
 package czg.objects.minigame_objects;
 
-import czg.objects.DragObject;
+import czg.objects.BaseObject;
+import czg.scenes.BaseScene;
 import czg.util.Images;
+import czg.util.Input;
 
-public class TangramPieceObject extends DragObject{
-    public final int ID;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
+public class TangramPieceObject extends BaseObject {
     public double rotation;
-    
+
+    private boolean isDragged = false;
+
     public static final TangramPieceObject[] PIECES = new TangramPieceObject[] {
-        new TangramPieceObject(0, "/assets/minigames/mathematics/tangram_piece_00.png", 0, 0),
-        new TangramPieceObject(1, "/assets/minigames/mathematics/tangram_piece_01.png", 0, 0),
-        new TangramPieceObject(2, "/assets/minigames/mathematics/tangram_piece_02.png", 0, 0),
-        new TangramPieceObject(3, "/assets/minigames/mathematics/tangram_piece_03.png", 0, 0),
-        new TangramPieceObject(4, "/assets/minigames/mathematics/tangram_piece_04.png", 0, 0),
-        new TangramPieceObject(5, "/assets/minigames/mathematics/tangram_piece_05.png", 0, 0),
-        new TangramPieceObject(6, "/assets/minigames/mathematics/tangram_piece_06.png", 0, 0),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_00.png"),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_01.png"),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_02.png"),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_03.png"),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_04.png"),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_05.png"),
+        new TangramPieceObject("/assets/minigames/mathematics/tangram_piece_06.png"),
     };
 
-    private TangramPieceObject(int id, String path, int x, int y) {
-       super(Images.get(path), x, y);
-       this.ID = id;
+    private TangramPieceObject(String path) {
+       super(Images.get(path));
        this.rotation = 0;
     }
     
@@ -62,5 +68,37 @@ public class TangramPieceObject extends DragObject{
         PIECES[6].y = y + height/2;
         PIECES[6].width = width/2;
         PIECES[6].height = height/2;
+    }
+
+    @Override
+    public void update(BaseScene scene) {
+        // Aktuelle und vorherige Maus-Position abfragen
+        Point mousePos = Input.INSTANCE.getMousePosition();
+        Point lastMousePos = Input.INSTANCE.getLastMousePosition();
+        // Diese *können* (technisch gesehen) null sein
+        if(mousePos == null || lastMousePos == null)
+            return;
+
+        if(! isDragged && isClicked(false)) {
+            // Wenn das Objekt angeklickt wird, verschieben wir es an oberste Stelle (z-Achse) und beginnen, es zu ziehen
+            scene.objects.remove(this);
+            scene.objects.add(this);
+            isDragged = true;
+        } else if (! Input.INSTANCE.getMouseState(MouseEvent.BUTTON1).isDown()) {
+            // Wenn die linke Maustaste losgelassen wird, wird das Objekt nicht mehr gezogen
+            isDragged = false;
+        }
+
+        if (isDragged) {
+            // Aktualisierung der Position
+            this.x += mousePos.x - lastMousePos.x;
+            this.y += mousePos.y - lastMousePos.y;
+
+            // Rotieren des Objektes
+            if(Input.INSTANCE.getKeyState(KeyEvent.VK_R) == Input.KeyState.PRESSED) {
+                this.rotation += 90;
+                this.rotate(90);
+            }
+        }
     }
 }

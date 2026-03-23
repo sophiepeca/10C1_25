@@ -1,6 +1,5 @@
 package czg.objects;
 
-import czg.MainWindow;
 import czg.scenes.BaseScene;
 import czg.util.Input;
 import czg.util.Input.KeyState;
@@ -88,13 +87,13 @@ public class BaseObject {
      * @return Ob das Objekt angeklickt wurde
      */
     public boolean isClicked() {
-        return isClicked(false);
+        return isClicked(true);
     }
     
     /**
      * Ein Objekt gilt als angeklickt, wenn sich der Mauszeiger über diesem befindet
      * und die linke Maustaste geklickt wurde ({@link KeyState#PRESSED}).
-     * @param includeTransparency Ob Transparenz zur Hitbox gezählt werden soll (False ist equivalent zum Aufruf ohne Parameter)
+     * @param includeTransparency Ob Transparenz zur Hitbox gezählt werden soll (True ist equivalent zum Aufruf ohne Parameter)
      * @return Ob das Objekt angeklickt wurde
      */
     public boolean isClicked(boolean includeTransparency) {
@@ -105,7 +104,7 @@ public class BaseObject {
         // Überprüfung, ob sich die Maus in der Hitbox befindet
         if(getHitbox().contains(mousePos) && Input.INSTANCE.getMouseState(MouseEvent.BUTTON1) == Input.KeyState.PRESSED) {
             // Überprüfung, ob der Pixel an der Mausposition transparent ist, falls includeTransparency = true
-            if(includeTransparency) {
+            if(!includeTransparency) {
                 BufferedImage bufferedSprite = (BufferedImage) this.sprite;
                 int alpha = (bufferedSprite.getRGB((int)((mousePos.x - this.x)/(this.width/(double)bufferedSprite.getWidth())), (int)((mousePos.y - this.y)/(this.height/(double)bufferedSprite.getHeight()))) & 0xff000000) >>> 24;
                 return alpha > 0;
@@ -122,12 +121,15 @@ public class BaseObject {
      * @param degree Drehung in Grad
      */
     public void rotate(double degree) {
+        double scaleX = (double) this.width / sprite.getWidth(null);
+        double scaleY = (double) this.height / sprite.getHeight(null);
+
         Image rotatedSprite = Images.rotateImage(sprite, degree);
         
         Point imageCenter = new Point(this.x + this.width/2, this.y + this.height/2);
         
-        this.width = rotatedSprite.getWidth(null) * MainWindow.PIXEL_SCALE;
-        this.height = rotatedSprite.getHeight(null) * MainWindow.PIXEL_SCALE;
+        this.width = (int) (rotatedSprite.getWidth(null) * scaleX);
+        this.height = (int) (rotatedSprite.getHeight(null) * scaleY);
         
         this.sprite = rotatedSprite;
         
