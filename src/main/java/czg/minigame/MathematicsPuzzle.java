@@ -114,17 +114,17 @@ public enum MathematicsPuzzle {
         }
     }),
     /**
-     * Level 2: TODO
+     * Level 2: Wurfstern TODO: weitere Lösungen hinzufügen (oder verwerfen)
      */
-    P_11("/assets/minigames/mathematics/puzzle_1_1.png", 7, new double[][][] {
+    P_11("/assets/minigames/mathematics/puzzle_2_2.png", 7, new double[][][] {
         {
-            {0.33, 0.4, 0.0},
-            {0.0, 0.0, 180.0},
-            {0.33, 0.0, 90.0},
-            {0.5, 0.0, 0.0},
-            {0.33, 0.4, 180.0},
-            {0.5, 0.2, 90.0},
-            {0.33, 0.6, 0.0}
+            {0.0, 0.16, 0.0},       // Großes Dreieck 1
+            {0.16, 0.32, 0.0},      // Großes Dreieck 2
+            {0.5, 0.32, 0.0},       // Mittleres Dreieck
+            {0.32, 0.67, 0.0},      // Kleines Dreieck 1
+            {0.67, 0.0, 0.0},       // Kleines Dreieck 2
+            {0.5, 0.67, 90.0},      // Parallelogramm
+            {0.5, 0.16, 0.0}        // Quadrat
         }
     }),
     /**
