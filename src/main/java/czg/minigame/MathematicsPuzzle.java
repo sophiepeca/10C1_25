@@ -297,9 +297,12 @@ public enum MathematicsPuzzle {
     }
 
     private boolean matches(TangramPieceObject piece, double[] solution, double rotOffset, int x, int y, int width, int height) {
+        double expectedRotation = (solution[2] + rotOffset) % 360;
+        if (expectedRotation < 0) expectedRotation += 360.0;
+
         return Math.abs(piece.x - (x + solution[0]*width)) <= MARGIN_OF_ERROR &&
                 Math.abs(piece.y - (y + solution[1]*height)) <= MARGIN_OF_ERROR &&
-                piece.rotation == (solution[2] + rotOffset) % 360;
+                piece.rotation == expectedRotation;
     }
     
     private void setGivenPieces(TangramPieceObject[] pieces, int x, int y, int width, int height) {

@@ -65,6 +65,7 @@ public class TangramPieceObject extends BaseObject {
 
     public void rotate(double degree) {
         rotation = (rotation + degree) % 360;
+        if (rotation < 0) rotation += 360;
 
         double scaleX = (double) width / sprite.getWidth(null);
         double scaleY = (double) height / sprite.getHeight(null);
