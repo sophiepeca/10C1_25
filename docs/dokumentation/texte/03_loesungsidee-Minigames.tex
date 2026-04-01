@@ -1,7 +1,71 @@
-Jedes Minispiel ist aus drei Leveln aufgebaut, welche progressiv schwerer werden. So dient das erste Level als Einführung in die Mechaniken des jeweiligen Minispiels. Das zweite Level kann als \glqq standard\grqq\ Schwierigkeitsgrad verstanden werden und im Dritten können die Spielenden dann ihre erlernten Fähigkeiten in schwierigen Herausforderungen unter Beweis stellen. Nach dem erfolgreichen Beenden eines Levels erhält die Spielfigur ein Item, welches dann im Kamp verwendet werden kann. Diese Items hängen von der Fachschaft und des Schwierigkeitsgrades ab. Die Stärke der Items skaliert also mit der Schwierigkeit des beendeten Levels, da das Bearbeiten schwererer Level länger dauert wird dies dementsprechend belohnt.\\
-Im Allgemeinen soll jedes Minispiel mit einer Auswahl des Schwierigkeitsgrades beginnen, welche auch wieder verlassen werden kann, wenn sich doch gegen das Spielen entschieden wird. Jedes Level bietet zusätzlich noch die Möglichkeit zur Auswahl zurückzukehren. Nach dem Abschließen des selbigen ist es ebenfalls möglich das Level neu zu starten.
+Jedes Minispiel ist aus drei Leveln aufgebaut, welche progressiv schwerer werden.
+So dient das erste Level als Einführung in die Mechaniken des jeweiligen Minispiels.
+Das zweite Level kann als \glqq standard\grqq\ Schwierigkeitsgrad verstanden werden und im Dritten können die Spielenden dann ihre erlernten Fähigkeiten in schwierigen Herausforderungen unter Beweis stellen.
+Nach dem erfolgreichen Beenden eines Levels erhält die Spielfigur ein Item, welches dann im Kamp verwendet werden kann.
+Diese Items hängen von der Fachschaft und des Schwierigkeitsgrades ab.
+Die Stärke der Items skaliert also mit der Schwierigkeit des beendeten Levels, da das Bearbeiten schwererer Level länger dauert wird dies dementsprechend belohnt.\\
+Im Allgemeinen soll jedes Minispiel mit einer Auswahl des Schwierigkeitsgrades beginnen, welche auch wieder verlassen werden kann, wenn sich doch gegen das Spielen entschieden wird.
+Jedes Level bietet zusätzlich noch die Möglichkeit zur Auswahl zurückzukehren.
+Nach dem Abschließen des selbigen ist es ebenfalls möglich das Level neu zu starten.
 
 
 \subsection{Informatik}
 
-Die Level der Fachschaft Informatik bestehen als
+Die Level der Fachschaft Informatik bestehen jeweils aus einem Schaltkreis, bei dem Logikgatter fehlen und einer bestimmten Menge ebendieser, aus denen die richtigen ausgewählt werden müssen.
+Verschiedene Schwierigkeiten werden auf zwei Weisen ermöglicht:
+
+\begin{itemize}
+    \item[] Zum einen verändert sich die Anzahl an Logikgattern, aus denen ausgewählt werden kann.
+            So sind es im ersten Level 4 Logikgatter, im zweiten Level 5 Logikgatter und im dritten Level 6 Logikgatter, die zur Auswahl zur Verfügung stehen.
+    \item[] Zum anderen ändert sich der Schaltkreis, bei dem die Gatter entfernt wurden, sowie die Anzahl an entfernten Gattern.
+            Im ersten Level fehlt genau eines, welches zwei Eingänge mit einem Ausgang verbindet.
+            Außerdem sind hier alle vier Zustände der Eingänge mit dem jeweiligen Zustand des Ausgangs als Abbildungen dargestellt.
+            Es ist also ein Logikgatter $G$ gesucht welches folgende Bedingungen erfüllt:
+\end{itemize}
+
+Jedes Level verwendet außerdem, im Sinne der Variabilität, drei verschiedene Schaltkreise, aus denen, bei jedem Minispiel-Start, einer zufällig gewählt wird.
+
+\subsubsection{Level 1}
+
+Bei den Schaltkreisen des ersten Levels fehlt jeweils nur ein Logikgatter, welches zwei Eingänge mit einem Ausgang verbindet.
+Gesucht wird also das Logikgatter $G \in \{\land , \lor , \overline{\land}, \overline{\lor}, \veebar, \overline{\veebar}\}$, welches folgende Bedingungen erfüllt:
+
+\begin{align*}
+    x_1 G x_2 = y
+\end{align*}
+
+Dadurch, dass der Schaltkreis zwei Eingänge und einen Ausgang beitzt, ergeben sich vier mögliche Zustände, die in Form einer Wahrheitswerttabelle dargestellt werden können.
+Für die Rätsel des ersten Levels wurden folgende Tabellen festgelegt:
+
+\begin{tabular}{|c|c|c|} 
+    \hline
+    $x_1$ & $x_2$ & $y$ \\
+    \hline\hline
+    $0$ & $0$ & $0$ \\
+    $0$ & $1$ & $0$ \\
+    $1$ & $0$ & $0$ \\
+    $1$ & $1$ & $1$ \\
+    \hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|} 
+    \hline
+    $x_1$ & $x_2$ & $y$ \\
+    \hline\hline
+    $0$ & $0$ & $0$ \\
+    $0$ & $1$ & $1$ \\
+    $1$ & $0$ & $1$ \\
+    $1$ & $1$ & $1$ \\
+    \hline
+\end{tabular}
+
+\begin{tabular}{|c|c|c|} 
+    \hline
+    $x_1$ & $x_2$ & $y$ \\
+    \hline\hline
+    $0$ & $0$ & $1$ \\
+    $0$ & $1$ & $1$ \\
+    $1$ & $0$ & $1$ \\
+    $1$ & $1$ & $0$ \\
+    \hline
+\end{tabular}

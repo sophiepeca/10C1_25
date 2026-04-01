@@ -17,7 +17,6 @@ public enum LogicGate {
 
     AND("/assets/minigames/computer_science/and_gate.png"),
     OR("/assets/minigames/computer_science/or_gate.png"),
-    NOT("/assets/minigames/computer_science/not_gate.png"),
     NAND("/assets/minigames/computer_science/nand_gate.png"),
     NOR("/assets/minigames/computer_science/nor_gate.png"),
     XOR("/assets/minigames/computer_science/xor_gate.png"),
