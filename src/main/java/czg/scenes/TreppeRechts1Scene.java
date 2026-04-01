@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.scenes;
 
 import czg.objects.BackdropObject;
@@ -9,10 +5,6 @@ import czg.objects.PfeilObject;
 import czg.objects.PlayerObject;
 import czg.util.Images;
 
-/**
- *
- * @author guest-19szge
- */
 public class TreppeRechts1Scene extends BaseScene{
     public TreppeRechts1Scene(){
         //Einfügen des Hintergrunds

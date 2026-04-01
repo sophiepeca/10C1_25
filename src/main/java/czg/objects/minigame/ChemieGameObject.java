@@ -1,94 +1,111 @@
 package czg.objects.minigame;
+
 import czg.objects.BaseObject;
 import czg.scenes.BaseScene;
 import czg.util.Input;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import javax.imageio.ImageIO;
+
 import static czg.MainWindow.*;
+
 import czg.scenes.minigame.LevelScene;
 import czg.util.Images;
+
 /**
  * Das Chemie-Minigame als BaseObject.
  */
 public class ChemieGameObject extends BaseObject {
-// Konstanten
-    private static final int SCALE
-            = 4;
+    // Konstanten
+    private static final int SCALE = 4;
     private static final int BLOCK_W_ORIG = 7;
     private static final int BLOCK_H_ORIG = 5;
-    private static final int BLOCK_W
-            = BLOCK_W_ORIG * SCALE;
-    private static final int BLOCK_H
-            = BLOCK_H_ORIG * SCALE;
+    private static final int BLOCK_W = BLOCK_W_ORIG * SCALE;
+    private static final int BLOCK_H = BLOCK_H_ORIG * SCALE;
     private static final int GLAS_BREITE = 32 * SCALE;
     private static final int GLAS_HOEHE = 32 * SCALE;
     private static final int BLOCK_X_OFFSET = 11 * SCALE;
     private static final int BLOCK_BODEN_Y = 31 * SCALE;
-    private static final int ABSTAND
-            = 0;
+    private static final int ABSTAND = 0;
 
-// Spielbereich
-    private static final int SPIEL_X
-            = 140;
+    // Spielbereich
+    private static final int SPIEL_X = 140;
     private static final int SPIEL_Y = 200;
     private static final int SPIEL_BREITE = 560;
-// Farbnamen
+    // Farbnamen
     private static final String[] ALLE_FARBEN =
             {"Blue", "Green", "Pink", "Purple", "Yellow"};
     private static final int MAX_KAPAZITAET = 4;//Spielzustand
     private List<Reagenzglas> glaeser;
     private int ausgewaehltesGlas = -1;
-    private int level;
-    private LevelScene levelSzene;
-// Timer
+    private final int level;
+    private final LevelScene levelSzene;
 
+    // Timer
     private int verbleibendeSekunden = 30;
     private long letzteZeitAktualisierung = System.currentTimeMillis();
-// Bilder
+    // Bilder
     private Image reagenzglasBild;
-    private Map<String, Image> blockBilder = new HashMap<>();
-// Maus-Status
+    private final Map<String, Image> blockBilder = new HashMap<>();
+    // Maus-Status
     private boolean warGedrueckt = false;
 
-        // Innere Klasse: Reagenzglas
+    // Innere Klasse: Reagenzglas
     private static class Reagenzglas {
         private final List<String> bloecke = new ArrayList<>();
         private boolean ausgewaehlt = false;
-        public boolean blockHinzufuegen(String farbe) {
-            if (bloecke.size() < MAX_KAPAZITAET) { bloecke.add(farbe); return true; }
-            return false;
+
+        public void blockHinzufuegen(String farbe) {
+            if (bloecke.size() < MAX_KAPAZITAET) {
+                bloecke.add(farbe);
+            }
         }
+
         public String oberstenBlockAnschauen() {
-            return bloecke.isEmpty() ? null : bloecke.get(bloecke.size() - 1);
+            return bloecke.isEmpty() ? null : bloecke.getLast();
         }
+
         public String oberstenBlockEntfernen() {
-            return bloecke.isEmpty() ? null : bloecke.remove(bloecke.size() - 1);
+            return bloecke.isEmpty() ? null : bloecke.removeLast();
         }
-        public boolean istLeer() { return bloecke.isEmpty(); }
-        public boolean istVoll() { return bloecke.size() >= MAX_KAPAZITAET; }
+
+        public boolean istLeer() {
+            return bloecke.isEmpty();
+        }
+
+        public boolean istVoll() {
+            return bloecke.size() >= MAX_KAPAZITAET;
+        }
+
         public boolean istGeloest() {
-            if (bloecke.size() != MAX_KAPAZITAET) return false;String f = bloecke.get(0);
+            if (bloecke.size() != MAX_KAPAZITAET) return false;
+            String f = bloecke.getFirst();
             for (String b : bloecke) if (!b.equals(f)) return false;
             return true;
         }
+
         public boolean kannAblegen(String farbe) {
             if (istVoll()) return false;
             return istLeer() || oberstenBlockAnschauen().equals(farbe);
         }
-        public List<String> getBloecke()
-        { return Collections.unmodifiableList(bloecke); }
-        public void setAusgewaehlt(boolean a) { ausgewaehlt = a; }
-        public boolean isAusgewaehlt()
-        { return ausgewaehlt; }
+
+        public List<String> getBloecke() {
+            return Collections.unmodifiableList(bloecke);
+        }
+
+        public void setAusgewaehlt(boolean a) {
+            ausgewaehlt = a;
+        }
+
+        public boolean isAusgewaehlt() {
+            return ausgewaehlt;
+        }
     }
-        //Konstruktor
+
+    //Konstruktor
     public ChemieGameObject(int level, LevelScene levelSzene) {
         super(null, 0, 0, WIDTH, HEIGHT);
         this.level = level;
@@ -96,24 +113,23 @@ public class ChemieGameObject extends BaseObject {
         bilderLaden();
         levelErstellen();
     }
-        //Level erstellen
+
+    //Level erstellen
     private void levelErstellen() {
-        String[] farben;
-        switch (level) {
-            case 0: farben = new String[]{"Blue","Green","Pink"};
-                break;
-            case 1: farben = new String[]{"Blue","Green","Pink","Purple"};
-                break;
-            default: farben = new String[]{"Blue","Green","Pink","Purple","Yellow"};break;
-        }
+        String[] farben = switch (level) {
+            case 0 -> new String[]{"Blue", "Green", "Pink"};
+            case 1 -> new String[]{"Blue", "Green", "Pink", "Purple"};
+            default -> new String[]{"Blue", "Green", "Pink", "Purple", "Yellow"};
+        };
         List<String> alle = new ArrayList<>();
         for (String f : farben)
             for (int i = 0; i < MAX_KAPAZITAET; i++) alle.add(f);
         Collections.shuffle(alle);
         glaeser = new ArrayList<>();
-        for (String ignored : farben) {Reagenzglas g = new Reagenzglas();
+        for (String ignored : farben) {
+            Reagenzglas g = new Reagenzglas();
             for (int j = 0; j < MAX_KAPAZITAET; j++)
-                g.blockHinzufuegen(alle.remove(0));
+                g.blockHinzufuegen(alle.removeFirst());
             glaeser.add(g);
         }
         // Zwei leere Gläser
@@ -125,11 +141,12 @@ public class ChemieGameObject extends BaseObject {
         ausgewaehltesGlas
                 = -1;
     }
-// Bilder laden
+
+    // Bilder laden
     private void bilderLaden() {
         reagenzglasBild = Images.get("/assets/minigames/chemistry/ChemieTesttubeSimple.png");
         for (String f : ALLE_FARBEN)
-            blockBilder.put(f, Images.get("/assets/minigames/chemistry/"+f + "ColorDefaultBlock.png"));
+            blockBilder.put(f, Images.get("/assets/minigames/chemistry/" + f + "ColorDefaultBlock.png"));
     }
 
     // Spiellogik + Timer
@@ -141,7 +158,7 @@ public class ChemieGameObject extends BaseObject {
             verbleibendeSekunden--;
             letzteZeitAktualisierung = jetzt;
             if (verbleibendeSekunden <= 0) {
-             // Zeit abgelaufen, dann Level neu starten
+                // Zeit abgelaufen, dann Level neu starten
                 levelSzene.levelLost();
                 return;
             }
@@ -156,6 +173,7 @@ public class ChemieGameObject extends BaseObject {
         }
         warGedrueckt = gedrueckt;
     }
+
     private void mausGeklickt(int mausX, int mausY) {
         int geklickt = glasAnKoordinate(mausX, mausY);
         // Klick ins Leere = Auswahl aufheben
@@ -168,7 +186,8 @@ public class ChemieGameObject extends BaseObject {
             if (!glaeser.get(geklickt).istLeer()) {
                 ausgewaehltesGlas = geklickt;
                 glaeser.get(geklickt).setAusgewaehlt(true);
-            }} else if (ausgewaehltesGlas == geklickt) {
+            }
+        } else if (ausgewaehltesGlas == geklickt) {
             // Gleiches Glas = Auswahl aufheben
             auswahlAufheben();
         } else {
@@ -181,6 +200,7 @@ public class ChemieGameObject extends BaseObject {
             }
         }
     }
+
     private void umschuetten(int von, int nach) {
         Reagenzglas v = glaeser.get(von);
         Reagenzglas n = glaeser.get(nach);
@@ -191,16 +211,19 @@ public class ChemieGameObject extends BaseObject {
                 && n.kannAblegen(farbe))
             n.blockHinzufuegen(v.oberstenBlockEntfernen());
     }
+
     private void auswahlAufheben() {
         if (ausgewaehltesGlas != -1)
             glaeser.get(ausgewaehltesGlas).setAusgewaehlt(false);
         ausgewaehltesGlas = -1;
     }
+
     private boolean istGewonnen() {
         for (Reagenzglas g : glaeser)
             if (!g.istLeer() && !g.istGeloest()) return false;
         return true;
     }
+
     private int glasAnKoordinate(int mausX, int mausY) {
         int anzahl
                 = glaeser.size();
@@ -219,7 +242,7 @@ public class ChemieGameObject extends BaseObject {
     //Zeichnen
     @Override
     public void draw(Graphics2D g2) {
-    // Pixel-Art Rendering
+        // Pixel-Art Rendering
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         g2.setRenderingHint(RenderingHints.KEY_RENDERING,
@@ -227,7 +250,7 @@ public class ChemieGameObject extends BaseObject {
         // Titel
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Monospaced", Font.BOLD, 20));
-        g2.drawString("Chemie-Minigame Level " + (level+1),
+        g2.drawString("Chemie-Minigame Level " + (level + 1),
                 SPIEL_X + 10, SPIEL_Y - 30);
         // Hinweistext
         g2.setFont(new Font("Monospaced", Font.PLAIN, 14));
@@ -247,8 +270,10 @@ public class ChemieGameObject extends BaseObject {
             glasZeichnen(g2, i, glaeser.get(i));
         }
     }
-    private void glasZeichnen(Graphics2D g2, int index, Reagenzglas glas) {int anzahl
-            = glaeser.size();
+
+    private void glasZeichnen(Graphics2D g2, int index, Reagenzglas glas) {
+        int anzahl
+                = glaeser.size();
         int gesamtBreite = anzahl * GLAS_BREITE + (anzahl - 1) * ABSTAND;
         int startX
                 = SPIEL_X + (SPIEL_BREITE - gesamtBreite) / 2;
@@ -286,16 +311,20 @@ public class ChemieGameObject extends BaseObject {
         g2.drawString(String.valueOf(index + 1),
                 gx + GLAS_BREITE / 2 - 3, gy + GLAS_HOEHE + 13);
     }
+
     private Color fallbackFarbe(String f) {
-        switch (f) {
-            case "Blue": return new Color(60, 120, 220);
-            case "Green": return new Color(60, 200, 80);
-            case "Pink": return new Color(240, 100, 160);
-            case "Purple": return new Color(150, 60, 210);
-            case "Yellow": return new Color(240, 210, 40);
-            default:
-                return Color.GRAY;
-        }
+        return switch (f) {
+            case "Blue" -> new Color(60, 120, 220);
+            case "Green" -> new Color(60, 200, 80);
+            case "Pink" -> new Color(240, 100, 160);
+            case "Purple" -> new Color(150, 60, 210);
+            case "Yellow" -> new Color(240, 210, 40);
+            default -> Color.GRAY;
+        };
     }
+
     @Override
-    public Rectangle2D getHitbox() { return null; }}
+    public Rectangle2D getHitbox() {
+        return null;
+    }
+}

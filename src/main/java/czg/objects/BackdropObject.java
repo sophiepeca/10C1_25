@@ -1,6 +1,5 @@
 package czg.objects;
 
-import czg.scenes.BaseScene;
 import czg.util.Images;
 
 import java.awt.*;
@@ -71,9 +70,6 @@ public class BackdropObject extends BaseObject {
     public Rectangle2D getHitbox() {
         return null;
     }
-
-    @Override
-    public void update(BaseScene scene) {}
 
     @Override
     public void draw(Graphics2D g) {

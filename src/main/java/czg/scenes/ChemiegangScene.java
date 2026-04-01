@@ -1,23 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.scenes;
 
 import czg.MainWindow;
 import czg.objects.BackdropObject;
-import czg.objects.ButtonObject;
-import czg.objects.Department;
 import czg.objects.InvisibleDoorObject;
 import czg.objects.PfeilObject;
 import czg.objects.PlayerObject;
-import czg.scenes.minigame.Minigames;
 import czg.util.Images;
 
-/**
- *
- * @author guest-zmpzia
- */
 public class ChemiegangScene extends BaseScene{
     public ChemiegangScene(){
         //Einfügen des Hintergrunds

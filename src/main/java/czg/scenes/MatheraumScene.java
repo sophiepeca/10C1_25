@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.scenes;
 
 import czg.objects.BackdropObject;
@@ -14,10 +10,6 @@ import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
 import czg.util.Images;
-/**
- *
- * @author guest-rwl69f
- */
 public class MatheraumScene extends BaseScene{
     public MatheraumScene(){
         //Einfügen des Hintergrunds

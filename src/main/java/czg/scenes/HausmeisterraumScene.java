@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package czg.scenes;
 
 import czg.objects.BackdropObject;
@@ -9,10 +6,6 @@ import czg.objects.PfeilObject;
 import czg.objects.PlayerObject;
 import czg.util.Images;
 
-/**
- *
- * @author guest-rwl69f
- */
 public class HausmeisterraumScene extends BaseScene{
     public HausmeisterraumScene() {
         //Einfügen des Hintergrunds

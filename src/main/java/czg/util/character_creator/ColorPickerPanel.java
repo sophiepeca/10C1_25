@@ -15,7 +15,7 @@ final class ColorPickerPanel extends JPanel {
     /**
      * Panel, welches die gewählte Farbe anzeigt
      */
-    JPanel previewPanel = new JPanel();
+    final JPanel previewPanel = new JPanel();
 
     /**
      * Neues Farbwahl-Panel erstellen

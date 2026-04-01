@@ -1,6 +1,5 @@
 package czg.objects;
 
-import czg.MainWindow;
 import czg.scenes.BaseScene;
 import czg.scenes.InventarScene;
 import czg.scenes.SceneStack;
@@ -14,7 +13,6 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.function.Function;
-import java.util.Random;
 
 import static czg.MainWindow.PIXEL_SCALE;
 
@@ -24,7 +22,7 @@ import static czg.MainWindow.PIXEL_SCALE;
 public class PlayerObject extends BaseObject{
 
     //Anlegen einer Reihung "Inventar", in welchem die Items, auf die der Spieler zugreifen kann, gespeichert werden
-    public List<ItemObject> inventar = new ArrayList<>();
+    public final List<ItemObject> inventar = new ArrayList<>();
 
     // Standardfarben
     public static final SaveFile defaultColors = new SaveFile(
@@ -37,19 +35,19 @@ public class PlayerObject extends BaseObject{
     /**
      * Farbe der Haare
      */
-    public Capsule<Color> haare = new Capsule<>(defaultColors.haare());
+    public final Capsule<Color> haare = new Capsule<>(defaultColors.haare());
     /**
      * Farbe des Hoodies
      */
-    public Capsule<Color> hoodie = new Capsule<>(defaultColors.hoodie());
+    public final Capsule<Color> hoodie = new Capsule<>(defaultColors.hoodie());
     /**
      * Farbe der Hose
      */
-    public Capsule<Color> hose = new Capsule<>(defaultColors.hose());
+    public final Capsule<Color> hose = new Capsule<>(defaultColors.hose());
     /**
      * Farbe der Haut
      */
-    public Capsule<Color> haut = new Capsule<>(defaultColors.haut());
+    public final Capsule<Color> haut = new Capsule<>(defaultColors.haut());
 
     /**
      * Zuordnung [Farbe im Original-Sprite] → [Speicherort der Farbe, durch die sie ersetzt werden soll]
@@ -65,7 +63,7 @@ public class PlayerObject extends BaseObject{
     /**
      * Singleton-Instanz
      */
-    public static PlayerObject INSTANCE = new PlayerObject();
+    public static final PlayerObject INSTANCE = new PlayerObject();
 
 
     /**
@@ -91,8 +89,7 @@ public class PlayerObject extends BaseObject{
         Random r = new Random();
         int min = 35;
         int max = 790;
-        int position = r.nextInt((max - min) + 1) + min;
-        return position;
+        return r.nextInt((max - min) + 1) + min;
     }
 
     /*
@@ -110,7 +107,7 @@ public class PlayerObject extends BaseObject{
     
     public void verteidigung(int schaden) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Du kriegst " + String.valueOf(schaden) + " Schaden");
+        System.out.println("Du kriegst " + schaden + " Schaden");
         System.out.println("Welches Item?");
         String ausgewaehlt = scanner.nextLine();
         int level = ItemObject.valueOf(ausgewaehlt).LEVEL;

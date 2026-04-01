@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package czg.objects;
 
-import czg.MainWindow;
 import static czg.MainWindow.HEIGHT;
 import static czg.MainWindow.WIDTH;
 import czg.scenes.BaseScene;
@@ -13,18 +9,14 @@ import czg.util.Images;
 import java.awt.Image;
 import java.util.function.Supplier;
 
-/**
- *
- * @author guest-i8wy4f
- */
 public class PfeilObject extends BaseObject{
     
     public static final int RECHTS = 1, LINKS = 2, OBEN = 3, UNTEN = 4;
     
     //Initialisieren eines Ziels (Wohin soll der Pfeil führen?)
-    public Supplier<BaseScene> target;
+    public final Supplier<BaseScene> target;
     //Initialisieren eines Ursprungs
-    public BaseScene origin;
+    public final BaseScene origin;
     
     
     public PfeilObject(BaseScene origin, Supplier<BaseScene> target, int richtung){
@@ -62,18 +54,13 @@ public class PfeilObject extends BaseObject{
     angegeben wird, wird ein anderes Bild für das PfeilObject genutzt
     */
     public static Image getSprite(int richtung) {
-        switch(richtung){
-            case RECHTS:
-                return Images.get("/assets/background/PfeilRechts.png");
-            case LINKS:
-                return Images.get("/assets/background/PfeilLinks.png");
-            case OBEN:
-                return Images.get("/assets/background/PfeilOben.png");
-            case UNTEN:
-                return Images.get("/assets/background/PfeilUnten.png");
-            
-        }
-        return null;
+        return switch (richtung) {
+            case RECHTS -> Images.get("/assets/background/PfeilRechts.png");
+            case LINKS -> Images.get("/assets/background/PfeilLinks.png");
+            case OBEN -> Images.get("/assets/background/PfeilOben.png");
+            case UNTEN -> Images.get("/assets/background/PfeilUnten.png");
+            default -> null;
+        };
     }
     
     @Override

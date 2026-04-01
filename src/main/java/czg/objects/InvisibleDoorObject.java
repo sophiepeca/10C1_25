@@ -10,9 +10,9 @@ import java.util.function.Supplier;
  */
 public class InvisibleDoorObject extends BaseObject{
     //Initialisieren eines Ziels (Wohin soll die Tür führen?)
-    public Supplier<BaseScene> target;
+    public final Supplier<BaseScene> target;
     //Initialisieren eines Ursprungs
-    public BaseScene origin;
+    public final BaseScene origin;
    
     public InvisibleDoorObject(int x, int y, BaseScene origin, Supplier<BaseScene> target){
         //Einfügen des Objektes

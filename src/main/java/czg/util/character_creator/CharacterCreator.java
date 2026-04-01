@@ -26,7 +26,7 @@ public final class CharacterCreator extends JFrame {
     /**
      * Wird von {@link SaveFile#apply()} gebraucht
      */
-    final JPanel colorPickerPanel = getColorPickerPanel();;
+    final JPanel colorPickerPanel = getColorPickerPanel();
 
 
     /**

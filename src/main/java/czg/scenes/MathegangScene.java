@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.scenes;
 
 import czg.MainWindow;
@@ -9,10 +5,6 @@ import czg.objects.*;
 import czg.scenes.minigame.Minigames;
 import czg.util.Images;
 
-/**
- *
- * @author guest-zmpzia
- */
 public class MathegangScene extends BaseScene{
     public MathegangScene(){
         //Einfügen des Hintergrunds

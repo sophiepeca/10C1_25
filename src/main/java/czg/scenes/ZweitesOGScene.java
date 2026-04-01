@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.scenes;
 
 import czg.objects.BackdropObject;
@@ -9,10 +5,6 @@ import czg.objects.PfeilObject;
 import czg.objects.PlayerObject;
 import czg.util.Images;
 
-/**
- *
- * @author guest-fqz0q0
- */
 public class ZweitesOGScene extends BaseScene{
     public ZweitesOGScene(){
         //Einfügen des Hintergrunds
