@@ -20,9 +20,7 @@ public class PhysikLevelScene extends LevelScene {
      */
     public PhysikLevelScene(int level) {
         super(Department.PHYSICS, level);
-        // Hintergrundbild laden und als erstes Objekt hinzufügen
-        objects.add(new BackdropObject(
-                Images.get("/assets/minigames/physics/PhysikBackground.png")));
+
         // Spielobjekt hinzufügen – enthält die gesamte Spiellogik
         objects.add(new PhysikGameObject(level, this));
     }

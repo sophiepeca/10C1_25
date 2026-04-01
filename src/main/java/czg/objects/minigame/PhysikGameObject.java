@@ -75,7 +75,6 @@ public class PhysikGameObject extends BaseObject {
     // Maus-Status (verhindert Mehrfachklicks pro Frame)
     private boolean warGedrueckt = false;
     //Bilder
-    private Image hintergrundBild;
     private Image ballBild;
     private Image buttonBild;
     private Image wandBild;
@@ -88,7 +87,6 @@ public class PhysikGameObject extends BaseObject {
      * @param levelSzene Referenz auf die übergeordnete LevelScene,
      *                   um levelWon()/levelLost() aufrufen zu können
      */
-
     public PhysikGameObject(int level, LevelScene levelSzene) {
         super(null, 0, 0, WIDTH, HEIGHT);
         this.level = level;
@@ -146,7 +144,6 @@ public class PhysikGameObject extends BaseObject {
      * Ist ein Bild nicht vorhanden, wird ein Fallback gezeichnet.
      */
     private void bilderLaden() {
-        hintergrundBild = Images.get("/assets/minigames/physics/PhysikBackground.png");
         ballBild
                 = Images.get("/assets/minigames/physics/PhysikBall.png");
         buttonBild
@@ -282,19 +279,12 @@ public class PhysikGameObject extends BaseObject {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // 1. Hintergrund
-        if (hintergrundBild != null) {
-            g2.drawImage(hintergrundBild, 0, 0, BREITE, HOEHE, null);
-        } else {
-            g2.setColor(new Color(30, 30, 60));
-            g2.fillRect(0, 0, BREITE, HOEHE);
-        }
-        // 2. Titel
+        // 1. Titel
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Monospaced", Font.BOLD, 16));
         g2.drawString("Physik-Minigame – Level " + (level + 1), 20, 30);
 
-        // 3. Hinweistext (nur vor Simulation)
+        // 2. Hinweistext (nur vor Simulation)
         if (phase == PHASE_VORBEREITUNG) {
             g2.setFont(new Font("Monospaced", Font.PLAIN, 11));
             g2.setColor(new Color(200, 200, 255));
@@ -304,17 +294,17 @@ public class PhysikGameObject extends BaseObject {
                 g2.drawString("Ziehe vom den Ball nach oben und klicke dann auf Simulate!", 20, 50);
             }
         }
-        // 4. Ziel zeichnen (grau-grün)
+        // 3. Ziel zeichnen (grau-grün)
         zielZeichnen(g2);
-        // 5. Wand zeichnen (nur Level 2)
+        // 4. Wand zeichnen (nur Level 2)
         if (wand != null) wandZeichnen(g2);
-        // 6. Kraftpfeile (nur vor Simulate)
+        // 5. Kraftpfeile (nur vor Simulate)
         if (phase == PHASE_VORBEREITUNG) kraftpfeileZeichnen(g2);
-        // 7. Ball zeichnen
+        // 6. Ball zeichnen
         ballZeichnen(g2);
-        // 8. Simulate-Button (nur Vorbereitungsphase)
+        // 7. Simulate-Button (nur Vorbereitungsphase)
         if (phase == PHASE_VORBEREITUNG) buttonZeichnen(g2);
-        // 9. Ergebnis-Overlay
+        // 8. Ergebnis-Overlay
         if (phase == PHASE_ERGEBNIS) ergebnisZeichnen(g2);
     }
 
