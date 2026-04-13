@@ -23,10 +23,17 @@ Verschiedene Schwierigkeiten werden auf zwei Weisen ermöglicht:
 
 Jedes Level verwendet außerdem, im Sinne der Variabilität, drei verschiedene Schaltkreise, aus denen, bei jedem Minispiel-Start, einer zufällig gewählt wird.
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.7\textwidth]{bilder/MinispielInformatik.png}
+    \caption{Level 2 des Minispiels der Fachschaft Informatik}
+    \label{fig:mginf}
+\end{figure}
+
 \subsubsection{Level 1}
 
 Bei den Schaltkreisen des ersten Levels fehlt jeweils nur ein Logikgatter, das zwei Eingänge mit einem Ausgang verbindet.
-Gesucht wird also das Logikgatter $G \in \{\land , \lor , \overline{\land}, \overline{\lor}, \veebar, \overline{\veebar}\}$, welches folgende Bedingungen erfüllt:
+Gesucht wird also das Logikgatter $G \in \{\land , \lor , \overline{\land}, \overline{\lor}, \veebar, \overline{\veebar}\}$\footnote{$\land = AND,\ \lor = OR,\ \overline{\land} = NAND,\ \overline{\lor} = NOR,\ \veebar = XOR,\ \overline{\veebar} = XNOR$}, welches folgende Bedingungen erfüllt:
 
 \begin{align*}
     x_1 G x_2 = y
@@ -87,7 +94,7 @@ Für die Rätsel des ersten Levels wurden folgende Tabellen festgelegt:
 
 Diese Tabellen werden den Spielenden, aufgrund der ansprechenderen Gestaltung, in Form einer Abbildung präsentiert, welche die vier Zustände des Schaltkreises darstellt.
 Ebenfalls im Sinne der Gestaltung wurde auf die Konvention, die Eingänge auf der linken Seite und die Ausgänge auf der rechten Seite darzustellen, verzichtet.
-In der Abbildung \ref{tab:wwt01} ist dies beispielhaft anhand der ersten Wahrheitswerttabelle ($G = \land$) zu erkennen.
+In der Abbildung \ref{fig:mginf} ist dies beispielhaft anhand eines Rätsels des zweiten Levels zu erkennen.
 
 \subsubsection{Level 2}
 
@@ -246,3 +253,38 @@ Für die Rätsel des dritten Levels wurden folgende Tabellen festgelegt:
 
 Da die Wahrheitswerttabellen des dritten Levels acht Zustände beinhalten, wird auf die Darstellung jedes einzelnen Zustandes verzichtet und nur der erste Zustand als Schaltkreis abgebildet.
 Die anderen werden als Tabelle präsentiert.
+
+\subsubsection{Reflexion}
+
+Bei dem Minispiel der Fachschaft Informatik wird die Theorie spielerisch mit der Praxis verbunden.
+Die Spielenden werden mit abstrakten boolschen Operationen, sowie mit erwarteten Ergebnissen konfrontiert und können ihre Überlegungen dann anhand von Logikgattern und Schaltkreisen in die Tat umsetzten.
+Es fördert vor allem logisches Denken, jedoch auch die Fähigkeit mit begrenzten Mitteln ein gewünschtes Ergebnis zu erziehlen.
+Außerdem regen die Rätsel durch ihre Komplexitität dazu an, Lösungsstrategien zu entwickeln, anstatt Antwortmöglichkeiten einfach auszuprobieren oder gar zu raten.\\
+Das erste Level bietet einen guten Einstieg in die Funktionsweise des Spieles, da hier nur die Eigenschaften der einzelnen Gatter abgefragt und diese noch nicht verkettet werden.
+Der Schwierigkeitsgrad nimmt im zweiten Level deutlich zu, jedoch kann hier durch Überlegungen, die zur Vereinfachungen des Problemes führen\footnote{Beispielsweise folgende Aussage: \glqq Der Ausgang ist in jedem Fall gleich Eingang 1.\grqq} dennoch gut eine Lösung gefunden werden.
+Das dritte Level ist sehr komplex.
+Es verlangt das Verbinden von drei Gatter miteinander, was definitiv über den Rahmen eines schnellen Minispiels hinaus reicht.
+Hier kann zwar analog zu Level 2 vereinfacht werden, jedoch bleibt das Problem dadurch dennoch sehr schwierig.
+Eine Mögliche Lösung wäre das Vorgeben eines oder mehrerer Gatter, ähnlich zum in \ref{sec:mathematics} beschriebenen Mathe-Minispiel.
+Auch denkbar wäre eine Einschränkung der Antwortmöglichkeiten.
+So könnten die richtigen Gatter schon gegeben sein, müssten jedoch noch an die richtige Stelle plaziert werden.\\
+Das Minispiel birgt neben der Schwierigkeit auch anderweitig Potential zur Verbesserung.
+Die Grafiken der Logikgatter sind schwer zuzuordnen und setzten die Kenntnis ihrer Funktionsweise vorraus.
+Dies könnte mit kleinen Erklärtexten oder Beispielabbildungen behoben werden.
+Zusätzlich ist das wiederholte Spielen nur begrenzt möglich.
+Zwar bieten die verschiedenen Schaltkreise Variabilität, jedoch ist diese aufgrund der Menge an Rätseln sehr eingeschränkt.
+Die insgesamt neun Schaltkreise können schnell auswendig gelernt werden, wodurch das Spiel seine Tiefe verliert.
+Dies könnte möglicherweise mit zufällig generierten Wahrheitswerttabellen behoben werden.
+Jedoch ist dabei zu beachten, dass viele Tabellen keine oder mehrere Lösungen für den gegebenen Aufbau besitzen.
+Es würde sich eher anbieten das Grundkonzept zu überarbeiten, da dieses generell wenig Variabilität bietet.
+
+\subsection{Mathematik}
+\label{sec:mathematics}
+
+\subsubsection{Level 1}
+
+\subsubsection{Level 2}
+
+\subsubsection{Level 3}
+
+\subsubsection{Reflexion}
