@@ -237,6 +237,7 @@ public class PhysikGameObject extends BaseObject {
             simulationStoppen(true);
         }
     }
+
     /**
     * Hält die Simulation an und zeigt das Ergebnis.
     * @param treffer true = Ziel getroffen, false = verfehlt

@@ -29,7 +29,7 @@ public class ChemieGameObject extends BaseObject {
     private static final int GLAS_HOEHE = 32 * SCALE;
     private static final int BLOCK_X_OFFSET = 11 * SCALE;
     private static final int BLOCK_BODEN_Y = 31 * SCALE;
-    private static final int ABSTAND = 0;
+    private static final int ABSTAND = -40;
 
     // Spielbereich
     private static final int SPIEL_X = 140;
