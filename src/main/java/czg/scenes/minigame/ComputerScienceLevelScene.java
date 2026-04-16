@@ -98,7 +98,7 @@ public class ComputerScienceLevelScene extends LevelScene {
             }
         }
         // Andernfalls wird das geantwortete Gatter an der frühst möglichen Stelle der aktiven Antworten hinzugefügt
-        // und der entsprechende Rahmen gezeichnet.
+        // und der entsprechende Rahmen gezeichnet, sowie überprüft, ob das Puzzle gelöst wurde.
         else {
             for(int i = 0; i < ACTIVE_ANSWERS.length; i++) {
                 if(ACTIVE_ANSWERS[i] == null) {
@@ -109,19 +109,19 @@ public class ComputerScienceLevelScene extends LevelScene {
                     break;
                 }
             }
-        }
 
-        // Überprüfen, ob das Puzzle gelöst wurde
-        boolean solved = true;
-        for (int i = 0; i < PUZZLE.SOLUTION.length ; i++) {
-            if (PUZZLE.SOLUTION[i] != ACTIVE_ANSWERS[i]) {
-                solved = false;
-                break;
+            // Überprüfen, ob das Puzzle gelöst wurde
+            boolean solved = true;
+            for (int i = 0; i < PUZZLE.SOLUTION.length ; i++) {
+                if (PUZZLE.SOLUTION[i] != ACTIVE_ANSWERS[i]) {
+                    solved = false;
+                    break;
+                }
             }
-        }
 
-        // Level gewinnen, falls ja
-        if (solved) levelWon();
+            // Level gewinnen, falls ja
+            if (solved) levelWon();
+        }
     }
 
     /**
