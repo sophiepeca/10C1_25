@@ -40,20 +40,20 @@ public class ComputerScienceLevelScene extends LevelScene {
             new BaseObject(Images.get("/assets/minigames/computer_science/answer_frame_2.png"))
         };
 
-        this.ACTIVE_ANSWERS = new LogicGate[PUZZLE.solution.length];
+        this.ACTIVE_ANSWERS = new LogicGate[PUZZLE.SOLUTION.length];
 
         int availableHeight = (int) (MainWindow.HEIGHT * 0.7);
-        int gateHeight = availableHeight / PUZZLE.answers.length;
+        int gateHeight = availableHeight / PUZZLE.ANSWERS.length;
 
         // ButtonObjects für die Antwortmöglichkeiten
-        for (int i = 0; i < PUZZLE.answers.length; i++) {
+        for (int i = 0; i < PUZZLE.ANSWERS.length; i++) {
             int finalI = i;
             objects.add(new ButtonObject(
-                PUZZLE.answers[i].sprite,
+                PUZZLE.ANSWERS[i].SPRITE,
                 (int) (MainWindow.WIDTH * 0.125),
                 (MainWindow.HEIGHT - availableHeight) / 2 + i * gateHeight,
                 () -> setAnswer(
-                    PUZZLE.answers[finalI],
+                    PUZZLE.ANSWERS[finalI],
                     (int) (MainWindow.WIDTH * 0.125),
                     (MainWindow.HEIGHT - availableHeight) / 2 + finalI * gateHeight)
                 )
@@ -62,7 +62,7 @@ public class ComputerScienceLevelScene extends LevelScene {
 
         // Das eigentliche Rätsel wird durch ein Bild dargestellt
         objects.add(new BaseObject(
-                PUZZLE.sprite,
+                PUZZLE.SPRITE,
                 (int) (MainWindow.WIDTH * 0.3),
                 (MainWindow.HEIGHT - availableHeight) / 2,
                 (int) (MainWindow.WIDTH * 0.6),
@@ -71,8 +71,8 @@ public class ComputerScienceLevelScene extends LevelScene {
     }
 
     private void setAnswer(LogicGate gate, int x, int y) {
-        if(PUZZLE.solution.length == 1) {
-            if(gate == PUZZLE.solution[0])
+        if(PUZZLE.SOLUTION.length == 1) {
+            if(gate == PUZZLE.SOLUTION[0])
                 levelWon();
             else
                 levelLost();
@@ -100,8 +100,8 @@ public class ComputerScienceLevelScene extends LevelScene {
         }
 
         boolean solved = true;
-        for (int i = 0; i < PUZZLE.solution.length ; i++) {
-            if (PUZZLE.solution[i] != ACTIVE_ANSWERS[i]) {
+        for (int i = 0; i < PUZZLE.SOLUTION.length ; i++) {
+            if (PUZZLE.SOLUTION[i] != ACTIVE_ANSWERS[i]) {
                 solved = false;
                 break;
             }

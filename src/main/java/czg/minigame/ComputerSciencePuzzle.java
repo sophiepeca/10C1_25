@@ -35,14 +35,14 @@ public enum ComputerSciencePuzzle {
         }
     };
 
-    public final Image sprite;
-    public final LogicGate[] solution;
-    public final LogicGate[] answers;
+    public final Image SPRITE;
+    public final LogicGate[] SOLUTION;
+    public final LogicGate[] ANSWERS;
 
     ComputerSciencePuzzle(String path, LogicGate[] solution, int amountOfAnswers) {
-        this.sprite = Images.get(path);
-        this.solution = solution;
-        this.answers = LogicGate.getRandomArray(amountOfAnswers, solution);
+        this.SPRITE = Images.get(path);
+        this.SOLUTION = solution;
+        this.ANSWERS = LogicGate.getRandomArray(amountOfAnswers, solution);
     }
 
     public static ComputerSciencePuzzle getPuzzle(int level) {
