@@ -40,20 +40,20 @@ public class ComputerScienceLevelScene extends LevelScene {
             new BaseObject(Images.get("/assets/minigames/computer_science/answer_frame_2.png"))
         };
 
-        this.ACTIVE_ANSWERS = new LogicGate[PUZZLE.solution.length];
+        this.ACTIVE_ANSWERS = new LogicGate[PUZZLE.SOLUTION.length];
 
         int availableHeight = (int) (MainWindow.HEIGHT * 0.7);
-        int gateHeight = availableHeight / PUZZLE.answers.length;
+        int gateHeight = availableHeight / PUZZLE.ANSWERS.length;
 
         // ButtonObjects für die Antwortmöglichkeiten
-        for (int i = 0; i < PUZZLE.answers.length; i++) {
+        for (int i = 0; i < PUZZLE.ANSWERS.length; i++) {
             int finalI = i;
             objects.add(new ButtonObject(
-                PUZZLE.answers[i].sprite,
+                PUZZLE.ANSWERS[i].SPRITE,
                 (int) (MainWindow.WIDTH * 0.125),
                 (MainWindow.HEIGHT - availableHeight) / 2 + i * gateHeight,
                 () -> setAnswer(
-                    PUZZLE.answers[finalI],
+                    PUZZLE.ANSWERS[finalI],
                     (int) (MainWindow.WIDTH * 0.125),
                     (MainWindow.HEIGHT - availableHeight) / 2 + finalI * gateHeight)
                 )
@@ -62,7 +62,7 @@ public class ComputerScienceLevelScene extends LevelScene {
 
         // Das eigentliche Rätsel wird durch ein Bild dargestellt
         objects.add(new BaseObject(
-                PUZZLE.sprite,
+                PUZZLE.SPRITE,
                 (int) (MainWindow.WIDTH * 0.3),
                 (MainWindow.HEIGHT - availableHeight) / 2,
                 (int) (MainWindow.WIDTH * 0.6),
@@ -70,9 +70,17 @@ public class ComputerScienceLevelScene extends LevelScene {
         ));
     }
 
+    /**
+     * Zeichnen des Rahmens um das geantwortete Gatter und Überprüfung, ob die Lösung korrekt ist.
+     * @param gate Das geantwortete Gatter
+     * @param x Dessen X-Position
+     * @param y Dessen Y-Position
+     */
     private void setAnswer(LogicGate gate, int x, int y) {
-        if(PUZZLE.solution.length == 1) {
-            if(gate == PUZZLE.solution[0])
+        // Falls nur ein Gatter zu antworten ist, wird überprüft, ob dieses korrekt ist und
+        // das Level dementsprechend gewonnen bzw. verloren
+        if(PUZZLE.SOLUTION.length == 1) {
+            if(gate == PUZZLE.SOLUTION[0])
                 levelWon();
             else
                 levelLost();
@@ -80,6 +88,7 @@ public class ComputerScienceLevelScene extends LevelScene {
             return;
         }
 
+        // Falls das geantwortete Gatter bereits geantwortet wurde, wird es wieder aus den Antworten entfernt
         if(Arrays.asList(ACTIVE_ANSWERS).contains(gate)) {
             for(int i = 0; i < ACTIVE_ANSWERS.length; i++) {
                 if(ACTIVE_ANSWERS[i] == gate) {
@@ -87,7 +96,10 @@ public class ComputerScienceLevelScene extends LevelScene {
                     objects.remove(ANSWER_FRAMES[i]);
                 }
             }
-        } else {
+        }
+        // Andernfalls wird das geantwortete Gatter an der frühst möglichen Stelle der aktiven Antworten hinzugefügt
+        // und der entsprechende Rahmen gezeichnet, sowie überprüft, ob das Puzzle gelöst wurde.
+        else {
             for(int i = 0; i < ACTIVE_ANSWERS.length; i++) {
                 if(ACTIVE_ANSWERS[i] == null) {
                     ACTIVE_ANSWERS[i] = gate;
@@ -97,17 +109,19 @@ public class ComputerScienceLevelScene extends LevelScene {
                     break;
                 }
             }
-        }
 
-        boolean solved = true;
-        for (int i = 0; i < PUZZLE.solution.length ; i++) {
-            if (PUZZLE.solution[i] != ACTIVE_ANSWERS[i]) {
-                solved = false;
-                break;
+            // Überprüfen, ob das Puzzle gelöst wurde
+            boolean solved = true;
+            for (int i = 0; i < PUZZLE.SOLUTION.length ; i++) {
+                if (PUZZLE.SOLUTION[i] != ACTIVE_ANSWERS[i]) {
+                    solved = false;
+                    break;
+                }
             }
-        }
 
-        if (solved) levelWon();
+            // Level gewinnen, falls ja
+            if (solved) levelWon();
+        }
     }
 
     /**
