@@ -328,11 +328,12 @@ public enum MathematicsPuzzle {
         int rSolution = new Random().nextInt(SOLUTIONS.length);
         // Positionierung der Steine
         for(int i : idx) {
+            // Rotation wird als erstes geändert, da sich dadurch die Größe und somit die Position des Steines ändern kann.
             pieces[i].setRotation(SOLUTIONS[rSolution][i][2]);
             pieces[i].x = (int) (x + SOLUTIONS[rSolution][i][0]*width);
             pieces[i].y = (int) (y + SOLUTIONS[rSolution][i][1]*height);
 
-            // Höhe und Breite der Steine zurücksetzten, falls das Puzzle der Ausgangszustand ist
+            // Höhe und Breite der Steine zurücksetzten, falls es sich beim Puzzle um den Ausgangszustand handelt
             if(this == P_INIT) {
                 pieces[i].width = (int) (SOLUTIONS[rSolution][i][3]*width);
                 pieces[i].height = (int) (SOLUTIONS[rSolution][i][4]*height);
