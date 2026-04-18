@@ -1,1 +1,360 @@
 
+Um Spiele, Lehrerinnen und Lehrer, sowie die Items in das Programm einzubinden, haben wir diese als Spiel-Objekte, also als Unterklassen von \texttt{BaseObject} implementiert, da sie so gut mit den in der Lösungsidee beschriebenen Eigenschaften versehen werden konnten. Dafür haben wir die Klassen \texttt{PlayerObject}, \texttt{LehrerObject} und \texttt{ItemType} umgesetzt.
+
+\subsection{\texttt{PlayerObject}}
+Das \texttt{PlayerObject} erweitert das \texttt{BaseObject} und übernimmt so wichtige Eigenschaften. Diese beinhaltet Funktionalität zur Gestaltung der Figur, des Kampfes und des Inventares. Das Inventar hierbei ist eine Liste . Am beim gewinnen eines Minispiels wird, wie oben erwähnt, ein Item dem Array hinzugefügt.
+
+Die Klasse stellt außerdem eine Singleton-Instanz von sich bereit, die
+Spielfigur wird also genau einmal instantiiert.
+
+In ihrer \texttt{update}-Methode überprüft die Spielfigur mithilfe \texttt{BaseObject.isClicked}, ob sie angeklickt wurde. Ist dies der Fall,
+wird eine neue Instanz der in Kürze beschriebenen \texttt{InventarScene}
+auf den Szenenstapel gepushed.
+
+
+\subsubsection{InventarScene}
+
+Die Inventar-Szene stellt die Items dar, die im Besitz der Spielfigur sind.
+Dabei ist jedoch das einzige tatsächliche Spiel-Objekt, welches sie beinhaltet,
+der \glqq{}X\grqq{}-Knopf, durch dessen Klicken sie sich wieder vom Szenenstapel
+entfernt. Das Anzeigen der Items wird über das Erweitern von \texttt{BaseObject.draw}
+gelöst.
+
+\begin{lstlisting}
+@Override
+public void draw(Graphics2D g) {
+	// Hintergrund
+	g.setColor(new Color(0x9A6B9C));
+	g.fillRect(iLeft, iTop, iWidth, iHeight);
+	
+	// Für Text
+	g.setColor(Color.WHITE);
+	g.setFont(Draw.FONT_TITLE.deriveFont(20f));
+	
+	// Items mit Beschriftung zeichnen
+	int x = iLeft + iPadding;
+	for (int i = 0; i < PlayerObject.INSTANCE.inventar.size(); i++) {
+		// Item abfragen
+		ItemType item = PlayerObject.INSTANCE.inventar.get(i);
+		
+		// Sprite zeichnen
+		int y = iTop + ((int) (HEIGHT * 0.05));
+		g.drawImage(item.SPRITE, x, y, item.SPRITE.getWidth(null) * PIXEL_SCALE, item.SPRITE.getHeight(null) * PIXEL_SCALE, null);
+		
+		// Text zeichnen
+		Draw.drawTextCentered(g, item.NAME, x + item.SPRITE.getWidth(null) * PIXEL_SCALE / 2, y + item.SPRITE.getHeight(null) * PIXEL_SCALE + 32);
+		
+		x += item.SPRITE.getWidth(null) * PIXEL_SCALE + iPadding;
+	}
+	
+	// Objekte
+	super.draw(g);
+}
+\end{lstlisting}
+
+\subsection{LehrerObject}
+Das LehrerObject ist ebenfalls eine Erweiterung des BaseObject und fügt die in der Lösungsidee besprochenen Eigenschaften von Schwierigkeit, Lebenspunkten, Fachschaft und ein Liste aus im Kampf zu verwendenen Items zu. Diese sind hier das Integer Level und hp (Healthpoints), der String Fachschaft und das Array Lehrer-Items. Diese werden dann zusammen mit den Parametern aus dem BaseObjekt im darauffolgenden Constructor initialisiert. Darauffolgend sind wieder die Funktionen für den Kampf.
+\\
+\begin{lstlisting}
+    public class LehrerObject extends BaseObject{
+
+    public final int LEVEL;
+    public int hp;
+    public final String FACHSCHAFT;
+    public final List<ItemType> lehrer_items;
+
+    public LehrerObject(Image sprite, int x, int y, String FACHSCHAFT, int hp, int LEVEL, List<ItemType> lehrer_items) {
+        super(sprite, x, y);
+        this.LEVEL = LEVEL;
+        this.hp = hp;
+        this.FACHSCHAFT = FACHSCHAFT;
+        this.lehrer_items = lehrer_items;
+    }
+
+    public void verteidigung(int level) {
+        // Es wird random ausgewählt, ob ein Item gewählt wird (und welches), oder ob der Lehrer nichts macht.
+        Random rand = new Random();
+        int move = rand.nextInt(5);
+        int schaden;
+        ItemType item_lehrer;
+
+        if (move == 0) {
+            schaden = level;
+            item_lehrer = null;
+        }
+        else {
+            item_lehrer = lehrer_items.get(move - 1);
+            schaden = level - item_lehrer.LEVEL;
+            if (schaden <= 0) {
+                schaden = 0;
+            }
+
+        }
+
+        hp -= schaden;
+
+    }
+    
+    public void angriff() {
+        Random rand = new Random();
+        int move = rand.nextInt(4);
+        int level;
+        ItemType item_lehrer;
+        
+        item_lehrer = lehrer_items.get(move);
+        level = item_lehrer.LEVEL;
+        
+        PlayerObject.INSTANCE.verteidigung(level);
+    }
+
+    @Override
+    public void update(BaseScene scene) {
+    }
+}
+\end{lstlisting}
+
+\subsection{ItemType}
+Die Items sind in der Form von im Glossar erklärten Enums gespeichert. Jedes Enum hat einen Namen und eine am Anfang festgelegte Anzahl von Parametern und deren Datentypen: der String NAME für den Namen des Items, das Image SPRITE für die Bilddatei und den Integer LEVEL für die Stärke des Items. 
+
+\begin{lstlisting}
+    public enum ItemType {
+    ATOM("Atom", "/assets/items/atom.png", 0),
+    BSOD("Error-Screen", "/assets/items/blue_screen_of_death.png", 2),
+    BRENNER("Brenner", "/assets/items/brenner.png", 2),
+    CAS("Taschenrechner", "/assets/items/cas.png", 2),
+    CD("CD", "/assets/items/cd.png", 0),
+    CHROME("Chrome", "/assets/items/chrome.png", 1),
+    DNA("DNA", "/assets/items/dna.png", 1),
+    FELDSTECHER("Feldstecher", "/assets/items/feldstecher.png", 1),
+    GLUEHBIRNE("Glühbirne", "/assets/items/glühbirne.png", 2),
+    IKOSAEDER("Ikosaeder", "/assets/items/ikosaeder.png", 1),
+    KRAFTMESSER("Federkraftmesser", "/assets/items/kraftmesser.png", 0),
+    LAUTSPRECHER("Lautsprecher", "/assets/items/lautsprecher.png", 0),
+    LINEAL("Lineal", "/assets/items/lineal.png", 0),
+    MAGNET("Magnet", "/assets/items/magnet.png", 1),
+    MIKROSKOP("Mikroskop", "/assets/items/mikroskop.png", 2),
+    NERV("Nervenzelle", "/assets/items/nerv.png", 0),
+    NEWTONSAPFEL("Newtons Apfel", "/assets/items/newtons_apfel.png", 0),
+    THALES("Satz des Thales", "/assets/items/satz_des_thales.png", 1),
+    SCHUTZBRILLE("Schutzbrille", "/assets/items/schutzbrille.png", 1),
+    SCHAEDEL("Schädel", "/assets/items/schädel.png", 1),
+    SEIZUREDFROG("Sezierter Frosch", "/assets/items/seizured_frog.png", 2),
+    SPRITZFLASCHE("Spritzflasche", "/assets/items/spritzflasche.png", 0),
+    SAEURE("Säure", "/assets/items/säure.png", 2),
+    TASTATUR("Tastatur", "/assets/items/tastatur.png", 2),
+    THERMOMETER("Thermometer", "/assets/items/thermometer.png", 2),
+    VIRUS("Virus", "/assets/items/virus.png", 0),
+    WLAN("Wlan", "/assets/items/wlan.png", 1),
+    WUNDERKERZE("Wunderkerze", "/assets/items/wunderkerze.png", 1),
+    ZETTEL("Zettel", "/assets/items/zettel.png", 2),
+    ZIRKEL("Zirkel", "/assets/items/zirkel.png", 0);
+        
+    public final String NAME;
+    public final Image SPRITE;
+    public final int LEVEL;
+    
+    ItemType(String name, String imagePath, int level) {
+        this.NAME = name;
+        this.LEVEL = level;
+        this.SPRITE = Images.get(imagePath);
+    }
+\end{lstlisting}
+
+Darauf folgt die Funktion, welche dem Spieler nach gewinnen eines Minispiels das Item zuweist.
+Dies geschieht über zwei ineinander integrierte bereits erklärte switch-case-Selektionen, welche zuerst die Fachschaft des Minigames überprüfen und dann ein Item mit der dem Schwierigkeitsgrad des Minigames entsprechenden Stärke dem Inventar zuweisen.
+\\
+\begin{lstlisting}
+      /**
+     * Gibt ein Item als Belohnung für das Beenden eines Minispiels zurück.
+     * @param minigame Das Minispiel, welches beendet wurde
+     * @param level Das Level, welches beendet wurde
+     */
+    public static ItemType getMinigameReward(Department minigame, int level) {
+        switch(minigame) {
+            case COMPUTER_SCIENCE -> {
+                switch(level) {
+                    case 0 -> {
+                        return ItemType.CD;
+                    } case 1 -> {
+                        return ItemType.CHROME;
+                    } case 2 -> {
+                        return ItemType.TASTATUR;
+                    }
+                }
+            } case PHYSICS -> {
+                switch(level) {
+                    case 0 -> {
+                        return ItemType.KRAFTMESSER;
+                    } case 1 -> {
+                        return ItemType.MAGNET;
+                    } case 2 -> {
+                        return ItemType.GLUEHBIRNE;
+                    }
+                }
+            } case MATHEMATICS -> {
+                switch(level) {
+                    case 0 -> {
+                        return ItemType.ZIRKEL;
+                    } case 1 -> {
+                        return ItemType.THALES;
+                    } case 2 -> {
+                        return ItemType.CAS;
+                    }
+                }
+            } case BIOLOGY -> {
+                switch(level) {
+                    case 0 -> {
+                        return ItemType.VIRUS;
+                    } case 1 -> {
+                        return ItemType.SCHAEDEL;
+                    } case 2 -> {
+                        return ItemType.SEIZUREDFROG;
+                    }
+                }
+            } case CHEMISTRY -> {
+                switch(level) {
+                    case 0 -> {
+                        return ItemType.SPRITZFLASCHE;
+                    } case 1 -> {
+                        return ItemType.SCHUTZBRILLE;
+                    } case 2 -> {
+                        return ItemType.SAEURE;
+                    }
+                }
+            }  
+        }
+        return null;
+        
+    }
+\end{lstlisting}
+
+Der lezte Teil benutz eine Folge if-else-Abfragen, um den Lehrern im Kampf ihr Items zuzuweisen. Diese fragen zuerst nach der Fachschaft des Lehrers/ der Lehrerin und stellen diesen dann einen Pool aus Items bereit, welche sie dann im Kampf verwenden können.
+\\
+\begin{lstlisting}
+     public static List<ItemType> getItems(int level, Department fachschaft) { // Items mit jeweiligen Leveln an Lehrer mit jeweiligen Leveln  verteilen
+        if (fachschaft == Department.COMPUTER_SCIENCE) {
+            if (level == 0) {
+                return List.of(     //die Items werden zurückgegeben
+                        ItemType.CD, //level 1
+                        ItemType.LAUTSPRECHER, //level 1
+                        ItemType.WLAN, //level 1 (eigentlich level 2)
+                        ItemType.CHROME//level 2
+                );
+            } else if (level == 1) {
+                return List.of(
+                        ItemType.CD, //level 1
+                        ItemType.LAUTSPRECHER, //level 1
+                        ItemType.WLAN, //level 2
+                        ItemType.CHROME //level 2
+                );
+            } else if (level == 2) {
+                return List.of(
+                        ItemType.LAUTSPRECHER, //level 1
+                        ItemType.CHROME, //level 2
+                        ItemType.WLAN, //level 2
+                        ItemType.BSOD // level 3
+                );
+
+            }
+        } else if (fachschaft == Department.PHYSICS) {
+            if (level == 0) {
+                return List.of(
+                        ItemType.NEWTONSAPFEL, //level 1
+                        ItemType.KRAFTMESSER, //level 1
+                        ItemType.FELDSTECHER, //level 1 (eigentlich level 2)
+                        ItemType.MAGNET//level 2
+                );
+            } else if (level == 1) {
+                return List.of(
+                        ItemType.NEWTONSAPFEL, //level 1
+                        ItemType.KRAFTMESSER, //level 1
+                        ItemType.FELDSTECHER, //level 2
+                        ItemType.MAGNET //level 2
+                );
+            } else if (level == 2) {
+                return List.of(
+                        ItemType.NEWTONSAPFEL, //level 1
+                        ItemType.FELDSTECHER, //level 2
+                        ItemType.MAGNET, //level 2
+                        ItemType.GLUEHBIRNE // level 3
+                );
+
+            }
+        } else if (fachschaft == Department.MATHEMATICS) {
+            if (level == 0) {
+                return List.of(
+                        ItemType.LINEAL, //level 1
+                        ItemType.ZIRKEL, //level 1
+                        ItemType.IKOSAEDER, //level 1 (eigentlich level 2)
+                        ItemType.THALES//level 2
+                );
+            } else if (level == 1) {
+                return List.of(
+                        ItemType.LINEAL, //level 1
+                        ItemType.ZIRKEL, //level 1
+                        ItemType.IKOSAEDER, //level 2
+                        ItemType.THALES //level 2
+                );
+            } else if (level == 2) {
+                return List.of(
+                        ItemType.LINEAL, //level 1
+                        ItemType.IKOSAEDER, //level 2
+                        ItemType.THALES, //level 2
+                        ItemType.ZETTEL // level 3
+                );
+
+            }
+        } else if (fachschaft == Department.BIOLOGY) {
+            if (level == 0) {
+                return List.of(
+                        ItemType.VIRUS, //level 1
+                        ItemType.NERV, //level 1
+                        ItemType.SCHAEDEL, //level 1 (eigentlich level 2)
+                        ItemType.DNA//level 2
+                );
+            } else if (level == 1) {
+                return List.of(
+                        ItemType.VIRUS, //level 1
+                        ItemType.NERV, //level 1
+                        ItemType.SCHAEDEL, //level 2
+                        ItemType.DNA //level 2
+                );
+            } else if (level == 2) {
+                return List.of(
+                        ItemType.VIRUS, //level 1
+                        ItemType.SCHAEDEL, //level 2
+                        ItemType.DNA, //level 2
+                        ItemType.SEIZUREDFROG // level 3
+                );
+
+            }
+        } else if (fachschaft == Department.CHEMISTRY) {
+            if (level == 0) {
+                return List.of(
+                        ItemType.SPRITZFLASCHE, //level 1
+                        ItemType.ATOM, //level 1
+                        ItemType.SCHUTZBRILLE, //level 1 (eigentlich level 2)
+                        ItemType.WUNDERKERZE//level 2
+                );
+            } else if (level == 1) {
+                return List.of(
+                        ItemType.SPRITZFLASCHE, //level 1
+                        ItemType.ATOM, //level 1
+                        ItemType.SCHUTZBRILLE, //level 2
+                        ItemType.WUNDERKERZE //level 2
+                );
+            } else if (level == 2) {
+                return List.of(
+                        ItemType.SPRITZFLASCHE, //level 1
+                        ItemType.SCHUTZBRILLE, //level 2
+                        ItemType.WUNDERKERZE, //level 2
+                        ItemType.BRENNER // level 3
+                );
+
+            }
+        }
+
+        throw new IllegalArgumentException("Konnte nicht die Items für Fachschaft "+fachschaft+", Level "+level+" ermitteln!");
+    }
+}
+\end{lstlisting}
