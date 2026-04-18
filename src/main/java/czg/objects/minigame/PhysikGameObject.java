@@ -112,29 +112,33 @@ public class PhysikGameObject extends BaseObject {
         
         // Ziel: unten rechts
         ziel = new double[]{ BREITE - 145, HOEHE - 125, 140, 120 };
+
         // Level-spezifische Konfiguration
         switch (level) {
                         case 0:
                             // Nur Schwerkraft nach unten, Spieler schießt nach rechts
                             basisBeschleunigungen = new double[][]{{0, GRAVITY}};
+                            // Spieler*in kann Kraftpfeil nur nach rechts ziehen
                             kraftRichtung = "RIGHT";
                             wand = null;
                         break;
                         case 1:
                             // Schwerkraft + leichter Drift nach links
                             basisBeschleunigungen = new double[][]{{0, GRAVITY}, {-0.05, 0}};
+                            // Spieler*in kann Kraftpfeil nur nach rechts ziehen
                             kraftRichtung = "RIGHT";
                             wand = null;
                         break;
                         default:
                             // Schwerkraft + starker Drift nach rechts + Wand in der Mitte
                             basisBeschleunigungen = new double[][]{{0, GRAVITY}, {0.12, 0}};
+                            // Spieler*in kann Kraftpfeil nur nach oben ziehen
                             kraftRichtung = "UP";
                             wand = new int[]{
-                                    BREITE / 4,
-                            HOEHE / 3,
-                            30,
-                                    133
+                                             BREITE / 4,
+                                             HOEHE / 3,
+                                             30,
+                                             133
                             };
                         break;
                         }
@@ -143,7 +147,6 @@ public class PhysikGameObject extends BaseObject {
     // Bilder laden
     /**
     * Lädt alle Bilder aus dem assets-Ordner des Physik-Minigames.
-    * Ist ein Bild nicht vorhanden, wird Fallback gezeichnet
     */
     private void bilderLaden() {
         ballBild

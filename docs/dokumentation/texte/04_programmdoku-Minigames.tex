@@ -73,7 +73,6 @@ Sie beinhaltet:
 
 Um also ein Minispiel für eine Fachschaft zu implementieren, müssen folgende Dinge geschehen:
 
-
 \begin{sloppypar}
     \begin{enumerate}
         \item Erweiterung der \texttt{LevelScene}, um die Funktionsweise des Spieles zu implementieren.
@@ -379,5 +378,199 @@ Sie beinhaltet:
         \item \texttt{reset()}: Eine Methode, die die \texttt{reset}-Methode der \texttt{LevelScene} implementiert, indem sie eine neu generierte \texttt{MathematicsLevelScene} zurückgibt.
         \item \texttt{checkPuzzle()}: Eine Prozedur, die mittels der \texttt{isSolutionValid}-Methode des \texttt{PUZZLE} überprüft, ob das Level gelöst wurde und in diesem Fall das Level beendet.
         \item \texttt{MathematicsLevelScene(int level)}: Der Konstruktor der Klasse, welcher alle Variablen initialisiet und die Steine, sowie die Silhouette platziert.
+    \end{itemize}
+\end{sloppypar}
+
+\subsubsection{Chemie}
+
+\begin{sloppypar}
+    Für das Minispiel der Fachschaft Chemie wurde die \texttt{LevelScene} zur \texttt{ChemieLevelScene} erweitert.
+    Die gesamte Spiellogik ist auf zwei Klassen aufgeteilt: \texttt{ChemieGameObject}, welches den Timer sowie die Spiellogik verwaltet, und \texttt{Reagenzglas}, welches ein einzelnes Reagenzglas als \texttt{BaseObject} repräsentiert.
+\end{sloppypar}
+
+\paragraph{Reagenzglas}
+Eine Erweiterung von \texttt{BaseObject}, die ein einzelnes Reagenzglas darstellt.
+Die Klasse beinhaltet:
+
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{MAX\_KAPAZITAET}, \texttt{GLAS\_BREITE}, \texttt{GLAS\_HOEHE}: Statische Konstanten, die die maximale Anzahl an Blöcken, sowie die Darstellungsgröße eines Reagenzglases definieren.
+        \item \texttt{blockBilder}: Eine \texttt{Map<String, Image>}, die Farbnamen auf die zugehörigen Block-Bilder abbildet.
+        \item \texttt{blockHinzufuegen(String farbe)}: Fügt einen Block der gegebenen Farbe oben ins Reagenzglas ein, sofern es nicht voll ist.
+        \item \texttt{oberstenBlockEntfernen()}: Entfernt den obersten Block und gibt seine Farbe zurück.
+        \item \texttt{oberstenBlockAnschauen()}: Gibt die Farbe des obersten Blocks zurück, \textbf{ohne} ihn zu entfernen.
+        \item \texttt{istLeer()}, \texttt{istVoll()}: Abfragen des Füllzustands.
+        \item \texttt{istGeloest()}: Gibt \texttt{true} zurück, wenn das Glas vollständig mit Blöcken einer einzigen Farbe gefüllt ist.
+        \item \texttt{kannAblegen(String farbe)}: Gibt \texttt{true} zurück, wenn ein Block der gegebenen Farbe abgelegt werden darf, d.h. das Glas nicht voll ist und entweder leer ist oder der oberste Block die gleiche Farbe hat.
+        \item \texttt{setAusgewaehlt(boolean)}: Verschiebt das Reagenzglas um 10 Pixel nach oben bzw. unten und aktualisiert den Auswahlzustand.
+        \item \texttt{draw(Graphics2D g)}: Zeichnet das Reagenzglasbild via \texttt{super.draw(g)} und anschließend die enthaltenen Farbblöcke.
+    \end{itemize}
+\end{sloppypar}
+
+\textbf{Beispielcode aus Reagenzglas}
+\begin{lstlisting}[caption=istGeloest-Methode, label=lst:mgistgeloest, captionpos=t, language=Java]
+public boolean istGeloest() {
+    // Glas muss vollstaendig gefuellt sein
+    if (bloecke.size() != MAX_KAPAZITAET) return false;
+    // Alle Bloecke muessen die gleiche Farbe haben
+    String f = bloecke.get(0);
+    for (String b : bloecke) if (!b.equals(f)) return false;
+    return true;
+}
+\end{lstlisting}
+
+\paragraph{ChemieGameObject}
+Eine Erweiterung von \texttt{BaseObject}, die das gesamte Chemie-Minigame verwaltet.
+
+Sie beinhaltet:
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{blockBilder}: Eine \texttt{Map<String, Image>}, die Farbnamen auf die zugehörigen Block-Bilder abbildet und an alle \texttt{Reagenzglas}-Objekte weitergereicht wird.
+        \item \texttt{glaeser}: Eine \texttt{List<Reagenzglas>}, die alle Reagenzgläser des aktuellen Levels enthält.
+        \item \texttt{ausgewaehltesGlas}: Der Index des aktuell ausgewählten Glases, oder \texttt{-1} wenn keines ausgewählt ist.
+        \item \texttt{verbleibendeSekunden}: Die verbleibende Zeit in Sekunden.
+        \item \texttt{levelErstellen()}: Initialisiert die Reagenzgläser mit zufällig verteilten Farbblöcken abhängig vom Level sowie zwei leeren Puffergläsern und berechnet deren Positionen.
+        \item \texttt{umschuetten(int von, int nach)}: Schüttet alle aufeinanderfolgenden Blöcke gleicher Farbe vom Quell- ins Zielglas um, sofern dies möglich ist.
+        \item \texttt{istGewonnen()}: Gibt \texttt{true} zurück, wenn alle nicht-leeren Gläser gelöst sind.
+        \item \texttt{update(BaseScene)}: Aktualisiert den Timer, ruft bei Ablauf \texttt{levelLost()} auf und erkennt Klicks auf Reagenzgläser mittels \texttt{isClicked()}.
+        \item \texttt{draw(Graphics2D)}: Zeichnet Titel, Hinweistext und Timer und delegiert das Zeichnen der Gläser an die jeweiligen \texttt{Reagenzglas}-Objekte.
+    \end{itemize}
+\end{sloppypar}
+
+Die \texttt{umschuetten}-Methode ist zur näheren Erklärung im Folgenden dargestellt.
+
+\textbf{Beispielcode aus ChemieGameObject}
+\begin{lstlisting}[caption=umschuetten-Methode, label=lst:mgumschuetten, captionpos=t, language=Java]
+private void umschuetten(int von, int nach) {
+    Reagenzglas v = glaeser.get(von);
+    Reagenzglas n = glaeser.get(nach);
+    // Farbe des obersten Blocks im Quellglas
+    String farbe = v.oberstenBlockAnschauen();
+    // Abbruch, wenn Quellglas leer oder Ablegen nicht moeglich
+    if (farbe == null || !n.kannAblegen(farbe)) return;
+    // Alle aufeinanderfolgenden Bloecke gleicher Farbe umschuetten
+    while (v.oberstenBlockAnschauen() != null
+            && v.oberstenBlockAnschauen().equals(farbe)
+            && n.kannAblegen(farbe))
+        n.blockHinzufuegen(v.oberstenBlockEntfernen());
+}
+\end{lstlisting}
+
+\paragraph{ChemieLevelScene}
+Eine Erweiterung der \texttt{LevelScene}, welche das \texttt{ChemieGameObject} zur \texttt{objects}-Liste hinzufügt.
+
+Sie beinhaltet:
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{reset()}: Gibt eine neu erstellte \texttt{ChemieLevelScene} zurück.
+        \item \texttt{ChemieLevelScene(int level)}: Der Konstruktor, der das Hintergrundbild sowie ein neues \texttt{ChemieGameObject} zur Szene hinzufügt.
+    \end{itemize}
+\end{sloppypar}
+
+\subsubsection{Physik}
+
+\begin{sloppypar}
+    Für das Minispiel der Fachschaft Physik wurde die \texttt{LevelScene} zur \texttt{PhysikLevelScene} erweitert.
+    Die gesamte Spiellogik ist im \texttt{PhysikGameObject} gekapselt, welches die Physik-Simulation, die Kraftpfeil-Eingabe sowie den Simulate-Button verwaltet.
+\end{sloppypar}
+
+\paragraph{PhysikGameObject}
+Eine Erweiterung von \texttt{BaseObject}, die das gesamte Physik-Minigame verwaltet.
+Das Spiel läuft in drei Phasen ab: \texttt{PHASE\_VORBEREITUNG}, in der der Spieler einen Kraftpfeil vom Ball wegzieht, \texttt{PHASE\_SIMULATION}, in der der Ball unter Einfluss der Beschleunigungen fliegt, und \texttt{PHASE\_ERGEBNIS}, die nach dem Treffem oder Verfehlen bzw der Kollison mit Boden oder Wand eintritt.
+
+Die Klasse beinhaltet:
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{simulateButton}: Ein \texttt{ButtonObject}, das die Simulation startet und nur in \texttt{PHASE\_VORBEREITUNG} angezeigt und aktualisiert wird.
+        \item \texttt{basisBeschleunigungen}: Ein zweidimensionales \texttt{double}-Array, das die levelspezifischen Beschleunigungen (z.B. Gewichtskraft, Drift) speichert.
+        \item \texttt{kraftRichtung}: Ein \texttt{String} (\texttt{"RIGHT"} oder \texttt{"UP"}), der die erlaubte Zugrichtung des Kraftpfeils vorgibt.
+        \item \texttt{wand}: Ein \texttt{int}-Array \texttt{\{x, y, breite, hoehe\}}, das die Position der Wand in Level 3 beschreibt, oder \texttt{null} in den anderen Levels.
+        \item \texttt{ziel}: Ein \texttt{double}-Array \texttt{\{x, y, breite, hoehe\}}, das die Position des Ziels beschreibt.
+        \item \texttt{levelInitialisieren()}: Setzt Ball, Geschwindigkeit und Spielerkraft zurück und konfiguriert die levelspezifischen Parameter.
+        \item \texttt{simulationStarten()}: Übernimmt die Spielerkraft als Startgeschwindigkeit und wechselt in \texttt{PHASE\_SIMULATION}.
+        \item \texttt{ballBewegen()}: Wendet alle Basisbeschleunigungen auf die Geschwindigkeit an, bewegt den Ball und prüft Kollisionen mit Rand, Wand und Ziel.
+        \item \texttt{simulationStoppen(boolean treffer)}: Wechselt in \texttt{PHASE\_ERGEBNIS} und ruft \texttt{levelWon()} bzw. \texttt{levelLost()} auf.
+        \item \texttt{update(BaseScene)}: Verarbeitet Maus-Drag zur Kraftpfeil-Eingabe, delegiert Button-Klicks an \texttt{simulateButton} und führt die Simulation schrittweise aus.
+        \item \texttt{draw(Graphics2D)}: Zeichnet Titel, Hinweistext, Ziel und die Kraftpfeile.
+    \end{itemize}
+\end{sloppypar}
+
+\textbf{Beispielcode aus PhysikGameObject}
+Im folgenden Codeausschnitt werden die drei Level (0, 1, 2) von einander durch verschiedene Eigenschaften unterschieden.
+\begin{lstlisting}[caption=Switch Cases für die verschiedenen Level, label=lst:mgSwitch(level), captionpos=t, language=Java]
+// Level-spezifische Konfiguration
+        switch (level) {
+                        case 0:
+                            // Nur Schwerkraft nach unten, Spieler schießt nach rechts
+                            basisBeschleunigungen = new double[][]{{0, GRAVITY}};
+                            // Spieler*in kann Kraftpfeil nur nach rechts ziehen
+                            kraftRichtung = "RIGHT";
+                            wand = null;
+                        break;
+                        case 1:
+                            // Schwerkraft + leichter Drift nach links
+                            basisBeschleunigungen = new double[][]{{0, GRAVITY}, {-0.05, 0}};
+                            // Spieler*in kann Kraftpfeil nur nach rechts ziehen
+                            kraftRichtung = "RIGHT";
+                            wand = null;
+                        break;
+                        default:
+                            // Schwerkraft + starker Drift nach rechts + Wand in der Mitte
+                            basisBeschleunigungen = new double[][]{{0, GRAVITY}, {0.12, 0}};
+                            // Spieler*in kann Kraftpfeil nur nach oben ziehen
+                            kraftRichtung = "UP";
+                            wand = new int[]{
+                                             BREITE / 4,
+                                             HOEHE / 3,
+                                             30,
+                                             133
+                            };
+                        break;
+                        }
+    }
+\end{lstlisting}
+
+Im folgenden Codeausschnitt wird die Bewegung des Balles, basierend auf den Basis- und Spielerkräften ausgeführt, sowie Gewinnbedingungen geprüft.
+\begin{lstlisting}[caption=ballBewegen-Methode, label=lst:mgballbewegen, captionpos=t, language=Java]
+private void ballBewegen() {
+    // Alle Basisbeschleunigungen auf Geschwindigkeit addieren
+    for (double[] a : basisBeschleunigungen) {
+        velX += a[0];
+        velY += a[1];
+    }
+    // Geschwindigkeit auf Position addieren
+    ballX += velX;
+    ballY += velY;
+    // Fensterrand getroffen -> verloren
+    if (ballX <= 0 || ballX + BALL_GROESSE >= BREITE
+            || ballY <= 0 || ballY + BALL_GROESSE >= HOEHE) {
+        simulationStoppen(false);
+        return;
+    }
+    // Wand getroffen (Level 3) -> verloren
+    if (wand != null && new Rectangle((int) ballX, (int) ballY,
+            BALL_GROESSE, BALL_GROESSE)
+            .intersects(new Rectangle(wand[0], wand[1], wand[2], wand[3]))) {
+        simulationStoppen(false);
+        return;
+    }
+    // Ziel getroffen -> gewonnen
+    if (new Rectangle((int) ballX, (int) ballY, BALL_GROESSE, BALL_GROESSE)
+            .intersects(new Rectangle(
+                    (int) ziel[0], (int) ziel[1],
+                    (int) ziel[2], (int) ziel[3]))) {
+        simulationStoppen(true);
+    }
+}
+\end{lstlisting}
+
+\paragraph{PhysikLevelScene}
+Eine Erweiterung der \texttt{LevelScene}, welche das \texttt{PhysikGameObject} zur \texttt{objects}-Liste hinzufügt.
+
+Sie beinhaltet:
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{reset()}: Gibt eine neu erstellte \texttt{PhysikLevelScene} zurück.
+        \item \texttt{PhysikLevelScene(int level)}: Der Konstruktor, der das Hintergrundbild sowie ein neues \texttt{PhysikGameObject} zur Szene hinzufügt.
     \end{itemize}
 \end{sloppypar}

@@ -4,7 +4,7 @@ Das zweite Level kann als \glqq standard\grqq{}-Schwierigkeitsgrad verstanden we
 Nach dem erfolgreichen Beenden eines Levels erhält die Spielfigur ein Item, welches dann im Kampf verwendet werden kann.
 Diese Items hängen von der Fachschaft und dem Schwierigkeitsgrad ab.
 Die Stärke der Items skaliert also mit der Schwierigkeit des beendeten Levels. 
-Da das Bearbeiten schwererer Level länger dauert, wird dies dementsprechend belohnt.\\
+Da das Bearbeiten schwererer Level länger dauert oder eine größere Leistung erfordert, wird dies dementsprechend belohnt.\\
 Im Allgemeinen soll jedes Minispiel mit einer Auswahl des Schwierigkeitsgrades beginnen, welche auch wieder verlassen werden kann, wenn sich doch gegen das Spielen entschieden wird.
 Jedes Level bietet zusätzlich noch die Möglichkeit, zur Auswahl zurückzukehren.
 Nach dem Abschließen des selbigen ist es ebenfalls möglich, das Level neu zu starten.
@@ -411,275 +411,99 @@ Es müsste also erschwert werden, was durch das aktuelle System nicht gewährlei
 Eine mögliche Lösung wäre das Einführen eines zweiten Tangram-Sets, wodurch deutlich komplexere Figuren möglich werden und so auch der Unterschied zu den vorherigen Schwierigkeitsgraden deutlich wird.
 
 \subsection{Physik}
-Das Physik-Minigame greift grundlegende Konzepte der klassischen Mechanik auf. Der Spieler steuert einen Ball, indem er vor dem Schuss einen Kraftpfeil vom Ball wegzieht und damit die Startgeschwindigkeit festlegt. Nach einem Klick auf \glqq{}Simulate\grqq{} fliegt der Ball unter dem Einfluss verschiedener Beschleunigungskräfte – darunter Schwerkraft und levelspezifische Driftkräfte – und soll ein grün markiertes Zielfeld treffen.
-
-Die Spielmechanik basiert auf dem Prinzip der Überlagerung von Kräften: Die vom Spieler eingestellte Anfangskraft addiert sich pro Frame mit den Basisbeschleunigungen des Levels, was eine realistische Wurfparabel erzeugt. Trifft der Ball das Ziel, gewinnt der/die Spieler*in; fliegt er aus dem Spielfeld oder kollidiert er mit einer Wand, verliert er/sie. Das Spiel fordert den/die Spieler*in damit auf, Kräfte intuitiv abzuschätzen und die Flugbahn gedanklich vorwegzunehmen.
+Das Physik-Minigame greift grundlegende Konzepte der klassischen Mechanik auf. Der/die Spieler*in steuert einen Ball, indem er/sie vor dem Schuss einen Kraftpfeil vom Ball wegzieht und damit die Startgeschwindigkeit festlegt. Nach einem Klick auf \glqq{}Simulate\grqq{} fliegt der Ball unter dem Einfluss verschiedener Beschleunigungskräfte – darunter Gewichtskraft und levelspezifische Driftkräfte – und soll ein grün markiertes Zielfeld treffen.
+Die Spielmechanik setzt auf das Prinzip der Überlagerung von Kräften: Die vom Spieler eingestellte Anfangskraft addiert sich pro Frame mit den Basisbeschleunigungen des Levels, was eine realistische Wurfparabel erzeugt. Trifft der Ball das Ziel, gewinnt der/die Spieler*in; fliegt er aus dem Spielfeld oder kollidiert er mit einer Wand, verliert er/sie. Das Spiel fordert den/die Spieler*in damit auf, Kräfte intuitiv abzuschätzen und die Flugbahn gedanklich vorwegzunehmen.
+Die Umsetzung basiert auf einem einfachen Frame-by-Frame Physikmodell, das pro Frame Beschleunigungen auf die Geschwindigkeit und die Geschwindigkeit auf die Position addiert. Dieses Modell ist bewusst vereinfacht – es gibt keine Reibung, keine elastischen Kollisionen und keine Zeitunabhängigkeit – was für ein Minispiel aber vollkommen ausreicht. Trotz der Vereinfachungen ist die Physik nämlich logisch und nachvolziehbar.
+Das Spielfeld besteht aus dem Hintergrund, dem Ball oben Rechts, den Simulate-Button unten in der Mitte sowie das Ziel unten rechts. Hintergrund sowie Ziel sind statische Bilder. Die Bewegung des Balls berechnet sich durch die Kräftepfeile. Währenddessen ist der Simulate-Button ist interaktiv. Die Pfeil der Basiskräfte werden bei Levelstart gezeichnet, der Pfeil der Spielerkraft nach einer Klick-and-Drag Aktion gezeichnet und ist mehrmals änderbar.
 
 \subsubsection{Level 1}
-Im ersten Level wirkt ausschließlich die Schwerkraft nach unten (0, +0.15 pro Frame\textsuperscript{2}).
-Der Spieler zieht den Kraftpfeil nach rechts und schießt den Ball in einem Bogen zum Ziel unten rechts.
-Dieses Level dient als Einstieg und vermittelt das grundlegende Spielprinzip ohne weitere Ablenkung.
+Im ersten Level wirkt ausschließlich die Gewichtskraft (0, +0.15 pro Frame\textsuperscript{2}), diese sorgt dafür, dass der Ball nach unten fällt.
+Der/die Spieler*in kann den Kraftpfeil vom Ball nach rechts ziehen und verändert so den Fall des Balls. Er flugt nun in einem Bogen zum Ziel unten rechts.
+Das erstes Level vermittelte die grundlegende Überlagerung von Kräft, wenn es um Bewegungen geht. Die Gewichts (F\textsubscript{G}) würde auch im realen Leben auf den \glqq{}schwebenden\grqq{} Ball wirken, abhängig von Masse und Ortsfaktor. Deshalb ist im erstene Level (sowie auch in den folgenden Leveln) die Gewichtskraft immer eine Basiskraft.
 
 \subsubsection{Level 2}
-Das zweite Level ergänzt die Schwerkraft um einen leichten Drift nach links (-0.05, 0).
+Das zweite Level ergänzt die Gewichtskraft um einen leichten Drift nach links (-0.05, 0).
 Der Ball wird also während des Fluges kontinuierlich nach links gezogen, was den Spieler zwingt, die Anfangskraft nach rechts entsprechend stärker einzustellen, um diesen Effekt zu kompensieren.
-Die Herausforderung liegt im Abschätzen der Gesamtkraft aus zwei überlagerten Vektoren.
+Die Herausforderung liegt nun neben des Abschätzens der Flugkurve aus Gewichtskraft und Vorwärtsdrift, ebenfalls darin den Drift Nach links mit dem Nach rechts zu verrechnen (bzw. abzuschätzen) um den Gesamtdrift nach rechts/vorne zu ermitteln.
 
 \subsubsection{Level 3}
-Im dritten und schwersten Level wirkt ein starker Drift nach rechts (+0.12, 0) zusätzlich zur Schwerkraft.
-Eine Wand blockiert den direkten Weg zum Ziel.
-Der Spieler kann den Ball nur nach oben schießen und muss ihn so über die Wand hinweglenken, dass der Rechtsdrift ihn anschließend zum Ziel trägt.
-Dies erfordert präzises räumliches Denken und ein Verständnis der kombinierten Kraftwirkung.
-
-\subsubsection{Beispielcode}
-Im folgenden Code werden die physikalische Grundkonzepte (Beschleunigung, Position, Kollision) festgelegt.
-
-\begin{lstlisting}[language=Java, caption={Ballbewegung und Kollisionserkennung}]
-private void ballBewegen() {
-    // Alle levelspezifischen Beschleunigungen (z.B. Schwerkraft, Drift)
-    // werden pro Frame auf die aktuelle Geschwindigkeit addiert.
-    // Das erzeugt eine realistische Wurfparabel.
-    for (double[] a : basisBeschleunigungen) {
-        velX += a[0]; // horizontale Beschleunigung
-        velY += a[1]; // vertikale Beschleunigung (positiv = nach unten)
-    }
-
-    // Die aktualisierte Geschwindigkeit wird auf die Position addiert
-    ballX += velX;
-    ballY += velY;
-
-    // Kollision mit dem Spielfeldrand: Ball ist ausgeflogen -> verloren
-    if (ballX + BALL_GROESSE <= 0 || ballX >= BREITE
-        || ballY + BALL_GROESSE <= 0 || ballY >= HOEHE) {
-        simulationStoppen(false);
-        return;
-    }
-
-    // Kollision mit der Wand (nur Level 3):
-    // Rechteck des Balls schneidet Rechteck der Wand -> verloren
-    if (wand != null && new Rectangle((int) ballX, (int) ballY,
-        BALL_GROESSE, BALL_GROESSE)
-        .intersects(new Rectangle(wand[0], wand[1], wand[2], wand[3]))) {
-        simulationStoppen(false);
-        return;
-    }
-
-    // Kollision mit dem Ziel:
-    // Rechteck des Balls schneidet Zielrechteck -> gewonnen
-    if (new Rectangle((int) ballX, (int) ballY, BALL_GROESSE, BALL_GROESSE)
-        .intersects(new Rectangle(
-        (int) ziel[0], (int) ziel[1],
-        (int) ziel[2], (int) ziel[3]))) {
-        simulationStoppen(true);
-    }
-}
-\end{lstlisting}
-
-Dieser Ausschnitt des Codes befasst sich mit dem Einstellen von Kraftpfeilen, dies formt die grundlegende Spielerfahrung. Wie zu erkennen, sind die Pfeile Level-spezifisch.
-\begin{lstlisting}[language=Java, caption={Spielerkraft per Maus-Drag einstellen}]
-// Drag-Start: Maustaste wird auf dem Ball gedrueckt -> Ziehen beginnt
-if (!ziehtGerade && gedrueckt && new Rectangle((int) ballX, (int) ballY,
-        BALL_GROESSE, BALL_GROESSE).contains(maus)) {
-    ziehtGerade = true;
-}
-
-// Solange die Maus gezogen wird, wird die Spielerkraft berechnet.
-// Die Mausposition relativ zur Ballmitte wird durch den Massstab
-// (Pixel pro Krafteinheit) geteilt, um die Kraft in Spieleinheiten
-// umzurechnen.
-if (ziehtGerade) {
-    double rohX = (maus.x - mx) / (double) MASSSTAB;
-    double rohY = (maus.y - my) / (double) MASSSTAB;
-
-    if ("RIGHT".equals(kraftRichtung)) {
-        // Level 1 & 2: Kraft nur nach rechts erlaubt (kein negativer X-Wert)
-        spielerKraftX = Math.max(0, rohX);
-        spielerKraftY = 0;
-    } else {
-        // Level 3: Kraft nur nach oben erlaubt (kein positiver Y-Wert,
-        // da Y-Achse in Java nach unten zeigt)
-        spielerKraftX = 0;
-        spielerKraftY = Math.min(0, rohY);
-    }
-}
-\end{lstlisting}
+Im dritten und somit schwersten Level wirkt ein starker Drift nach rechts (+0.12, 0) zusätzlich zur Schwerkraft.
+Eine Wand blockiert den direkten Weg zum Ziel. Der Ball müss diese also erst überwinden.
+Der/die Spieler*in kann nun eine Kraft auf den Ball wirken lassen, die ihn nach oben zieht. So kann die über die Wand hinweglenkt werden. Anschließend kann der Basis-Rechtsdrift den Ball zum Ziel tragen.
+Dieses Level erfordert präzises räumliches Denken und ein Verständnis der kombinierten Kraftwirkung, da nun kein dierekter Weg mehr ins Ziel wählbar ist.
 
 \subsubsection{Reflexion}
 
 Das Minigame des Fachbereich Physik passt, durch den Artstyle, perfekt zum Rest des CZGame. Die bunten Farben lassen es insgesamt spaßiger wirken, bei näherem Betrachten fällt der/dem Spielenden jedoch der Hintergrund ins Auge – dort werden verschiedene Formeln des Physik gelistet, es entsteht ein Klassenraum-Feeling. Dies greift den Spielort (unser Gymnasium) erneut auf.
+Die Spielmechanik des Physik Minigames befasst sich mit realem Unterricht, den wir als Schüler*innen im Fach Physik erlebt haben. Deshalb trägt dieses Minigame dazu bei, dass CZGame möglichst nah mit dem Schulalltag zu verbinden.
 
 \textbf{Schwierigkeitsabstufung der Level} \\
 
-Die drei Level bauen konzeptionell aufeinander auf und steigern die Komplexität gezielt. Level 1 ist bewusst einfach gehalten, wodurch das Grundprinzip des Spiels vermittelt wird. Level 2 führt eine zweite Kraft ein, die bereits ein Umdenken erfordert – der Spieler muss zwei Vektoren gleichzeitig im Kopf behalten. Level 3 kombiniert eine starke Querkraft mit einem physischen Hindernis, was die Schwierigkeit deutlich erhöht: Der Spieler kann die Kraft nur in eine Richtung einstellen und muss gleichzeitig die Wand berücksichtigen. Diese Progression fühlt sich in der Praxis fair an, da jedes Level genau eine neue Mechnik einführt. Trotz der unterschiedlichen Schwierigkeiten verändert sich die Dauer der Level jeweils um weniges, dies sorgt für kein Motivationsverlust.
-
-\textbf{Umsetzung} \\
-Die Umsetzung basiert auf einem einfachen Frame-by-Frame Physikmodell, das pro Frame Beschleunigungen auf die Geschwindigkeit und die Geschwindigkeit auf die Position addiert. Dieses Modell ist bewusst vereinfacht – es gibt keine Reibung, keine elastischen Kollisionen und keine Zeitunabhängigkeit – was für ein Minispiel aber vollkommen ausreicht. Trotz der Vereinfachungen ist die Physik nämlich logisch und nachvolziehbar.
-
-Eine Herausforderung bei der Entwicklung war die Drag-Steuerung: Der Input-State der Engine unterscheidet zwischen PRESSED (nur ein Frame) und HELD (dauerhaft gehalten), was initial dazu führte, dass der Kraftpfeil nicht gezogen werden konnte. Erst durch die explizite Kombination beider States konnte ich dieses Problem lösen. Zudem musste die Koordination zwischen update() und draw() sorgfältig bedacht werden, da Phasenübergänge (z.B. Simulation → Ergebnis) sonst im selben Frame verarbeitet wurden bevor sie gezeichnet werden konnten. Dies sorgt beispielsweise dafür, dass die Gewinn- (oder Verloren-)szene erst nach einem weiteren Mausklick gezeichnet wurde.
+Die drei Level bauen konzeptionell aufeinander auf und steigern die Komplexität gezielt. Level 1 ist bewusst einfach gehalten, wodurch das Grundprinzip des Spiels vermittelt wird. Level 2 führt eine zweite Kraft ein, die bereits ein Umdenken erfordert – der/die Spieler*in muss zwei Vektoren gleichzeitig im Kopf behalten. Level 3 kombiniert mehrere Kraft mit einem physischen Hindernis, was die Schwierigkeit deutlich erhöht: Der/die Spieler*in muss die Wand berücksichtigen. Diese Progression fühlt sich in der Praxis fair an, da jedes Level genau eine neue Mechnik einführt. Trotz der unterschiedlichen Schwierigkeiten verändert sich die Dauer der Level jeweils kaum, dies sorgt für keinen Motivationsverlust.
+Bei den schweren Leveln kann es jedoch passieren, dass der/die Spielende das Level mehrmals wiederholen muss um es zu gewinnen. Dadurch steigert sich insgesamt die Gewinnzeit.
+Zur Insgesamten Vereinfachungen, aber auch, dass es die MÖglichkeit gibt sich innerhalb eines Levels zu verbessern, habe ich im Laufe der Entwicklungszeit mich gegen das zufällige Generieren der Kräftewerte pro Level entschieden. Dies ermöglicht das mehrmalige Ausprobieren des Levels.
 
 \subsection{Chemie}
-Das Chemie-Minigame ist ein interaktives Sortierpuzzle, das strukturell dem bekannten \glqq{}Water Sort\grqq{}-Prinzip folgt. Die Spielmechanik basiert auf dem Konzept des geordneten Stapels (Stack): Mehrere Reagenzgläser sind mit farbigen Blöcken unterschiedlicher Farbe befüllt, wobei die Reihenfolge der Blöcke zufällig generiert wird. Das Ziel des/der Spielers*in ist es, durch gezieltes Umfüllen jedes Reagenzglas mit ausschließlich Blöcken einer einzigen Farbe zu befüllen.
+Das Chemie-Minigame ist ein interaktives Sortierpuzzle, das strukturell dem bekannten \glqq{}Water Sort\grqq{}-Prinzip folgt. Die Spielmechanik basiert auf dem Konzept des geordneten Stapels (Stack): Mehrere Reagenzgläser sind mit farbigen Blöcken unterschiedlicher Farbe befüllt, wobei die Reihenfolge der Blöcke zufällig generiert wird.
+Das Ziel des/der Spielers*in ist es, durch gezieltes Umfüllen jedes Reagenzglas mit ausschließlich Blöcken einer einzigen Farbe zu befüllen.
 
-Die Interaktion erfolgt ausschließlich durch Mausklicks: Der Spieler wählt zunächst ein \glqq{}Quellglas\grqq{} aus, woraufhin dieses visuell hervorgehoben wird, und wählt anschließend ein Zielglas. Eine Umfüllung wird nur dann durchgeführt, wenn diese Regeln erfüllt sind:
+Die Interaktion erfolgt ausschließlich durch Mausklicks: Der Spieler wählt zunächst ein \glqq{}Quellglas\grqq{} aus, woraufhin dieses visuell hervorgehoben wird, und wählt anschließend ein Zielglas.
+Eine Umfüllung wird nur dann durchgeführt, wenn diese Regeln erfüllt sind:
 \begin{itemize}
 \item das Zielglas ist entweder leer
-\item oder der oberste Block hat dieselbe Farbe wie die zu verschiebenden Blöcke
+\item oder der oberste Block hat dieselbe Farbe wie die/der zu verschiebenden Blöcke
 \end{itemize}
 
 Gleichzeitig läuft ein Countdown, der den/die Spieler*in unter Zeitdruck setzen soll.
-Das Kernkonzept der Implementierung ist die Modellierung jedes Reagenzglases als Stack-Datenstruktur. Die innere Klasse Reagenzglas kapselt eine ArrayList<String>, auf der ausschließlich stack-typische Operationen erlaubt sind: Hinzufügen am Ende (blockHinzufuegen), Lesen des obersten Elements (oberstenBlockAnschauen) und Entfernen des obersten Elements (oberstenBlockEntfernen).
+Das Kernkonzept der Implementierung ist die Modellierung jedes Reagenzglases als Stack-Datenstruktur. Die innere Klasse Reagenzglas kapselt eine ArrayList<String>, auf der ausschließlich stack-typische Operationen erlaubt sind:
+\begin{itemize}
+\item Hinzufügen am Ende
+\item Lesen des obersten Elements
+\item und Entfernen des obersten Elements
+\end{itemize}
 Diese strikte Kapselung stellt sicher, dass die Spielregeln strukturell durch das Datenmodell erzwungen werden und nicht nur durch externe Überprüfungen.
-
 
 \subsubsection{Level 1}
 
-Drei Farben (Blau, Grün, Pink) werden auf drei Reagenzgläser verteilt, dazu kommen zwei leere Puffergläser. Mit insgesamt 12 Blöcken und einem großzügigen Verhältnis von Puffer- zu Spielgläsern ist dieses Level bewusst zugänglich gehalten und dient primär dem Kennenlernen der Steuerung und der Spielregeln.
+Drei Farben (Blau, Grün, Pink) werden auf drei Reagenzgläser verteilt, dazu kommen zwei leere Puffergläser. Mit insgesamt 12 Blöcken und einem großzügigen Verhältnis von Puffer- zu Spielgläsern (2:3) ist dieses Level bewusst zugänglich gehalten und dient primär dem Kennenlernen der Steuerung und der Spielregeln.
 
 \subsubsection{Level 2}
-Mit vier Farben (Blau, Grün, Pink, Lila) steigt die Anzahl der Blöcke auf 16. Der Zustandsraum möglicher Anordnungen wächst kombinatorisch, sodass triviale Lösungswege nicht mehr ausreichen. Die Puffergläser müssen strategisch eingesetzt werden, was ein höheres Maß an planerischem Denken voraussetzt.
+Mit vier Farben (Blau, Grün, Pink, Lila) steigt die Anzahl der Blöcke auf 16 (Verhätlnis 2:4). Der Zustandsraum möglicher Anordnungen wächst kombinatorisch, sodass triviale Lösungswege nicht mehr ausreichen. Die Puffergläser müssen strategisch eingesetzt werden, was ein höheres Maß an planerischem Denken voraussetzt.
 
 \subsubsection{Level 3}
-Alle fünf Farben (Blau, Grün, Pink, Lila, Gelb) sind aktiv. 20 Blöcke auf fünf Spielgläsern bei nur zwei Puffergläsern ergeben eine deutlich erhöhte Schwierigkeit. Das Zeitlimit von 30 Sekunden ist hierbei besonders herausfordernd, da da insgesamt eine höhere Anzahl an Spielzügen nötig sind.
-
-\subsubsection{Beispielcode}
-\begin{lstlisting}[language=Java, caption={Umschütten: Blöcke von einem Glas ins andere verschieben}]
-private void umschuetten(int von, int nach) {
-    Reagenzglas v = glaeser.get(von);
-    Reagenzglas n = glaeser.get(nach);
-    String farbe = v.oberstenBlockAnschauen();
-
-    // Abbruch, wenn Quellglas leer oder Zielglas Farbe nicht annimmt
-    if (farbe == null || !n.kannAblegen(farbe)) return;
-
-    // Alle gleichfarbigen Bloecke vom Stapel verschieben (so viele wie moeglich).
-    // Die Schleife verschiebt solange Bloecke, wie die Farbe uebereinstimmt
-    // und das Zielglas noch Kapazitaet hat -- simuliert das physische
-    // Umschuetten mehrerer Schichten auf einmal.
-    while (v.oberstenBlockAnschauen() != null
-            && v.oberstenBlockAnschauen().equals(farbe)
-            && n.kannAblegen(farbe))
-        n.blockHinzufuegen(v.oberstenBlockEntfernen());
-}
-\end{lstlisting}
-
-\begin{lstlisting}[language=Java, caption={Gewinnbedingung: Prüfung ob alle Gläser gelöst sind}]
-// Ein einzelnes Glas gilt als geloest, wenn es vollstaendig gefuellt
-// und ausschliesslich mit einer einzigen Farbe belegt ist.
-public boolean istGeloest() {
-    if (bloecke.size() != MAX_KAPAZITAET) return false;
-    String f = bloecke.getFirst();
-    for (String b : bloecke) if (!b.equals(f)) return false;
-    return true;
-}
-
-// Das Gesamtlevel ist gewonnen, wenn alle nicht-leeren Glaeser
-// die Loesungsbedingung erfuellen. Leere Pufferglaeser werden
-// dabei explizit ignoriert, da sie keinen Spielzustand darstellen.
-private boolean istGewonnen() {
-    for (Reagenzglas g : glaeser)
-        if (!g.istLeer() && !g.istGeloest()) return false;
-    return true;
-}
-\end{lstlisting}
+In diesem Level sind alle fünf Farben (Blau, Grün, Pink, Lila, Gelb) aktiv. 20 Blöcke auf fünf Spielgläsern bei nur zwei Puffergläsern (2:5) ergeben eine deutlich erhöhte Schwierigkeit. Das Zeitlimit von 30 Sekunden ist hierbei besonders herausfordernd, da da insgesamt eine höhere Anzahl an Spielzügen nötig sind.
 
 \subsubsection{Reflexion}
-\textbf{Schwierigkeitsabstufung und Spielbalance} \\
-Die Progression von drei auf fünf Farben ist nicht linear, sondern exponentiell: Die Anzahl möglicher Ausgangszustände wächst mit jeder zusätzlichen Farbe kombinatorisch, da die zufällige Initialbefüllung über Collections.shuffle() jeden theoretisch erreichbaren Zustand erzeugen kann — einschließlich solcher, die eine sehr lange Lösungssequenz erfordern. In der Praxis bedeutet dies, dass Level 3 in einzelnen Durchläufen deutlich schwerer sein kann als in anderen, da die Lösbarkeit zwar stets garantiert ist (durch die zwei Puffergläser), die optimale Zugsequenz jedoch stark von der zufälligen Startanordnung abhängt. Eine mögliche Verbesserung wäre die Implementierung eines Lösbarkeits-Checks nach der Generierung, der sicherstellt, dass der Puzzlezustand innerhalb einer definierten Maximalzugzahl lösbar ist.
-\textbf{Technische Umsetzung und Designentscheidungen} \\
-Die Verwendung einer ArrayList als zugrundeliegende Datenstruktur für den Stack ist aus Effizienzgesichtspunkten vertretbar, da die Kapazität mit MAX\_KAPAZITAET = 4 fest begrenzt ist und keine dynamischen Resize-Operationen anfallen. Die strikte Kapselung der Stack-Operationen innerhalb der inneren Klasse Reagenzglas erhöht die Wartbarkeit des Codes erheblich, da Regeländerungen — etwa eine geänderte Kapazität oder neue Ablege-Bedingungen — ausschließlich innerhalb dieser Klasse vorgenommen werden müssen.
+Das Minigame Chemie ist das Minigame, welches am Weitesten weg von unserem Schulalltag bzw. Chemieunterricht ist. Es greift zwar Elemente des Unterrichts auf (Reagenzgläser, Abzug als Hintergrund), jedoch keinen Unterrichtsinhalt. Das Water-Sort-Spiel ist aber ein weitverbreitetes und bekanntes Computerspiel in unserer Generation. Die Spielmechanik ist also höchstwahrscheinlich schon jedem bekannt.
+Deshalb eignet sich es so gut für ein Minigame im CZGame, da es keiner großen Spielanleitung bedarf. Beim Programmieren hat sich dieses Spiel ebenfalls als ein schöner Einstieg bewiesen, da es in Online-Foren viele Tipps und Hinweise zur Erstellung der Spielmechanik gab.
+Ein Kritikpunkt bleibt jedoch, dass dieses Minispiel, weniger Bezug zu unserer Schule hat und keiner besonders kreativen Coding-Lösung bedarft hat.
 
-Eine technische Herausforderung stellte die pixelgenaue Positionierung der Blöcke innerhalb der Reagenzglas-Sprites dar. Da das Spiel mit einem festen Skalierungsfaktor (SCALE = 4) arbeitet und die Blockpositionen manuell über Pixel-Offsets (BLOCK\_X\_OFFSET, BLOCK\_BODEN\_Y) berechnet werden, ist die Darstellung eng an die konkrete Pixelart-Grafik gekoppelt. Dies stellt eine enge Kopplung zwischen Spiellogik und Asset-Design dar, die bei einer Weiterentwicklung — etwa dem Austausch der Grafiken — erneuten Anpassungsaufwand erfordern würde. Eine abstraktere Positionierungslogik, die Blockpositionen relativ zur Glasgeometrie berechnet, wäre hier langfristig robuster.
+\textbf{Schwierigkeitsabstufung und Spielbalance} \\
+Die Progression von drei auf fünf Farben ist nicht linear, sondern exponentiell: Die Anzahl möglicher Ausgangszustände wächst mit jeder zusätzlichen Farbe kombinatorisch, da die zufällige Initialbefüllung das Mischen einer Liste jeden theoretisch erreichbaren Zustand erzeugen kann — einschließlich solcher, die eine sehr lange Lösungssequenz erfordern.
+In der Praxis bedeutet dies, dass Level 3 in einzelnen Durchläufen deutlich schwerer sein kann als in einem anderen, da die Lösbarkeit zwar stets garantiert ist (durch die zwei Puffergläser), die optimale Zugsequenz jedoch stark von der zufälligen Startanordnung abhängt.
+Eine mögliche Verbesserung wäre die Implementierung eines Lösbarkeits-Checks nach der Generierung, der sicherstellt, dass der Puzzlezustand innerhalb einer definierten Maximalzugzahl lösbar ist.
 
 \subsection{Biologie}
-Das Biologie-Minigame greift einen etablierten Teil der Alltags an unserem Gymnasium auf – das Pflanzentestat.
-Damit es den Character eines Minigames annimmt, wurde es vereinfacht. Anstelle von 12 oder 16 Pflanzen, gibt es jeweils nur 4. Außerdem werden die richtigen Bezeichnungen nur zugeordnet, anstelle das man/frau selbst die Bezeichnung eintippen muss. Dies vereinfacht das Minigame und verkürzt ebenfalls die Spieldauer.
-Damit jedoch das Raten (durch Ausprobieren verschiedener Zuordnungen) unterbunden werden kann, wird sofort nach dem alle Labels den Pflanzenbilder zugeordnet sind geprüft ob das Level gewonnen und verloren ist.
+Das Biologie-Minigame greift einen etablierten Teil des Unterrichts an unserem Gymnasium auf – das Pflanzentestat.
+Damit es den Charakter eines Minigames annimmt, wurde es vereinfacht. Anstelle von 12 oder 16 Pflanzen, gibt es jeweils nur 4. Außerdem werden die richtigen Bezeichnungen nur zugeordnet, anstelle das man/frau selbst die Bezeichnung eintippen muss. Dies vereinfacht das Minigame und verkürzt ebenfalls die Spieldauer.
+Damit jedoch das Raten (durch Ausprobieren verschiedener Zuordnungen) unterbunden werden kann, wird sofort nach dem alle Labels den Pflanzenbilder zugeordnet sind geprüft ob das Level gewonnen oder verloren ist. Und jedes Level wird ebenfalls neu generiert, es werden also nicht immer die vier selben Pflanzen angezeigt.
 
-Das Minigame nutzt jeweils einen Pool aus Pflanzenbildern (+Labeln) für jedes Level. Die Bilder der Pflanzen sind Bilder, die von WikimediaCommmons kommen und unter Creative-Commons-Lizenzen stehen. Durch die größe des Spielfensters, sind die Bilder verpixelt, dies sorgt dafür, dass das Minigame dem Artstyle des CZGame treu bleibt.
+Das Minigame nutzt jeweils einen Pool aus Pflanzenbildern (+Labeln) für die Level. Die Bilder der Pflanzen sind Bilder, die von WikimediaCommmons stammen und unter Creative-Commons-Lizenzen stehen.
+Durch die Größe des Spielfensters, sind die Bilder verpixelt, dies sorgt dafür, dass das Minigame dem Artstyle des CZGame treu bleibt.
 Die Anzahl an Pflanzen unterscheidet sich von Level zu Level:
 \begin{itemize}
 \item[Level 1] 8 Pflanzen
 \item[Level 2] 10 Pflanzen
 \item[Level 3] 12 Pflanzen
 \end{itemize}
-Die sorgt dafür erneut für eine Steigerung der Schwierigkeit, da es pro Level nun mehr Pflanzen gibt, die man kennen muss.
+Das garantiert eine Steigerung der Schwierigkeit, da es pro Level nun mehr Pflanzen gibt, die man kennen muss.
 
 \subsubsection{Level 1}
-Das erste Level ist das Einfachste. Es gibt vier Pflanzen und vier Labels, diese müssen zugeordnet werden.
+Das erste Level ist das Einfachste. Es gibt vier Pflanzen und vier Labels, diese müssen zugeordnet werden. Außerdem sind in diesem Level hauptsächlich Pflanzen vertreten, die die Allgemeinheit der Menschen kennt.
 \subsubsection{Level 2}
 Im zweiten Level kommt nur ein fünftes, falsches Label hinzu. Dies steigert die Schwierigkeit.
 \subsubsection{Level 3}
-Im dritten und letzten Level kommt ein sechstes, ebenfalls falsches Label hinzu.
-
-\subsubsection{Beispielcode}
-
-\begin{lstlisting}[language=Java, caption={Zuordnung der Pflanzenlisten zu jedem Level, so wie das Mischen der Pflanzen und Labels}]
-BiologyPlant[] pool;
-        if (LEVEL == 0) {
-            pool = BiologyData.LEVEL_1_PLANTS;
-        } else if (LEVEL == 1) {
-            pool = BiologyData.LEVEL_2_PLANTS;
-        } else {
-            pool = BiologyData.LEVEL_3_PLANTS;
-        }
-
-        List<BiologyPlant> shuffled = new ArrayList<>(Arrays.asList(pool));
-        Collections.shuffle(shuffled);
-        chosen = shuffled.subList(0, 4);
-        List<BiologyPlant> remaining = shuffled.subList(4, shuffled.size());
-
-        List<String> labels = new ArrayList<>();
-        for (BiologyPlant plant : chosen) {
-            labels.add(plant.name);
-        }
-        if (LEVEL == 1) {
-            labels.add(remaining.get(0).name);
-        } else if (LEVEL == 2) {
-            labels.add(remaining.get(0).name);
-            labels.add(remaining.get(1).name);
-        }
-        Collections.shuffle(labels);
-\end{lstlisting}
-
-\begin{lstlisting}[language=Java, caption={Zuordnen der Labels zu den Bildern und Prüfen nach Korrektheit}]
-for (int i = 0; i < 4; i++) {
-                if (imagePlaceholders[i].isClicked()) {
-                    selectedLabel.x = imageX[i] * PIXEL_SCALE;
-                    selectedLabel.y = 71 * PIXEL_SCALE;
-                    selectedLabel.selected = false;
-                    selectedLabel = null;
-                    if (allPlaced()) {
-                        if (checkWin()) {
-                            levelWon();
-                        } else {
-                            levelLost();
-                        }
-                    }
-
-                }
-            }
-\end{lstlisting}
-
-\begin{lstlisting}[language=Java, caption={CheckWin}]
-private boolean checkWin() {
-        for (int i = 0; i < 4; i++) {
-            boolean found = false;
-            for (BaseObject obj : objects) {
-                if (obj instanceof BiologyLabelObject label) {
-                    if (label.x == imageX[i] * PIXEL_SCALE) {
-                        if (!label.name.equals(chosen.get(i).name)) {
-                            return false;
-                        }
-                        found = true;
-                    }
-                }
-            }
-            if (!found) return false;
-        }
-        return true;
-    }
-\end{lstlisting}
-CheckWin prüft ob ein Label richtig oder falsch plaziert ist. Sind alle Labels plaziert (AllPlaced), wird geprüft ob alle richtig plaziert sind, dies entscheided über Gewinnen oder Verlieren.
+Im dritten und letzten Level kommt ein sechstes, ebenfalls falsches Label hinzu. Die Pflanzen in diesem Level sind meistens unbekannter oder unscheinbarer, also schwieriger zu erkennen.
 
 \subsubsection{Reflexion}
 \textbf{Pflanzenbilder}
@@ -695,5 +519,3 @@ Jedoch hat dies die Zeit und auch der Fakt, dass die alle selbst viel beschäfti
 \textbf{Persönliche Hürden bei der Umsetzung}
 Ich hatte beim Umsetzen des Biologie Minigames ein paar Schwierigkeiten. Es war das letzte Minigame was ich programmiert hatte. Ich habe am Beginn unserer Bearbeitungszeit alle Hintergründe für die Minigames erstellt. Dabei habe ich nicht beachtet, dass die Platzierung bei diesem Minigame sehr wichtig ist. Deshalb hatte ich mir auch keine Positionen der Bild- und Labelrahmen notiert.
 Das sorgte dann dafür, dass ich während des codens eine lange Zeit mit der richtigen Platzierung beschäftigt war. Daher nehme ich mit, dass auch das persönliche \glqq{}Kommentieren\grqq{} der eigenen Arbeit sehr wichtig ist, damit man auch nach etwas längerer Zeit mit den eigens erarbeiteten Dingen weitermachen kann.
-\textbf{Persönliche Zusammenfassung}
-Insgesamt bin ich mit dem Biologie-Minigame sehr zufrieden. Mein Ziel das Pflanzentestat als Minispiel in das CZGame einfließen zu lassen, habe ich erfüllt, auch wenn ich es mir nicht immer einfach gemacht habe.
