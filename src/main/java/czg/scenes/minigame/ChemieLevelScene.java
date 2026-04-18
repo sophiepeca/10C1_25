@@ -8,7 +8,6 @@ public class ChemieLevelScene extends LevelScene {
      */
     public ChemieLevelScene(int level) {
         super(Department.CHEMISTRY,level);
-        // Chemie-Spielobjekt (enthält gesamte Spiellogik)
         objects.add(new ChemieGameObject(level, this));
     }
     

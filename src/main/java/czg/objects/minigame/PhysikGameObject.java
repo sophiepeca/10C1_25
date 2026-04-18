@@ -1,5 +1,6 @@
 package czg.objects.minigame;
 import czg.objects.BaseObject;
+import czg.objects.ButtonObject;
 import czg.scenes.BaseScene;
 import czg.util.Input;
 import czg.util.Images;
@@ -34,8 +35,7 @@ public class PhysikGameObject extends BaseObject {
     //Simulate-Button (unten mittig)
     private static final int BUTTON_BREITE = 320;
     private static final int BUTTON_HOEHE = 160;
-    private final int buttonX = (BREITE - BUTTON_BREITE) / 2;
-    private final int buttonY = HOEHE - BUTTON_HOEHE + 20;
+    private final ButtonObject simulateButton;
     
     //Pfeilmaßstab (Pixel pro Einheit Spielerkraft)
     private static final int MASSSTAB = 30; //Gravitationsbeschleunigung in Pixel/Frame2
@@ -70,7 +70,7 @@ public class PhysikGameObject extends BaseObject {
     // Maus-Status (verhindert Mehrfachklicks pro Frame)
     //Bilder
     private Image ballBild;
-    private Image buttonBild;private Image wandBild;
+    private Image wandBild;
     
     
     // Konstruktor
@@ -86,6 +86,16 @@ public class PhysikGameObject extends BaseObject {
         this.levelSzene = levelSzene;
         bilderLaden();
         levelInitialisieren();
+        simulateButton = new ButtonObject(
+                Images.get("/assets/minigames/physics/PhysikButton.png"),
+                this::simulationStarten
+        );
+        int buttonX = (BREITE - BUTTON_BREITE) / 2;
+        int buttonY = HOEHE - BUTTON_HOEHE + 20;
+        simulateButton.x = buttonX;
+        simulateButton.y = buttonY;
+        simulateButton.width = BUTTON_BREITE;
+        simulateButton.height = BUTTON_HOEHE;
     }
   
     // Initialisierung
@@ -138,19 +148,16 @@ public class PhysikGameObject extends BaseObject {
     private void bilderLaden() {
         ballBild
         = Images.get("/assets/minigames/physics/PhysikBall.png");
-        buttonBild
-        = Images.get("/assets/minigames/physics/PhysikButton.png");
         wandBild
         = Images.get("/assets/minigames/physics/PhysikWall.png");
     }
  
-    // Update – wird jeden Frame von der Engine aufgerufen
+    // Update
     @Override
     public void update(BaseScene scene) {
         Input.KeyState mouseState = Input.INSTANCE.getMouseState(MouseEvent.BUTTON1);
         boolean gedrueckt = mouseState == Input.KeyState.PRESSED
                 || mouseState == Input.KeyState.HELD;
-        boolean geklickt = mouseState == Input.KeyState.PRESSED;
         Point maus = Input.INSTANCE.getMousePosition();
         if (maus == null) return;
         if (phase == PHASE_SIMULATION) {
@@ -162,7 +169,7 @@ public class PhysikGameObject extends BaseObject {
                 int mx = (int) ballX + BALL_GROESSE / 2;
                 int my = (int) ballY + BALL_GROESSE / 2;
                 // Nur ziehen, wenn Mausbutton auf dem Ball gedrückt wurde
-                if (!ziehtGerade && gedrueckt && new Rectangle((int) ballX, (int) ballY,
+                if (!ziehtGerade && new Rectangle((int) ballX, (int) ballY,
                         BALL_GROESSE, BALL_GROESSE).contains(maus)) {
                     ziehtGerade = true;
                 }
@@ -182,11 +189,7 @@ public class PhysikGameObject extends BaseObject {
             } else {
                 ziehtGerade = false;
             }
-            // Simulate-Button gedrückt → Simulation starten
-            if (geklickt && new Rectangle(buttonX, buttonY,
-            BUTTON_BREITE, BUTTON_HOEHE).contains(maus)) {
-                simulationStarten();
-            }
+            simulateButton.update(scene);
         }
     }
 
@@ -279,16 +282,16 @@ public class PhysikGameObject extends BaseObject {
                 g2.drawString("Ziehe vom den Ball nach oben und klicke dann auf Simulate!", 20, 50);
             }
         }
-        // 3. Ziel zeichnen (grau-grün)
+        // 3. Ziel zeichnen
         zielZeichnen(g2);
-        // 4. Wand zeichnen (nur Level 2)
+        // 4. Wand zeichnen (nur Level 3)
         if (wand != null) wandZeichnen(g2);
         // 5. Kraftpfeile (nur vor Simulate)
         if (phase == PHASE_VORBEREITUNG) kraftpfeileZeichnen(g2);
         // 6. Ball zeichnen
         ballZeichnen(g2);
         // 7. Simulate-Button (nur Vorbereitungsphase)
-        if (phase == PHASE_VORBEREITUNG) buttonZeichnen(g2);
+        if (phase == PHASE_VORBEREITUNG) simulateButton.draw(g2);
     }
     
     /**
@@ -315,16 +318,7 @@ public class PhysikGameObject extends BaseObject {
     * Zeichnet die Wand (Level 2), Fallback braun, wenn kein Bild vorhanden.
     */
     private void wandZeichnen(Graphics2D g2) {
-        if (wandBild != null) {
-            g2.drawImage(wandBild, wand[0], wand[1], wand[2], wand[3], null);
-        } else {
-            g2.setColor(new Color(140, 100, 60));
-            g2.fillRect(wand[0], wand[1], wand[2], wand[3]);
-            g2.setColor(new Color(80, 60, 30));
-            g2.setStroke(new BasicStroke(2));
-            g2.drawRect(wand[0], wand[1], wand[2], wand[3]);
-            g2.setStroke(new BasicStroke(1));
-        }
+        g2.drawImage(wandBild, wand[0], wand[1], wand[2], wand[3], null);
     }
     
     /**
@@ -371,35 +365,12 @@ public class PhysikGameObject extends BaseObject {
     }
     
     /**
-    * Zeichnet den Ball – Fallback rot, wenn kein Bild vorhanden.
+    * Zeichnet den Ball
     */
     private void ballZeichnen(Graphics2D g2) {
-        if (ballBild != null) {
-        g2.drawImage(ballBild, (int) ballX, (int) ballY,
-        BALL_GROESSE, BALL_GROESSE, null);
-        } else {
-            g2.setColor(new Color(220, 60, 60));
-            g2.fillOval((int) ballX, (int) ballY, BALL_GROESSE, BALL_GROESSE);
-            g2.setColor(Color.WHITE);
-            g2.drawOval((int) ballX, (int) ballY, BALL_GROESSE, BALL_GROESSE);
-        }
+        g2.drawImage(ballBild, (int) ballX, (int) ballY, BALL_GROESSE, BALL_GROESSE, null);
     }
-    /**
-    * Zeichnet den Simulate-Button – Fallback grün, wenn kein Bild vorhanden.
-    */
-    private void buttonZeichnen(Graphics2D g2) {
-        if (buttonBild != null) {
-            g2.drawImage(buttonBild, buttonX, buttonY,
-            BUTTON_BREITE, BUTTON_HOEHE, null);
-        } else {
-        g2.setColor(new Color(60, 180, 60));
-        g2.fillRoundRect(buttonX, buttonY, BUTTON_BREITE, BUTTON_HOEHE, 10, 10);
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Monospaced", Font.BOLD, 14));
-        g2.drawString("SIMULATE",
-        buttonX + BUTTON_BREITE / 2 - 45, buttonY + BUTTON_HOEHE / 2 + 5);
-        }
-    }
+
     @Override
     public Rectangle2D getHitbox() {
     return null;
