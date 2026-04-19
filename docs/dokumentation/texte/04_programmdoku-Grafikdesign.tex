@@ -1,10 +1,13 @@
-Zur Umsetzung unserer Lösungsidee benötigten wir neben den Gang-/Raumszenen zusätzlich eine Pfeilobjekt und ein Türobjekt, welche den Wechsel zwischen verschiedenen Szenen möglich machen. Aus Gründen der Verständlichkeit werden diese zunächst erklärt.
+Zur Umsetzung unserer Lösungsidee benötigten wir neben den Gang- und Raumszenen zusätzlich ein Pfeilobjekt und ein Türobjekt, welche den Wechsel zwischen verschiedenen Szenen möglich machen.
 
 \subsection{Das Pfeilobjekt}
-Um den Szenenwechsel per Pfeil zu ermöglichen, wurde eine Klasse mit dem Namen PfeilObject angelegt. Dabei müssen individuell für jede Szene die Parameter Originalszene (Szene, in der man sich gerade befindet), Zielszene (Szene, in die der Pfeil führt) und die Richtung des Pfeils (rechts, links, oben, unten) veränderbar sein; das sind also die formalen Parameter der Methode PfeilObject, welche in der Klasse PfeilObject angelegt wurde. \\
-Innerhalb der Methode wurde mittels Switch-Case-Anwendung für die verschiedenen Richtungen der Pfeile passende Koordinaten für die jeweilige Position eines Pfeils festgelegt. Für die verschiedenen Richtungen der Pfeile (rechts, links, oben, unten) haben wir vier verschiedene Bilddateien verwendet. \\
-Damit am Ende bei der Richtungsangabe das richtige Bild verwendet wird, haben wir eine getSprite-Methode erstellt, in der je nach Angabe einer der vier Richtungen der Sprite des richtigen Bildes zurückgegeben wird. Diese Methode PfeilObject ruft diese Methode auf. \\
-Am Ende der Klasse wird in einer Update-Methode die alte Szene mit der durch das PfeilObject neu festgelegten Szene im Szenenstapel (SceneStack) ersetzt.
+\begin{sloppypar}
+Um den Szenenwechsel per Pfeil zu ermöglichen, wurde eine Klasse mit dem Namen \texttt{PfeilObject} angelegt. Dabei müssen individuell für jede Szene die Parameter Originalszene (Szene, in der man sich gerade befindet), Zielszene (Szene, in die der Pfeil führt) und die Richtung des Pfeils (rechts, links, oben, unten) veränderbar sein; das sind also die formalen Parameter des Konstruktors der Klasse.
+
+Innerhalb der Methode wurde mittels eines Switch-Case-Blocks für die verschiedenen Richtungen der Pfeile passende Koordinaten für die jeweilige Position eines Pfeils festgelegt. Für die verschiedenen Richtungen der Pfeile (rechts, links, oben, unten) haben wir vier verschiedene Bilddateien verwendet. \\
+Damit am Ende bei der Richtungsangabe das richtige Bild verwendet wird, haben wir eine \texttt{getSprite}-Methode erstellt, in der je nach Angabe einer der vier Richtungen der Sprite des richtigen Bildes zurückgegeben wird. Diese wird im Konstruktor aufgerufen. \\
+Am Ende der Klasse wird in einer \texttt{update}-Methode die alte Szene mit der durch das \texttt{PfeilObject} neu festgelegten Szene im Szenenstapel ersetzt.
+\end{sloppypar}
 
 \begin{lstlisting}[caption=PfeilObject, label=türobject, captionpos=t, language=Java]
 public class PfeilObject extends BaseObject{
@@ -28,21 +31,21 @@ public class PfeilObject extends BaseObject{
 		davon,	welche Richtung angegeben wird */
 		switch(richtung){
 			case RECHTS:
-			x = 880;
-			y = (HEIGHT/2) - 60;
-			break;
+				x = 880;
+				y = (HEIGHT/2) - 60;
+				break;
 			case LINKS:
-			x = 9;
-			y = (HEIGHT/2) - 60;
-			break;
+				x = 9;
+				y = (HEIGHT/2) - 60;
+				break;
 			case OBEN:
-			x = (WIDTH/2) - 40;
-			y = 4;
-			break;
+				x = (WIDTH/2) - 40;
+				y = 4;
+				break;
 			case UNTEN:
-			x = (WIDTH/2) - 40;
-			y = 452;
-			break;
+				x = (WIDTH/2) - 40;
+				y = 452;
+				break;
 		}
 			
 		this.target = target;
@@ -58,18 +61,13 @@ public class PfeilObject extends BaseObject{
 	public static Image getSprite(int richtung) {
 		switch(richtung){
 			case RECHTS:
-			return Images.get(
-			"/assets/background/PfeilRechts.png");
+				return Images.get("/assets/background/PfeilRechts.png");
 			case LINKS:
-			return Images.get(
-			"/assets/background/PfeilLinks.png");
+				return Images.get("/assets/background/PfeilLinks.png");
 			case OBEN:
-			return Images.get(
-			"/assets/background/PfeilOben.png");
+				return Images.get("/assets/background/PfeilOben.png");
 			case UNTEN:
-			return Images.get(
-			"/assets/background/PfeilUnten.png");
-				
+				return Images.get("/assets/background/PfeilUnten.png");
 		}
 		return null;
 	}
@@ -85,12 +83,12 @@ public class PfeilObject extends BaseObject{
 \end{lstlisting}
 
 \subsection{Das Türobjekt}
-Der Wechsel von einer Gang- in eine Raumszene gibt es keinen Pfeil sondern ein Türobjekt, das sogenannte \glqq InvisibleDoorObject\grqq\ (von einem Raum aus kommt man mit einem Pfeil nach unten wieder in den Gang zurück). \\
-Dieses Türobjekt ist ähnlich wie das Pfeilobjekt gestaltet mit dem Unterschied, dass das Objekt keine Richtungsangabe sonder eine Position benötigt und kein Bild verwendet. Stattdessen besitzt das Objekt nur eine Größe, die den Maßen der Türen in den Hintergründen entspricht, sodass das Objekt \glqq unsichtbar\grqq\ ist und dann auf die Koordinaten der Tür im Hintergrundbild gelegt werden kann. \\
+Für den Wechsel von einer Gang- in eine Raumszene gibt es keinen Pfeil, sondern ein Türobjekt, das sogenannte \texttt{InvisibleDoorObject}. Von einem Raum aus kommt man mit einem Pfeil wieder in den Gang zurück. \\
+Dieses Türobjekt ist ähnlich wie das Pfeilobjekt gestaltet mit dem Unterschied, dass das Objekt keine Richtungsangabe, sondern eine Position benötigt und kein Bild verwendet. Stattdessen besitzt das Objekt nur eine Größe, die den Maßen der Türen in den Hintergründen entspricht, sodass das Objekt \glqq unsichtbar\grqq\ ist und dann auf die Koordinaten der Tür im Hintergrundbild gelegt werden kann. \\
 Man klickt im Endeffekt also nicht tatsächlich auf die Tür, sondern auf ein unsichtbares Objekt, welches über die Tür gelegt wurde, wobei für den Spieler dieser Unterschied nicht erkennbar ist. \\
 In allen anderen Bereichen funktioniert das Türobjekt genauso wie das Pfeilobjekt, es werden Original- und Zielszene festgelegt, welche am Ende im Szenenstapel entfernt (Originalszene) bzw. hinzugefügt (Zielszene) werden.
 
-\begin{lstlisting}[caption=TürObject, label=lst:pfeilobject, captionpos=p, language=Java]
+\begin{lstlisting}[caption=InvisibleDoorObject, label=lst:invisibledoorobject, captionpos=t, language=Java]
 public class InvisibleDoorObject extends BaseObject{
 	//Initialisieren eines Ziels (Wohin soll die Tuer fuehren?)
 	public Supplier<BaseScene> target;
@@ -119,29 +117,27 @@ public class InvisibleDoorObject extends BaseObject{
 \end{lstlisting}
 
 \subsection{Gang- und Raumszenen}
-Für jede Gang-/Raumszene wurde eine eigene Klasse erstellt, welche allgemein mit \glqq OrtScene\grqq\ benannt wurden. In diesen Klassen, welche die BaseScene erweitern, wird zunächst auf das jeweilige Bild zugegriffen. Danach wird die Pfeilobjekt-Klasse verwendet, um Pfeilobjekte einzufügen, welche in andere Szenen führen. Zum Schluss wird die Spielfigur mit in jeder Szene individueller Position zur Szene hinzugefügt.
+Für jede Gang-/Raumszene wurde eine eigene Klasse erstellt, welche allgemein mit \glqq OrtScene\grqq\ benannt wurden. In diesen Klassen, welche die \texttt{BaseScene} erweitern, wird zunächst auf das jeweilige Bild zugegriffen. Danach wird die Pfeilobjekt-Klasse verwendet, um Pfeilobjekte einzufügen, welche in andere Szenen führen. Zum Schluss wird die Spielfigur mit in jeder Szene individueller Position zur Szene hinzugefügt.
 
-\begin{lstlisting}[caption=Mathegangszene, label=lst:mahtegangszene, captionpos=m, language=Java]
+\begin{lstlisting}[caption=Mathegangszene, label=lst:mahtegangszene, captionpos=t, language=Java]
 public class MathegangScene extends BaseScene{
 	public MathegangScene(){
-		//Einfuegen des Hintergrunds
+		//Einfügen des Hintergrunds
 		objects.add(new  BackdropObject(Images.get(
-		"/assets/background/Mathegang.png")));
+			"/assets/background/Mathegang.png")));
 		
-		/* Einfuegen des unsichtbaren Tuer-Objektes auf 
-		Position der Tuer */
+		/* Einfügen des unsichtbaren Tür-Objektes auf 
+		Position der Tür */
 		objects.add(new InvisibleDoorObject(
-		MainWindow.PIXEL_SCALE * 177, MainWindow.PIXEL_SCALE 
-		* 45, this, MatheraumScene::new));
+			MainWindow.PIXEL_SCALE * 177, MainWindow.PIXEL_SCALE * 45, this, MatheraumScene::new));
 		
-		/* Pfeilobjekte fuer den Wechsel in nebenliegende 
-		Szenen */
+		/* Pfeilobjekte für den Wechsel in nebenliegende Szenen */
 		objects.add(new PfeilObject(this, 
-		TreppeRechts2Scene::new, PfeilObject.RECHTS));
+			TreppeRechts2Scene::new, PfeilObject.RECHTS));
 		objects.add(new PfeilObject(this, 
-		ErstesOGScene::new, PfeilObject.LINKS));
+			ErstesOGScene::new, PfeilObject.LINKS));
 		
-		//Einfuegen der Spieler-Figur
+		//Einfügen der Spieler-Figur
 		this.objects.add(PlayerObject.INSTANCE);
 		PlayerObject.INSTANCE.x = PlayerObject.GetRandomX();
 		PlayerObject.INSTANCE.y = 295;
@@ -150,9 +146,9 @@ public class MathegangScene extends BaseScene{
 \end{lstlisting}
 
 \subsubsection{Position der Spielfigur}
-In den meisten Szenen wird die x-Koordinate mithilfe der Funktion GetRandomX bestimmt, welche in der Klasse PlayerObject festgelegt ist. 
+In den meisten Szenen wird die x-Koordinate mithilfe der Funktion \texttt{GetRandomX} bestimmt, welche in der Klasse \texttt{PlayerObject} festgelegt ist. 
 
-\begin{lstlisting}[caption=GetRandonX-Methode, label=lst:getrandomx, captionpos=g, language=Java]
+\begin{lstlisting}[caption=GetRandonX-Methode, label=lst:getrandomx, captionpos=t, language=Java]
 /* Funktion zum Festlegen einer zufaelligen x-Koordinate fuer die 
 Spielfigur */
 public static int GetRandomX(){

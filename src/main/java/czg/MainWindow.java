@@ -1,7 +1,7 @@
 package czg;
 
-import czg.scenes.FoyerScene;
 import czg.scenes.SceneStack;
+import czg.scenes.intro.TitleScreenScene;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
@@ -99,7 +99,7 @@ public class MainWindow extends JFrame implements Runnable {
         SoundGroup.GLOBAL_SOUNDS.addSound(music);
 
         //Startszene
-        SceneStack.INSTANCE.push(new FoyerScene());
+        SceneStack.INSTANCE.push(new TitleScreenScene());
 
         // Fenstergröße beheben
         SwingUtilities.invokeLater(() -> {

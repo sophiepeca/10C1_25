@@ -64,7 +64,6 @@ public class BiologyLevelScene extends LevelScene {
 
             BufferedImage scaled = new BufferedImage(scaledW, scaledH, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = scaled.createGraphics();
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.drawImage(original, 0, 0, scaledW, scaledH, null);
             g2d.dispose();
 

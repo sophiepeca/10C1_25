@@ -300,6 +300,11 @@ public void update(BaseScene scene) {
 }
 \end{lstlisting}
 
+\begin{figure}[b]
+	\centering
+	\includegraphics[width=0.01\linewidth]{bilder/bro.jpg}
+\end{figure} 
+
 \paragraph{MathematicsPuzzle} Die Implementierung mittels einer Enumeration bietet sich an, da vorgegebene Silhouetten definiert werden, die nicht verändert oder durch weitere ergänzt werden können.
 Sie beinhaltet:
 
@@ -324,6 +329,7 @@ Sie beinhaltet:
         \item \texttt{MathematicsPuzzle(String path, int amountOfGivenPieces, double[][][] solutions)}: Der Konstruktor der Klasse, welcher nur von der Klasse selbst bei der Initialisierung der Konstanten aufgerufen wird.
             Er initialisiert die Variablen mit den durch die Parameter gegebenen Werten.
     \end{itemize}
+   
 \end{sloppypar}
 
 Die \texttt{setGivenPieces}-Methode ist zur näheren Erklärung im Folgenden dargestellt.
@@ -496,7 +502,7 @@ Die Klasse beinhaltet:
 \end{sloppypar}
 
 \textbf{Beispielcode aus PhysikGameObject} \\
-Im folgenden Codeausschnitt werden die drei Level (0, 1, 2) von einander durch verschiedene Eigenschaften unterschieden.
+Im folgenden Codeausschnitt werden die drei Level (0, 1, 2 bzw. 1, 2, 3) von einander durch verschiedene Eigenschaften unterschieden.
 \begin{lstlisting}[caption=Case Switch für die Level, label=lst:mgSwitch(level), captionpos=t, language=Java]
 // Level-spezifische Konfiguration
         switch (level) {
@@ -574,3 +580,175 @@ Sie beinhaltet:
         \item \texttt{PhysikLevelScene(int level)}: Der Konstruktor, der das Hintergrundbild sowie ein neues \texttt{PhysikGameObject} zur Szene hinzufügt.
     \end{itemize}
 \end{sloppypar}
+
+\subsubsection{Biologie}
+
+\begin{sloppypar}
+    Für das Minispiel der Fachschaft Biologie wurde die \texttt{LevelScene} zur \texttt{BiologieLevelScene} erweitert, hier findet sich die Spiellogic.
+    Die Klasse \texttt{BiologyData} lädt alle Pflanzenbilder und speichert sie levelweise in den \texttt{static final}-Arrays: \texttt{LEVEL\_1\_PLANTS}, \texttt{LEVEL\_2\_PLANTS} und \texttt{LEVEL\_3\_PLANTS}.
+    Die Klasse \texttt{BiologyPlant} speichert das Bild und den Namen einer Pflanze.
+    \texttt{BiologyLabelObject} erweitert das BaseObject. Es zeichnet die Label und setzt den Status selected oder nicht selected.
+\end{sloppypar}
+
+\paragraph{BiologyLevelScene}
+Eine Erweiterung von \texttt{BaseScene}, die das gesamte Biologie-Minigame verwaltet.
+Der Spieler sieht vier zufällig ausgewählte Pflanzenbilder und muss diesen die richtigen Namen zuordnen, indem er Labels anklickt und auf die passenden Bilder platziert.
+
+Die Klasse beinhaltet:
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{selectedLabel}: Das aktuell ausgewählte \texttt{BiologyLabelObject}, oder \texttt{null}, falls keines ausgewählt ist.
+        \item \texttt{imagePlaceholders}: Ein Array aus vier \texttt{BaseObject}-Instanzen, die die angezeigten Pflanzenbilder repräsentieren.
+        \item \texttt{chosen}: Eine \texttt{List<BiologyPlant>} mit den vier zufällig gewählten Pflanzen des aktuellen Durchlaufs.
+        \item \texttt{getLabelAtSlot(int slot)}: Gibt das \texttt{BiologyLabelObject} zurück, das aktuell einem bestimmten Bildslot zugeordnet ist, oder \texttt{null}, falls keines platziert wurde.
+        \item \texttt{reset()}: Erstellt eine neue \texttt{BiologyLevelScene} mit demselben Level und setzt damit das Spiel vollständig zurück.
+        \item \texttt{update()}: Verarbeitet Klick-Interaktionen: wählt ein Label aus, hebt die Auswahl auf oder platziert das ausgewählte Label auf einem Bildslot. Nach jeder Platzierung wird geprüft, ob alle Slots belegt sind, und bei Vollständigkeit \texttt{checkWin()} aufgerufen.
+        \item \texttt{checkWin()}: Prüft für jeden der vier Bildslots, ob das dort platzierte Label mit dem Namen der zugehörigen Pflanze übereinstimmt.
+        \item \texttt{allPlaced()}: Gibt \texttt{true} zurück, wenn alle vier Bildslots mit einem Label belegt sind.
+    \end{itemize}
+\end{sloppypar}
+
+Im Konstruktor wird abhängig vom \texttt{LEVEL}-Wert der passende Pflanzen-Pool (\texttt{LEVEL\_1\_PLANTS}, \texttt{LEVEL\_2\_PLANTS} oder \texttt{LEVEL\_3\_PLANTS}) geladen. Daraus werden vier Pflanzen zufällig gezogen und deren Bilder auf Slotgröße skaliert und zugeschnitten.
+Die Label-Liste enthält stets die vier richtigen Namen sowie je nach Schwierigkeitsgrad ein (Level 2) oder zwei (Level 3) zusätzliche falsche Labels, die ebenfalls zufällig gemischt werden.
+
+Dieser Beispielcode zeigt der Verarbeitung der Pflanzenbilder für das Minigame.
+Jedes Pflanzenbild wird dabei proportional skaliert und mittig zugeschnitten, sodass es exakt in den vorgegebenen Slot passt, bevor es als \texttt{BaseObject} zur Szene hinzugefügt wird.
+
+\begin{lstlisting}[caption=Skalierung Pflanzenbilder, label=lst:mgBildskalierung, captionpos=t, language=Java]
+// Originalbild der gewaehlten Pflanze laden
+BufferedImage original = (BufferedImage) chosen.get(i).image;
+
+// Skalierungsfaktor berechnen: Bild soll den Slot vollstaendig ausfuellen
+double scale = Math.max((double) slotW / original.getWidth(),
+                        (double) slotH / original.getHeight());
+int scaledW = (int) (original.getWidth() * scale);
+int scaledH = (int) (original.getHeight() * scale);
+
+// Neues Bild in der skalierten Groesse erstellen
+BufferedImage scaled = new BufferedImage(scaledW, scaledH,
+                                         BufferedImage.TYPE_INT_RGB);
+Graphics2D g2d = scaled.createGraphics();
+
+// Originalbild in die neue skalierte Groesse zeichnen
+g2d.drawImage(original, 0, 0, scaledW, scaledH, null);
+
+
+// Grafikkontext freigeben, um Ressourcen zu vermeiden
+g2d.dispose();
+
+// Bild mittig auf Slotgroesse zuschneiden (Center-Crop)
+int cropX = Math.max(0, (scaledW - slotW) / 2);
+int cropY = Math.max(0, (scaledH - slotH) / 2);
+int cropW = Math.min(slotW, scaledW);
+int cropH = Math.min(slotH, scaledH);
+Image cropped = scaled.getSubimage(cropX, cropY, cropW, cropH);
+
+// Zugeschnittenes Bild als BaseObjekt hinzufuegen
+BaseObject plantImage = new BaseObject(cropped,
+                                       imageX[i] * PIXEL_SCALE,
+                                       imageY[i] * PIXEL_SCALE);
+plantImage.width = cropW * PIXEL_SCALE;
+plantImage.height = cropH * PIXEL_SCALE;
+
+// Objekt im Slot-Array speichern (fuer spaetere Klick-Erkennung)
+// und der Szene hinzufuegen, damit es gezeichnet wird
+imagePlaceholders[i] = plantImage;
+objects.add(plantImage);
+\end{lstlisting}
+
+Dieser Codeausschnitt zeigt die Klick-Interaktionslogik des Spiels:
+Ein Label wird ausgewählt, auf einen Bildslot platziert – wobei ein bereits vorhandenes Label automatisch zurück in die Label-Leiste wandert – und, wenn allen Bildern ein Label zugeordnet sind wird geprüft, ob die Zuordnung richtig ist.
+
+\begin{lstlisting}[caption=Label Zuordnung und Gewinnbedingungen prüfen, label=lst:mgLabelzuordnung, captionpos=t, language=Java]
+ public void update() {
+        super.update();
+
+// Ist kein Label ausgewaehlt, auf Klick eines Labels pruefen
+if (selectedLabel == null) {
+    for (BaseObject obj : objects) {
+        if (obj instanceof BiologyLabelObject label) {
+            if (label.isClicked()) {
+                // Label als ausgewaehlt markieren und merken
+                selectedLabel = label;
+                label.selected = true;
+            }
+        }
+    }
+} else {
+    // Klick auf das bereits ausgewaehlte Label hebt Auswahl wieder auf
+    if (selectedLabel.isClicked()) {
+        selectedLabel.selected = false;
+        selectedLabel = null;
+        return;
+    }
+
+    // Pruefen, ob eines der vier Bildslots angeklickt wurde
+    for (int i = 0; i < 4; i++) {
+        if (imagePlaceholders[i].isClicked()) {
+
+            // Falls Slot bereits belegt, vorhandenes Label
+            // zurueck in die Label-Leiste verschieben
+            BiologyLabelObject existing = getLabelAtSlot(i);
+            if (existing != null) {
+                // Index des bestehenden Labels unter allen Labels ermitteln,
+                // um seine urspruengliche Position zu berechnen
+                int idx = 0;
+                for (BaseObject obj : objects) {
+                    if (obj instanceof BiologyLabelObject lbl) {
+                        if (lbl == existing) break;
+                        idx++;
+                    }
+                }
+                // Label an seine urspruengliche Position
+                existing.x = (10 + (idx % 3) * 55) * PIXEL_SCALE;
+                existing.y = (105 + (idx / 3) * 16) * PIXEL_SCALE;
+            }
+
+            // Ausgewaehltes Label auf den angeklickten Bildslot platzieren
+            selectedLabel.x = imageX[i] * PIXEL_SCALE;
+            selectedLabel.y = 71 * PIXEL_SCALE;
+            selectedLabel.selected = false;
+            selectedLabel = null;
+
+            // Wenn alle vier Slots belegt sind, Gewinnpruefung starten
+            if (allPlaced()) {
+                if (checkWin()) {
+                    levelWon();
+                } else {
+                    levelLost();
+                }
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\paragraph{BiologyLabelObject}
+Eine Erweiterung von \texttt{BaseObject}, die ein anklickbares, beschriftetes Label darstellt, das der Spieler per Klick auswählen und auf einem Bildslot platzieren kann.
+
+Die Klasse beinhaltet:
+\begin{sloppypar}
+    \begin{itemize}
+        \item \texttt{name}: Ein \texttt{String}, der den angezeigten Pflanzennamen enthält.
+        \item \texttt{selected}: Ein \texttt{boolean}, der angibt, ob das Label aktuell vom Spieler ausgewählt ist.
+        \item \texttt{draw(Graphics2D g)}: Zeichnet das Label als gefülltes Rechteck mit zentriertem Text. Der Hintergrund wird hellgrau dargestellt, wenn das Label ausgewählt ist, andernfalls weiß. Der Pflanzenname wird leicht eingerückt und vertikal zentriert in der Box gezeichnet.
+    \end{itemize}
+\end{sloppypar}
+
+\begin{lstlisting}[caption=Zeichen des Labels, abhängig vom Zustand, label=lst:mgDrawLabel, captionpos=t, language=Java]
+    public void draw(Graphics2D g) {
+    //falls das Label selected ist, Hintergrund LIGHT_GRAY
+        if (selected) {
+            g.setColor(Color.LIGHT_GRAY);
+        } else {
+        //sonst WHITE
+            g.setColor(Color.WHITE);
+        }
+        //Rechteck mit schwarzen Linien zeichnen
+        g.fillRect(x, y, width, height);
+        g.setColor(Color.BLACK);
+        //Pflanzennamen zentriert plazieren
+        g.drawString(name, x + 5, y + (height / 2)+3 );
+    }
+\end{lstlisting}
+

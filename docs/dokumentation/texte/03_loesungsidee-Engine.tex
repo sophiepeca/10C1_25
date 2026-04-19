@@ -12,7 +12,7 @@ beinhalten:
 	welche optional noch beliebigen Code ausführen können.
 	\item Das Zusammenfassen von Spiel-Objekten in \textit{Szenen},
 	sodass die Objekte einfach gemeinsam verwaltet werden können.
-	\item Das Anzeigen mehrere Szenen übereinander, sodass z.B.
+	\item Einen \textit{Szenenstapel}, also das Anzeigen mehrerer Szenen übereinander, sodass z.B.
 	eine Szene, welche eine Textbox enthält über der Szene mit
 	der Spielfigur und dem Hintergrund eingeblendet werden kann.
 	\item Das eigentliche \glqq{}Zeichnen\grqq{} oder \textit{Rendern} der Spielgrafiken
@@ -21,7 +21,7 @@ beinhalten:
 	\item Das Abspielen beliebiger Audio-Dateien (\textit{Sounds})
 	sowie die Steuerung von deren Wiedergabe.
 	\item Das Zusammenfassen verschiedener Sounds zu \textit{Sound-Gruppen},
-	um mehrere Sounds gemeinsam pausieren, starten oder stoppen zu können.
+	um mehrere Sounds gemeinsam pausieren, fortsetzen oder stoppen zu können.
 	So beinhaltet jede Szene eine eigene Sound-Gruppe, sodass die in ihr
 	abgespielten Sounds beim Ausblenden bzw. Entfernen der Szene einfach
 	und einheitlich gestoppt werden können.
@@ -63,17 +63,17 @@ und Klassen \texttt{javax.imageio.ImageIO.read} sowie
 Um Tastatur- und Mauseingaben zu verarbeiten sowie Grafik
 anzuzeigen, wird das \texttt{Java Swing Framework} verwendet.
 
-Mit der Klasse \texttt{javax.swing.JFrame} wird das Fenster
-erstellt in welchem das Spiel läuft. \texttt{Swing} bietet eine große
+Mit der Klasse \texttt{javax.swing.JFrame} wird das Spielfenster
+erstellt. \texttt{Swing} bietet eine große
 Bandbreite an Komponenten für grafische Oberflächen, von denen
 jedoch hauptsächlich \texttt{javax.swing.JPanel} verwendet wird,
 ein generischer Behälter für andere Komponenten. Eine Instanz von
 diesem wird zum Fenster hinzugefügt. Durch das Überschreiben der
 \texttt{paintComponent}-Methode von \texttt{JPanel} kann eigener
 Rendering-Code hinzugefügt werden, im Fall des CZGame also
-das Zeichnen der Szenen und ihrer Objekte. Dieses kann durch
+das Zeichnen der Szenen und ihrer Objekte. Diese kann durch
 Aufrufen der \texttt{repaint}-Methode dann manuell ausgelöst werden,
-um so die Grafik mit einer Frequenz von 60Hz zu aktualisieren.
+um dann so die Grafik mit einer Frequenz von 60Hz zu aktualisieren.
 
 Um Eingaben zu erhalten, werden die Interfaces \texttt{java.awt.event.KeyListener}
 sowie \texttt{java.awt.event.MouseListener} implementiert und mit

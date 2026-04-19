@@ -1,12 +1,12 @@
-Im Kampf geht es darum, dass der Schüler sich gegen den Lehrer beweisen muss. Dafür werden Items unterschiedlicher Level benutzt, die dann gegenseitig eingesetzt werden, um sich Lebenspunkte abziehen zu können.\\
+Im Kampf geht es darum, dass der Schüler sich gegen den Lehrer beweisen muss. Dafür werden Items unterschiedlicher Level benutzt, die dann von beiden Parteien eingesetzt werden, um sich Lebenspunkte abziehen zu können.\\
 Dafür ist erst der Schüler und dann der Lehrer am Zug. Das Ganze wechselt sich ab, bis entweder der Schüler aufgibt oder einer der beiden keine Lebenspunkte mehr hat.\\
 Wenn der Schüler am Zug ist, kann er sich eins seiner Items aus seinem Inventar aussuchen, die er im Vorfeld durch die Minigames gesammelt hat. Der Lehrer kann dann mit einem seiner Items darauf reagieren oder nichts tun.\\
 Danach ist der Lehrer am Zug. Er wählt sich auch eins seiner Items aus, auf das der Schüler dann wiederum reagieren kann oder aufgibt.\\
-Der Schaden wird folgendermaßen berechnet: Die Items haben Level zwischen 0 und 2. Der Schaden, der durch ein Item erzielt wird, ist das Level + 1.\\
+Der Schaden wird folgendermaßen berechnet: Die Items haben Level von 0 bis 2. Der Schaden, der durch ein Item erzielt wird, ist das Level + 1.\\
 Die erste Partei wählt dann eins ihrer Items aus, welches das Level $l_1$ hat. Die zweite Partei kann sich dann ein Item mit dem Level $l_2$ aussuchen. Die Schadenswerte sind $s_1 = l_1 + 1$ bzw. $s_2 = l_2 + 1$.\\
 Es wird die Differenz der beiden Schadenswerte betrachtet: $d = s_1 - s_2$.\\
 Falls diese größer als null ist, erhält die zweite Partei Schaden in Höhe der Differenz, weil sie mit einem Item reagiert, welches ein kleineres Level als das erste hatte, also schlechter ist.\\
 Wenn die $d\leq 0$ ist, erhält die zweite Partei keinen Schaden, weil sie mit einem Item reagiert hat, welches gleich gut oder besser ist.\\
 Der Schaden wird dann von den Lebenspunkten abgezogen.\\
-Wenn dann eine der beiden Parteien 0 Lebenspunkte (oder weniger) hat, ist der Kampf vorbei.\\
-Sollte der Schüler gewonnen haben, ist der Lehrer besiegt und, wenn alle Lehrer besiegt sind, ist das Spiel gewonnen.\\
+Wenn dann eine der beiden Parteien $\leq 0$ Lebenspunkte hat, ist der Kampf vorbei.\\
+Sollte der Schüler gewonnen haben, ist der Lehrer besiegt. Wenn alle Lehrer besiegt sind, ist das Spiel gewonnen.\\
