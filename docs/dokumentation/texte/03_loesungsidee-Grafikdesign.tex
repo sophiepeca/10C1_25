@@ -1,10 +1,18 @@
-Für das Grafikdesign werden verschiedene Bilder im Pixelartdesign benötigt, welche dann im Spiel zu sehen sind.
-Der Spieler soll diese Hintergründe per Point-and-Click ändern können, sodass er die Spielfigur im Schulhaus bewegen kann. \\ 
-Dafür ist es wichtig, dass die verschiedenen Hintergründe so miteinander verknüpft werden, dass der Aufbau der Szenen der realen Struktur unserer Schule ähnelt.
-Dies soll so funktionieren, dass es einen Szenenstapel gibt, in dem einzelne Szenen mithilfe von Objekten, auf die man klicken kann, ersetzt werden können. 
-Für jede Szene wird eine eigene Klasse erstellt, in der die jeweils benötigten Objekte eingefügt werden. \\
+Für das Grafikdesign haben verschiedene Bilder im Pixelartdesign erstellt, welche im Spielhintergrund zu sehen sind.
+Der Spieler kann diese Hintergründe per Point-and-Click ändern, sodass sich die Spielfigur im Schulhaus bewegt. \par
+Die Struktur der Hintergrundszenen im Spiel ist eine vereinfachte Version unserer Schule, es wurden hauptsächlich die Gänge und Räume eingebunden, die zu den 
+spielrelevanten Fachschaften gehören. So wird im Spiel auf das B-Gebäude und den größten Teil des E-Gebäudes verzichtet. \\
+Wir haben uns bei der Anordnung der Szenen für eine Ansicht vom großen Schulhof aus entschieden. Trotzdem startet die Spielfigur in der Foyerszene mit 
+Sicht in die andere Richtung und der Raum des Hausmeisters ist nicht im Foyer sondern im Gang daneben. Solche Änderungen im Vergleich zur Realität folgen daraus,
+dass das Spieldesign in 2D gegeben ist und man deshalb jeweils nur eine Seite eines Raumes darstellen kann. \\
+Das allgemeine Aussehen der Gänge und Räume wurde im Spiel ebenfalls abgeändert. Da wir mit einem Pixelartdesign arbeiteten, haben wir uns bei der Gestaltung der 
+Gänge und Räume auf charakteristische Darstellungen der verschiedenen Fachschaften reduziert. Auch die Farbgestaltung weicht von der Realität ab, für die 
+Hintergründe nutzten wir grellere und vielfältigere Farben, um für eine erhöhten Freude am Spiel zu sorgen. \par
+Das Verbinden der verschiedenen Szenen untereinander funktioniert so, dass es einen Szenenstapel gibt, in dem einzelne Szenen mithilfe von Objekten, auf die man 
+klicken kann, ersetzt werden können. 
+Für jede Szene wurde eine eigene Klasse erstellt, in der die jeweils benötigten Objekte eingefügt werden. \par
 Eine weitere Aufgabe der Gruppe bestand darin, dafür zu sorgen, dass die Spielfigur in den Szenen auftaucht, wobei auf eine vielfältige Variabilität der Position
 der Figur zu achten ist. \\ 
 Die Spielfigur, welche als Objekt vorliegt, wird in jeder Szene individuell hinzugefügt.
-Zur Umsetzung von verschiedenen Positionen der Spielfigur könnte man eine Methode entwerfen, welche bei jedem Szenenwechsel eine zufällige x-Koordinate für die 
-Spielfigur erstellt. Die y-Koordinate sollte fest definiert sein, da unsere Spielfigur nicht auf dem Bildschirm \glqq schweben\grqq\ soll.
+Zur Umsetzung von verschiedenen Positionen der Spielfigur entwarfen wir eine Methode, welche bei jedem Szenenwechsel eine zufällige x-Koordinate für die 
+Spielfigur erstellt. Die y-Koordinate ist fest definiert, da unsere Spielfigur nicht auf dem Bildschirm \glqq schweben\grqq\ soll.
