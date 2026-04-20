@@ -416,9 +416,9 @@ Die Klasse beinhaltet:
 \textbf{Beispielcode aus Reagenzglas}
 \begin{lstlisting}[caption=istGeloest-Methode, label=lst:mgistgeloest, captionpos=t, language=Java]
 public boolean istGeloest() {
-    // Glas muss vollständig gefuellt sein
+    // Glas muss vollständig gefüllt sein
     if (bloecke.size() != MAX_KAPAZITAET) return false;
-    // Alle Blöcke muessen die gleiche Farbe haben
+    // Alle Blöcke müssen die gleiche Farbe haben
     String f = bloecke.get(0);
     for (String b : bloecke) if (!b.equals(f)) return false;
     return true;
@@ -702,11 +702,11 @@ if (selectedLabel == null) {
         if (imagePlaceholders[i].isClicked()) {
 
             // Falls Slot bereits belegt, vorhandenes Label
-            // zurueck in die Label-Leiste verschieben
+            // zurück in die Label-Leiste verschieben
             BiologyLabelObject existing = getLabelAtSlot(i);
             if (existing != null) {
                 // Index des bestehenden Labels unter allen Labels ermitteln,
-                // um seine urspruengliche Position zu berechnen
+                // um seine ursprüngliche Position zu berechnen
                 int idx = 0;
                 for (BaseObject obj : objects) {
                     if (obj instanceof BiologyLabelObject lbl) {
@@ -714,7 +714,7 @@ if (selectedLabel == null) {
                         idx++;
                     }
                 }
-                // Label an seine urspruengliche Position
+                // Label an seine ursprüngliche Position
                 existing.x = (10 + (idx % 3) * 55) * PIXEL_SCALE;
                 existing.y = (105 + (idx / 3) * 16) * PIXEL_SCALE;
             }
