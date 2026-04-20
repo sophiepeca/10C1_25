@@ -11,13 +11,13 @@ public enum ComputerSciencePuzzle {
     P_01("/assets/minigames/computer_science/puzzle_1_2.png", new LogicGate[]{LogicGate.OR}, 4),
     P_02("/assets/minigames/computer_science/puzzle_1_3.png", new LogicGate[]{LogicGate.NAND}, 4),
 
-    P_10("/assets/minigames/computer_science/puzzle_2_1.png", new LogicGate[]{LogicGate.AND, LogicGate.OR}, 5),
-    P_11("/assets/minigames/computer_science/puzzle_2_2.png", new LogicGate[]{LogicGate.AND, LogicGate.OR}, 5),
-    P_12("/assets/minigames/computer_science/puzzle_2_3.png", new LogicGate[]{LogicGate.AND, LogicGate.OR}, 5),
+    P_10("/assets/minigames/computer_science/puzzle_2_1.png", new LogicGate[]{LogicGate.AND, LogicGate.NOR}, 5),
+    P_11("/assets/minigames/computer_science/puzzle_2_2.png", new LogicGate[]{LogicGate.OR, LogicGate.XOR}, 5),
+    P_12("/assets/minigames/computer_science/puzzle_2_3.png", new LogicGate[]{LogicGate.NAND, LogicGate.OR}, 5),
 
-    P_20("/assets/minigames/computer_science/puzzle_3_1.png", new LogicGate[]{LogicGate.AND, LogicGate.OR, LogicGate.NAND}, 6),
-    P_21("/assets/minigames/computer_science/puzzle_3_2.png", new LogicGate[]{LogicGate.AND, LogicGate.OR, LogicGate.NAND}, 6),
-    P_22("/assets/minigames/computer_science/puzzle_3_3.png", new LogicGate[]{LogicGate.AND, LogicGate.OR, LogicGate.NAND}, 6);
+    P_20("/assets/minigames/computer_science/puzzle_3_1.png", new LogicGate[]{LogicGate.AND, LogicGate.XOR, LogicGate.OR}, 6),
+    P_21("/assets/minigames/computer_science/puzzle_3_2.png", new LogicGate[]{LogicGate.XNOR, LogicGate.AND, LogicGate.OR}, 6),
+    P_22("/assets/minigames/computer_science/puzzle_3_3.png", new LogicGate[]{LogicGate.XOR, LogicGate.OR, LogicGate.AND}, 6);
 
     /**
      * Enthält alle Puzzle nach Level geordnet
