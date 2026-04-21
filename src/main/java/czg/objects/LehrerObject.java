@@ -12,15 +12,11 @@ import java.util.Random;
 
 public class LehrerObject extends BaseObject{
 
-    public final int LEVEL;
-    public int hp;
     public final String FACHSCHAFT;
     public static List<ItemType> lehrer_items;
 
-    public LehrerObject(int x, int y, String FACHSCHAFT, int hp, int LEVEL) {
+    public LehrerObject(int x, int y, String FACHSCHAFT) {
         super(Images.get("/assets/characters/bre.png"), x, y);
-        this.LEVEL = LEVEL;
-        this.hp = hp;
         this.FACHSCHAFT = FACHSCHAFT;
         this.lehrer_items = Arrays.asList(ItemType.NEWTONSAPFEL, ItemType.ATOM, ItemType.CHROME, ItemType.BSOD);
     }
@@ -91,18 +87,19 @@ public class LehrerObject extends BaseObject{
     public void update(BaseScene scene) {
         super.update(scene);
 
-        if(!KampfScene.lehrerTurn) {
-            return;
+        if(KampfScene.lehrerVerteidigung) {
+            KampfScene.Endschaden = verteidigung(KampfScene.Zwischenschaden);
+            KampfScene.lehrerVerteidigung = false;
+            KampfScene.lehrerTurn = true;
         }
         else {
-            KampfScene.lehrerSchaden = angriff();
+            KampfScene.Zwischenschaden = angriff();
             KampfScene.timer = 10 * MainWindow.FPS;
             KampfScene.lehrerTurn = false;
+            KampfScene.PlayerVerteidigung = true;
         }
 
-        if(KampfScene.timer > 0) {
-            KampfScene.timer -= 1;
-        }
+
 
 
     }

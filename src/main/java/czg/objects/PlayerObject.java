@@ -108,20 +108,13 @@ public class PlayerObject extends BaseObject{
     /*
     Bitti bitti nicht noch mal löschen...
     */
-    public int angriff() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Welches Item?");
-        String ausgewaehlt = scanner.nextLine();
-        int level = ItemType.valueOf(ausgewaehlt).LEVEL;
+    public int angriff(ItemType welchesItem) {
+        int level = welchesItem.LEVEL;
         return level;
     }
     
-    public int verteidigung(int schaden) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Du kriegst " + schaden + " Schaden");
-        System.out.println("Welches Item?");
-        String ausgewaehlt = scanner.nextLine();
-        int level = ItemType.valueOf(ausgewaehlt).LEVEL;
+    public int verteidigung(int schaden, ItemType welchesItem) {
+        int level = welchesItem.LEVEL;
         
         schaden -= level;
         if (schaden < 0) {
@@ -173,13 +166,34 @@ public class PlayerObject extends BaseObject{
             SceneStack.INSTANCE.push(new InventarScene());
 
         if(KampfScene.imKampf) {
-            if(KampfScene.lehrerTurn) {
+            if(KampfScene.PlayerVerteidigung) {
                 if(KampfScene.timer == 0) {
+                    KampfScene.Endschaden = KampfScene.Zwischenschaden;
+                    KampfScene.PlayerVerteidigung = false;
+                    KampfScene.PlayerTurn = true;
                     return;
                 }
-
+                else {
+                    ItemType clicked = InventarScene.getClickedItem();
+                    if(clicked != null) {
+                        KampfScene.Endschaden = verteidigung(KampfScene.Zwischenschaden, clicked);
+                        removeItem(clicked);
+                        KampfScene.PlayerVerteidigung = false;
+                        KampfScene.PlayerTurn = true;
+                        return;
+                    }
+                }
             }
-
+            if (KampfScene.PlayerTurn) {
+                ItemType clicked = InventarScene.getClickedItem();
+                if(clicked != null) {
+                    System.out.println("Du bist am Angreifen");
+                    KampfScene.Zwischenschaden = angriff(clicked);
+                    removeItem(clicked);
+                    KampfScene.PlayerTurn = false;
+                    KampfScene.lehrerVerteidigung = true;
+                }
+            }
         }
     }
     

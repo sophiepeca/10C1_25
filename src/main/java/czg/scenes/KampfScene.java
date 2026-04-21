@@ -16,9 +16,15 @@ import czg.util.Sounds;
  */
 public class KampfScene extends BaseScene{
     public static boolean lehrerTurn = false;
+    public static boolean lehrerVerteidigung = false;
+    public static boolean PlayerTurn = true;
+    public static boolean PlayerVerteidigung = false;
     public static boolean imKampf = false;
     public static int timer = 0;
-    public static int lehrerSchaden = 0;
+    public static int Zwischenschaden = 0;
+    public static int Endschaden = 0;
+    public static int LehrerLeben = 10;
+    public static int PlayerLeben = 10;
 
     public KampfScene(String FACHSCHAFT){
         super();
@@ -28,31 +34,14 @@ public class KampfScene extends BaseScene{
         objects.add(new BackdropObject(Images.get("/assets/background/Kampfgang.png")));
 
         objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_exit.png"), 30, 30, SceneStack.INSTANCE::pop));
-        
-        int LehrerLeben = 10;
-        int PlayerLeben = 10;
 
         imKampf = true;
 
-        LehrerObject Lehrer = new LehrerObject(600, 300, FACHSCHAFT, LehrerLeben, 2);
+        LehrerObject Lehrer = new LehrerObject(600, 300, FACHSCHAFT);
         this.objects.add(Lehrer);
         this.objects.add(PlayerObject.INSTANCE);
         PlayerObject.INSTANCE.x = 330;
         PlayerObject.INSTANCE.y = 295;
-
-        /*
-        while (LehrerLeben > 0 && PlayerLeben > 0) {
-            // Zuerst der Schüler
-            int SchadenPlayer = PlayerObject.INSTANCE.angriff();
-            int SchadenGesamt = Lehrer.verteidigung(SchadenPlayer);
-            LehrerLeben -= SchadenGesamt;
-
-            // Dann der Lehrer
-            int SchadenLehrer = Lehrer.angriff();
-            SchadenGesamt = PlayerObject.INSTANCE.verteidigung(SchadenPlayer);
-            PlayerLeben -= SchadenGesamt;
-        }
-        */
 
         Sounds.HALLWAY_MUSIC.setPlaying(false);
 
@@ -75,6 +64,10 @@ public class KampfScene extends BaseScene{
         ItemType clicked = InventarScene.getClickedItem();
         if(clicked != null)
             System.out.println(clicked);
+
+        if(timer > 0) {
+            timer -= 1;
+        }
     }
 
     @Override
