@@ -36,12 +36,14 @@ public class ItemObject extends BaseObject {
 
         super.draw(g);
 
+        g.setFont(Draw.FONT_INFO.deriveFont(18f));
+
+        if(! (item == ItemType.TEXT || item == ItemType.PAPIER)) {
+            g.setColor(Color.WHITE);
+            Draw.drawTextCentered(g, item.NAME, x + width / 2 - 1, y + height + 8 * PIXEL_SCALE - 1, true);
+        }
+
         g.setColor(Color.WHITE);
-        g.setFont(Draw.FONT_TITLE.deriveFont(18f));
-
-        if(! (item == ItemType.TEXT || item == ItemType.PAPIER))
-            Draw.drawTextCentered(g, item.NAME, x + width / 2, y + height + 8 * PIXEL_SCALE);
-
-        Draw.drawTextCentered(g, "x%d".formatted(count), x + width - PIXEL_SCALE, y + height + PIXEL_SCALE * 2);
+        Draw.drawTextCentered(g, "x%d".formatted(count), x + width - PIXEL_SCALE, y + height + PIXEL_SCALE * 2, true);
     }
 }

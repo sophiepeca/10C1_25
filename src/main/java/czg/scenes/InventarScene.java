@@ -82,8 +82,7 @@ public class InventarScene extends BaseScene {
         List<ItemObject> currentRow = null;
 
         List<ItemType> items = List.copyOf(PlayerObject.INSTANCE.inventar.sequencedKeySet());
-        for(int i = 0; i < items.size(); i++) {
-            ItemType type = items.get(i);
+        for (ItemType type : items) {
             currentRow = currentRow == null ? new ArrayList<>() : currentRow;
 
             ItemObject object = new ItemObject(type, 1, x, 0);
@@ -91,7 +90,7 @@ public class InventarScene extends BaseScene {
             object.visible = false;
             objects.add(object);
 
-            if(x + object.width > arrowUp.x - iPadding) {
+            if (x + object.width > arrowUp.x - iPadding) {
                 // Zeile abschließen
                 rows.add(currentRow);
                 // Item schon mal in die nächste Zeile
