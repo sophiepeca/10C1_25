@@ -1,13 +1,11 @@
 package czg.scenes;
 
-import czg.objects.ButtonObject;
-import czg.objects.ItemType;
-import czg.objects.PlayerObject;
-import czg.util.Draw;
+import czg.objects.*;
 import czg.util.Images;
-import static czg.MainWindow.PIXEL_SCALE;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import static czg.MainWindow.*;
 
@@ -28,68 +26,131 @@ public class InventarScene extends BaseScene {
     /**
      * Höhe des Inventars
      */
-    private static final int iHeight = (int)(HEIGHT * 0.3);
+    private static final int iHeight = 65 * PIXEL_SCALE; // 39
     /**
      * Abstand zwischen Items
      */
     private static final int iPadding = (int)(WIDTH * 0.025);
 
+
+    private final ButtonObject arrowUp;
+
+    private final ButtonObject arrowDown;
+
+    private int currentRow = 0;
+
+    private List<List<ItemObject>> rows = new ArrayList<>();
+
+
     public InventarScene() {
+        // Hintergrund
+        objects.add(new BaseObject(Images.get("/assets/items/inventar.png"), iLeft, iTop, iWidth, iHeight));
+
         // Button zum Schließen
         ButtonObject exit = new ButtonObject (
                 Images.get("/assets/minigames/general/button_exit.png"),
                 SceneStack.INSTANCE::pop
         );
 
-        exit.x = iLeft + iWidth - iPadding - exit.sprite.getWidth(null) * PIXEL_SCALE;
+        exit.x = iLeft + iWidth - iPadding * 2 - exit.sprite.getWidth(null) * PIXEL_SCALE;
         exit.y = iTop + (iHeight / 2) - (exit.sprite.getHeight(null) * PIXEL_SCALE )/2;
         objects.add(exit);
+
+        // Reihe nach oben
+        arrowUp = new ButtonObject(Images.cropTransparency((BufferedImage) Images.get("/assets/background/PfeilOben.png")), () -> changeRow(-1));
+        arrowDown = new ButtonObject(Images.cropTransparency((BufferedImage) Images.get("/assets/background/PfeilUnten.png")), () -> changeRow(1));
+
+        arrowUp.x = exit.x;
+        arrowUp.y = iTop + 40;
+
+        arrowDown.x = arrowUp.x;
+        arrowDown.y = iTop + iHeight - arrowDown.height - 40;
+
+        objects.add(arrowUp);
+        objects.add(arrowDown);
+
+        generateRows();
+        setArrowVisibility();
+        changeRow(0);
     }
-    
-    @Override
-    public void draw(Graphics2D g) {
-        // Hintergrund
-        g.setColor(new Color(0x9A6B9C));
-        g.fillRect(iLeft, iTop, iWidth, iHeight);
 
-        // Für Text
-        g.setColor(Color.WHITE);
-        g.setFont(Draw.FONT_TITLE.deriveFont(20f));
+    private void generateRows() {
+        final int x0 = iLeft + (int)(iPadding * 3);
+        final int pad = iPadding * 4;
+        int x = x0;
 
-        // Items mit Beschriftung zeichnen
-        int x = iLeft + iPadding;
-        for (int i = 0; i < PlayerObject.INSTANCE.inventar.size(); i++) {
-            // Item abfragen
-            ItemType item = PlayerObject.INSTANCE.inventar.get(i);
+        List<ItemObject> currentRow = null;
 
-            // Sprite zeichnen
-            int y = iTop + ((int) (HEIGHT * 0.05));
-            int width, height;
-            switch(item) {
-                case TEXT -> {
-                    width = 80;
-                    height = 61;
-                }
-                case PAPIER -> {
-                    width = 80;
-                    height = 96;
-                }
-                default -> {
-                    width = item.SPRITE.getWidth(null);
-                    height = item.SPRITE.getHeight(null);
-                }
+        List<ItemType> items = List.copyOf(PlayerObject.INSTANCE.inventar.sequencedKeySet());
+        for(int i = 0; i < items.size(); i++) {
+            ItemType type = items.get(i);
+            currentRow = currentRow == null ? new ArrayList<>() : currentRow;
+
+            ItemObject object = new ItemObject(type, 1, x, 0);
+            object.y = type == ItemType.PAPIER ? iTop : iTop + (iHeight / 2) - (object.height / 2) - PIXEL_SCALE * 3;
+            object.visible = false;
+            objects.add(object);
+
+            if(x + object.width > arrowUp.x - iPadding) {
+                // Zeile abschließen
+                rows.add(currentRow);
+                // Item schon mal in die nächste Zeile
+                object.x = x0;
+                currentRow = new ArrayList<>();
+                currentRow.add(object);
+                // Wieder bei links
+                x = x0 + object.width + pad;
+            } else {
+                currentRow.add(object);
+                x += object.width + pad;
             }
-            g.drawImage(item.SPRITE, x, y, width * PIXEL_SCALE, height * PIXEL_SCALE, null);
 
-            // Text zeichnen
-            if(! (item == ItemType.TEXT || item == ItemType.PAPIER))
-                Draw.drawTextCentered(g, item.NAME, x + width * PIXEL_SCALE / 2, y + height * PIXEL_SCALE + 32);
-
-            x += width * PIXEL_SCALE + iPadding;
+            if (x > arrowUp.x - iPadding || x == -1) {
+                // Nächste Zeile
+                rows.add(currentRow);
+                currentRow = null;
+                x = x0;
+            }
         }
 
-        // Objekte
-        super.draw(g);
+        if(currentRow != null)
+            rows.add(currentRow);
+    }
+
+    private void changeRow(int by) {
+        if(rows.isEmpty())
+            return;
+
+        // Aktuelle Items verstecken
+        if(by != 0) {
+            for (ItemObject obj : rows.get(this.currentRow))
+                obj.visible = false;
+        }
+
+        currentRow += by;
+
+        // Neue Items zeigen
+        for(ItemObject obj : rows.get(currentRow))
+            obj.visible = true;
+
+        setArrowVisibility();
+    }
+
+
+    private void setArrowVisibility() {
+        if(rows.size() <= 1) {
+            arrowUp.visible = false;
+            arrowDown.visible = false;
+        } else if(currentRow == 0) {
+            arrowUp.visible = false;
+            arrowDown.visible = true;
+        } else if(currentRow == rows.size()-1) {
+            arrowUp.visible = true;
+            arrowDown.visible = false;
+        } else {
+            arrowUp.visible = true;
+            arrowDown.visible = true;
+        }
     }
     
 }

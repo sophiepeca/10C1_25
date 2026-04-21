@@ -109,22 +109,26 @@ public class Images {
         // Grafik-Objekt löschen
         g.dispose();
 
-        WritableRaster alpha = result.getAlphaRaster();
-        int minX = 0, minY = 0, maxX = result.getWidth()-1, maxY = result.getHeight()-1;
+        return cropTransparency(result);
+    }
 
-        while(minX < result.getWidth() && Arrays.stream(alpha.getPixels(minX, 0, 1, result.getHeight(), new int[result.getHeight()])).sum()==0)
+    public static BufferedImage cropTransparency(BufferedImage image) {
+        WritableRaster alpha = image.getAlphaRaster();
+        int minX = 0, minY = 0, maxX = image.getWidth()-1, maxY = image.getHeight()-1;
+
+        while(minX < image.getWidth() && Arrays.stream(alpha.getPixels(minX, 0, 1, image.getHeight(), new int[image.getHeight()])).sum()==0)
             minX++;
 
-        while(minY < result.getHeight() && Arrays.stream(alpha.getPixels(0, minY, result.getWidth(), 1, new int[result.getWidth()])).sum()==0)
+        while(minY < image.getHeight() && Arrays.stream(alpha.getPixels(0, minY, image.getWidth(), 1, new int[image.getWidth()])).sum()==0)
             minY++;
 
-        while(maxX > minX && Arrays.stream(alpha.getPixels(maxX, 0, 1, result.getHeight(), new int[result.getHeight()])).sum()==0)
+        while(maxX > minX && Arrays.stream(alpha.getPixels(maxX, 0, 1, image.getHeight(), new int[image.getHeight()])).sum()==0)
             maxX--;
 
-        while(maxY > minY && Arrays.stream(alpha.getPixels(0, maxY, result.getWidth(), 1, new int[result.getWidth()])).sum()==0)
+        while(maxY > minY && Arrays.stream(alpha.getPixels(0, maxY, image.getWidth(), 1, new int[image.getWidth()])).sum()==0)
             maxY--;
 
-        return result.getSubimage(minX, minY, maxX-minX+1, maxY-minY+1);
+        return image.getSubimage(minX, minY, maxX-minX+1, maxY-minY+1);
     }
 
 

@@ -11,7 +11,6 @@ import czg.util.character_creator.SaveFile;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
-import java.util.List;
 import java.util.function.Function;
 
 import static czg.MainWindow.PIXEL_SCALE;
@@ -22,7 +21,7 @@ import static czg.MainWindow.PIXEL_SCALE;
 public class PlayerObject extends BaseObject{
 
     //Anlegen einer Reihung "Inventar", in welchem die Items, auf die der Spieler zugreifen kann, gespeichert werden
-    public final List<ItemType> inventar = new ArrayList<>();
+    public final LinkedHashMap<ItemType,Integer> inventar = new LinkedHashMap<>();
 
     // Ob das Inventar geöffnet werden darf
     public boolean allowInventory = true;
@@ -85,6 +84,16 @@ public class PlayerObject extends BaseObject{
         sprite = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         // Farben anwenden
         updateSprite();
+    }
+
+    public void addItem(ItemType item) {
+        inventar.put(item, inventar.getOrDefault(item, 0) + 1);
+    }
+
+    public void removeItem(ItemType item) {
+        inventar.put(item, inventar.getOrDefault(item, 0) - 1);
+        if(inventar.get(item) < 1)
+            inventar.remove(item);
     }
     
     //Funktion zum Festlegen einer zufälligen x-Koordinate für die Spieler-Figur

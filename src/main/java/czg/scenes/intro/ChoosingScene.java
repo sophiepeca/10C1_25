@@ -2,7 +2,6 @@ package czg.scenes.intro;
 
 import czg.objects.*;
 import czg.scenes.BaseScene;
-import czg.scenes.FoyerScene;
 import czg.scenes.SceneStack;
 import czg.util.Images;
 
@@ -18,7 +17,7 @@ public class ChoosingScene extends BaseScene {
 
         for(Department dep : Department.values()) {
             ButtonObject button = new ButtonObject(Images.get("/assets/intro/"+dep.name().toLowerCase()+"_button.png"), 0, y, () -> {
-                PlayerObject.INSTANCE.inventar.add(ItemType.getMinigameReward(dep, 0));
+                PlayerObject.INSTANCE.addItem(ItemType.getMinigameReward(dep, 0));
                 SceneStack.INSTANCE.pop();
             });
 
