@@ -76,6 +76,8 @@ public class InventarScene extends BaseScene {
         setArrowVisibility();
         changeRow(0);
 
+        tags.get().add("inventar");
+
         if(INSTANCE != null) {
             throw new RuntimeException("Zwei Inventare was da los");
         }

@@ -16,7 +16,11 @@ public class FoyerScene extends BaseScene{
 
         // Für Kampf debugging
         objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_menu.png"),
-                () -> SceneStack.INSTANCE.push(new KampfScene("PHYSICS"))));
+                () -> {
+                    SceneStack.INSTANCE.push(new KampfScene("PHYSICS"));
+                    SceneStack.INSTANCE.push(new InventarScene());
+                    PlayerObject.INSTANCE.allowInventory = false;
+                }));
 
 
         //Einfügen der Spieler-Figur

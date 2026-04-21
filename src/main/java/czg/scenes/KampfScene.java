@@ -1,9 +1,10 @@
 package czg.scenes;
-import czg.objects.BackdropObject;
-import czg.objects.LehrerObject;
-import czg.objects.PlayerObject;
+import czg.objects.*;
 import czg.objects.music_loop_object.MusicLoopObject;
 import czg.objects.music_loop_object.SegmentChangeMarker;
+
+import czg.scenes.cover_settings.Rules;
+import czg.scenes.cover_settings.Setting;
 import czg.sound.BaseSound;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.StreamSound;
@@ -21,12 +22,13 @@ public class KampfScene extends BaseScene{
 
     public KampfScene(String FACHSCHAFT){
         super();
+        coverSettings.setRules(new Rules(Setting.KEEP, Setting.OFF, Setting.KEEP), "inventar");
 
         //Einfügen des Hintergrunds
         objects.add(new BackdropObject(Images.get("/assets/background/Kampfgang.png")));
-        
-        SceneStack.INSTANCE.push(new InventarScene());
 
+        objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_exit.png"), 30, 30, SceneStack.INSTANCE::pop));
+        
         int LehrerLeben = 10;
         int PlayerLeben = 10;
 
@@ -70,13 +72,16 @@ public class KampfScene extends BaseScene{
     @Override
     public void update() {
         super.update();
-
+        ItemType clicked = InventarScene.getClickedItem();
+        if(clicked != null)
+            System.out.println(clicked);
     }
 
     @Override
     public void unload() {
         super.unload();
         Sounds.HALLWAY_MUSIC.setPlaying(true);
+        PlayerObject.INSTANCE.allowInventory = true;
     }
 }
 
