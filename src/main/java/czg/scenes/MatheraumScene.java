@@ -11,7 +11,7 @@ public class MatheraumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, MathegangScene::new, PfeilObject.UNTEN));
 
-        objects.add(new ButtonObject(LehrerObject.getImage(Department.MATHEMATICS),
+        objects.add(new ButtonObject(LehrerObject.getImage(Department.MATHEMATICS), 600, 250,
                 () -> {
                     SceneStack.INSTANCE.push(new KampfScene(Department.COMPUTER_SCIENCE));
                     SceneStack.INSTANCE.push(new InventarScene(false));

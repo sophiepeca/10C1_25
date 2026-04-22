@@ -93,7 +93,7 @@ public class LehrerObject extends BaseObject{
             KampfScene.lehrerVerteidigung = false;
             KampfScene.lehrerTurn = true;
         }
-        else {
+        if(KampfScene.lehrerVerteidigung) {
             KampfScene.Zwischenschaden = angriff();
             KampfScene.timer = 10 * MainWindow.FPS;
             KampfScene.lehrerTurn = false;
