@@ -90,6 +90,14 @@ public class PlayerObject extends BaseObject{
         updateSprite();
     }
 
+    //Funktion zum Festlegen einer zufälligen x-Koordinate für die Spieler-Figur
+    public static int GetRandomX(){
+        Random r = new Random();
+        int min = 35;
+        int max = 790;
+        return r.nextInt((max - min) + 1) + min;
+    }
+
     public void addItem(ItemType item) {
         inventar.put(item, inventar.getOrDefault(item, 0) + 1);
     }
@@ -99,32 +107,18 @@ public class PlayerObject extends BaseObject{
         if(inventar.get(item) < 1)
             inventar.remove(item);
     }
-    
-    //Funktion zum Festlegen einer zufälligen x-Koordinate für die Spieler-Figur
-    public static int GetRandomX(){
-        Random r = new Random();
-        int min = 35;
-        int max = 790;
-        return r.nextInt((max - min) + 1) + min;
-    }
 
-    /*
-    Bitti bitti nicht noch mal löschen...
-    */
-    public int angriff(ItemType welchesItem) {
-        int level = welchesItem.LEVEL;
-        return level;
-    }
-    
-    public int verteidigung(int schaden, ItemType welchesItem) {
-        int level = welchesItem.LEVEL;
-        
-        schaden -= level;
+    public int verteidigung(int schaden, ItemType item) {
+        schaden -= item.LEVEL + 1;
         if (schaden < 0) {
             schaden = 0;
         }
 
         return schaden;
+    }
+
+    public int angriff(ItemType item) {
+        return item.LEVEL + 1;
     }
 
 
@@ -169,12 +163,16 @@ public class PlayerObject extends BaseObject{
             SceneStack.INSTANCE.push(new InventarScene(true));
 
         if(KampfScene.imKampf) {
-            if(KampfScene.PlayerVerteidigung) {
+            if(KampfScene.turn == KampfScene.Turn.PLAYER_DEFEND) {
+                if(! (SceneStack.INSTANCE.getTop() instanceof InventarScene))
+                    SceneStack.INSTANCE.push(new InventarScene(false));
+
+                // Timer: Wie viel Zeit wir noch zum Verteidigen gegen den Angriff haben
                 if(KampfScene.timer == 0) {
                     KampfScene.Endschaden = KampfScene.Zwischenschaden;
                     KampfScene.PlayerLeben -= KampfScene.Endschaden;
-                    KampfScene.PlayerVerteidigung = false;
-                    KampfScene.PlayerTurn = true;
+                    KampfScene.turn = KampfScene.Turn.PLAYER_ATTACK;
+                    KampfScene.lehrerObject.displayItem(null);
                 }
                 else {
                     if(KampfScene.clicked != null) {
@@ -182,19 +180,22 @@ public class PlayerObject extends BaseObject{
                         removeItem(KampfScene.clicked);
                         InventarScene.rebuild();
                         KampfScene.PlayerLeben -= KampfScene.Endschaden;
-                        KampfScene.PlayerVerteidigung = false;
-                        KampfScene.PlayerTurn = true;
+                        KampfScene.turn = KampfScene.Turn.PLAYER_ATTACK;
                         KampfScene.timer = 0;
+                        KampfScene.lehrerObject.displayItem(null);
                     }
                 }
-            } else if (KampfScene.PlayerTurn) {
+            } else if (KampfScene.turn == KampfScene.Turn.PLAYER_ATTACK) {
+                // Inventar ggf. öffnen
+                if(! (SceneStack.INSTANCE.getTop() instanceof InventarScene))
+                    SceneStack.INSTANCE.push(new InventarScene(false));
+
                 if(KampfScene.clicked != null) {
-                    System.out.println("Du bist am Angreifen");
                     KampfScene.Zwischenschaden = angriff(KampfScene.clicked);
                     removeItem(KampfScene.clicked);
-                    InventarScene.rebuild();
-                    KampfScene.PlayerTurn = false;
-                    KampfScene.lehrerVerteidigung = true;
+                    // Inventar schließen
+                    SceneStack.INSTANCE.pop();
+                    KampfScene.turn = KampfScene.Turn.LEHRER_DEFEND;
                 }
             }
         }
@@ -204,12 +205,15 @@ public class PlayerObject extends BaseObject{
     public void draw(Graphics2D g) {
         super.draw(g);
 
-        g.setColor(Color.WHITE);
         g.setFont(Draw.FONT_INFO);
         if(KampfScene.imKampf) {
-            String text = KampfScene.PlayerTurn ? "ANGRIFF" : "VERTEIDIGUNG";
+            boolean attack = (KampfScene.turn == KampfScene.Turn.PLAYER_ATTACK || KampfScene.turn == KampfScene.Turn.LEHRER_DEFEND);
+
+            String text = attack ? "ANGRIFF" : "VERTEIDIGUNG";
+            g.setColor(attack ? new Color(223, 52, 22) : new Color(83, 159, 234));
             Draw.drawTextCentered(g, text, x + width / 2, y + height + 20, true);
 
+            g.setColor(Color.WHITE);
             Draw.drawTextCentered(g, "HP: "+KampfScene.PlayerLeben, x + width  / 2, y + height + 40, true);
         }
     }

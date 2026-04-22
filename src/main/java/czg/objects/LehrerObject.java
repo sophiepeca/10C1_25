@@ -1,8 +1,6 @@
 package czg.objects;
 
-import czg.MainWindow;
 import czg.scenes.BaseScene;
-import czg.scenes.InventarScene;
 import czg.scenes.KampfScene;
 import czg.scenes.SceneStack;
 import czg.util.Draw;
@@ -18,6 +16,8 @@ public class LehrerObject extends BaseObject{
 
     public final Department fachschaft;
     public static List<ItemType> lehrerItems;
+    private int delayTimer = 0;
+    private Runnable postDelay = null;
 
     public LehrerObject(int x, int y, Department fachschaft) {
         super(getImage(fachschaft), x, y);
@@ -55,7 +55,6 @@ public class LehrerObject extends BaseObject{
             ButtonObject button = new ButtonObject(LehrerObject.getImage(department),
                     () -> {
                         SceneStack.INSTANCE.push(new KampfScene(department));
-                        SceneStack.INSTANCE.push(new InventarScene(false));
                         PlayerObject.INSTANCE.allowInventory = false;
                     });
             button.x = x;
@@ -65,21 +64,21 @@ public class LehrerObject extends BaseObject{
         }
     }
 
-    public int verteidigung(int level) {
+    public int verteidigung(int zwischenSchaden) {
         // Es wird random ausgewählt, ob ein Item gewählt wird (und welches), oder ob der Lehrer nichts macht.
         Random rand = new Random();
         int move = rand.nextInt(5);
         int schaden;
-        ItemType item_lehrer;
+        ItemType itemLehrer;
 
         // Falls die Null genommen wurde, wird kein Item vom Lehrer benutzt.
         if (move == 0) {
-            schaden = level;
+            schaden = zwischenSchaden;
         }
         else {
-            item_lehrer = lehrerItems.get(move - 1);
-            displayItem(item_lehrer);
-            schaden = level - item_lehrer.LEVEL;
+            itemLehrer = lehrerItems.get(move - 1);
+            displayItem(itemLehrer);
+            schaden = zwischenSchaden - (itemLehrer.LEVEL + 1);
             if (schaden <= 0) {
                 schaden = 0;
             }
@@ -94,15 +93,12 @@ public class LehrerObject extends BaseObject{
         // Der Lehrer wählt random, welches der Items er zum Angreifen benutzt.
         Random rand = new Random();
         int move = rand.nextInt(4);
-        int level;
-        ItemType item_lehrer;
+        ItemType itemLehrer;
         
-        item_lehrer = lehrerItems.get(move);
-        level = item_lehrer.LEVEL;
-
-        displayItem(item_lehrer);
+        itemLehrer = lehrerItems.get(move);
+        displayItem(itemLehrer);
         
-        return level;
+        return itemLehrer.LEVEL + 1;
     }
 
     public void displayItem(ItemType type) {
@@ -119,34 +115,64 @@ public class LehrerObject extends BaseObject{
     public void update(BaseScene scene) {
         super.update(scene);
 
-        if(KampfScene.lehrerVerteidigung) {
+        if(delayTimer > 0) {
+            delayTimer--;
+            return;
+        }
+
+        if(postDelay != null) {
+            Runnable ogPostDelay = postDelay;
+            postDelay.run();
+
+            // Nicht auf null setzen, wenn ein neues
+            // postDelay erstellt wurde
+            if(postDelay == ogPostDelay)
+                postDelay = null;
+
+            return;
+        }
+
+        if(KampfScene.turn == KampfScene.Turn.LEHRER_DEFEND) {
+            System.out.println("lehrer defend");
             KampfScene.Endschaden = verteidigung(KampfScene.Zwischenschaden);
-            KampfScene.LehrerLeben -= KampfScene.Endschaden;
-            KampfScene.lehrerVerteidigung = false;
-            KampfScene.lehrerTurn = true;
-        }
-        if(KampfScene.lehrerTurn) {
+
+            if(KampfScene.Zwischenschaden == KampfScene.Endschaden) {
+                // Wenn kein Item eingesetzt wurde, Leben jetzt schon anzeigen und 2s bis zum Angriff warten
+                KampfScene.LehrerLeben -= KampfScene.Endschaden;
+                delayTimer = FPS * 2;
+                postDelay = () -> KampfScene.turn = KampfScene.Turn.LEHRER_ATTACK;
+            } else {
+                // Es wurde ein Item eingesetzt
+                delayTimer = FPS * 2;
+                postDelay = () -> {
+                    displayItem(null);
+                    KampfScene.LehrerLeben -= KampfScene.Endschaden;
+
+                    // Noch 2s warten
+                    delayTimer = FPS * 2;
+                    postDelay = () -> KampfScene.turn = KampfScene.Turn.LEHRER_ATTACK;
+                };
+            }
+        } else if(KampfScene.turn == KampfScene.Turn.LEHRER_ATTACK) {
             KampfScene.Zwischenschaden = angriff();
-            KampfScene.timer = 10 * MainWindow.FPS;
-            KampfScene.lehrerTurn = false;
-            KampfScene.PlayerVerteidigung = true;
+            KampfScene.timer = 10 * FPS;
+            KampfScene.turn = KampfScene.Turn.PLAYER_DEFEND;
         }
-
-
-
-
     }
 
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
 
-        g.setColor(Color.WHITE);
         g.setFont(Draw.FONT_INFO);
         if(KampfScene.imKampf) {
-            String text = KampfScene.lehrerTurn ? "ANGRIFF" : "VERTEIDIGUNG";
+            boolean attack = (KampfScene.turn == KampfScene.Turn.PLAYER_DEFEND || KampfScene.turn == KampfScene.Turn.LEHRER_ATTACK);
+
+            String text = attack ? "ANGRIFF" : "VERTEIDIGUNG";
+            g.setColor(attack ? new Color(223, 52, 22) : new Color(83, 159, 234));
             Draw.drawTextCentered(g, text, x + width / 2, y + height + 20, true);
 
+            g.setColor(Color.WHITE);
             Draw.drawTextCentered(g, "HP: "+KampfScene.LehrerLeben, x + width  / 2, y + height + 40, true);
         }
     }

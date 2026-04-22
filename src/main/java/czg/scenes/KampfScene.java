@@ -20,17 +20,16 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static czg.MainWindow.HEIGHT;
+import static czg.MainWindow.*;
 
 /**
  * @author Sophie
  */
 public class KampfScene extends BaseScene{
 
-    public static boolean lehrerTurn;
-    public static boolean lehrerVerteidigung;
-    public static boolean PlayerTurn;
-    public static boolean PlayerVerteidigung;
+    public enum Turn { PLAYER_ATTACK, PLAYER_DEFEND, LEHRER_ATTACK, LEHRER_DEFEND }
+
+    public static Turn turn;
     public static boolean imKampf;
     public static int timer;
     public static int Zwischenschaden;
@@ -42,6 +41,7 @@ public class KampfScene extends BaseScene{
     public static Set<Department> uebrigeLehrer = Arrays.stream(Department.values()).collect(Collectors.toCollection(HashSet::new));
 
     public static ItemObject currentItem;
+    public static LehrerObject lehrerObject;
     public static KampfScene instance;
 
     public KampfScene(Department FACHSCHAFT){
@@ -55,10 +55,7 @@ public class KampfScene extends BaseScene{
 
         instance = this;
         imKampf = true;
-        lehrerTurn = false;
-        lehrerVerteidigung = false;
-        PlayerTurn = true;
-        PlayerVerteidigung = false;
+        turn = Turn.PLAYER_ATTACK;
         timer = 0;
         Zwischenschaden = 0;
         Endschaden = 0;
@@ -66,8 +63,9 @@ public class KampfScene extends BaseScene{
         PlayerLeben = 10;
         currentItem = null;
 
-        LehrerObject Lehrer = new LehrerObject(700, 280, FACHSCHAFT);
-        this.objects.add(Lehrer);
+        lehrerObject = new LehrerObject(700, 280, FACHSCHAFT);
+        this.objects.add(lehrerObject);
+
         this.objects.add(PlayerObject.INSTANCE);
         PlayerObject.INSTANCE.x = 120;
         PlayerObject.INSTANCE.y = 295;
@@ -105,7 +103,8 @@ public class KampfScene extends BaseScene{
     }
 
     private static void exit() {
-        SceneStack.INSTANCE.pop();
+        if(SceneStack.INSTANCE.getTop() instanceof InventarScene)
+            SceneStack.INSTANCE.pop();
         SceneStack.INSTANCE.pop();
         Class<? extends BaseScene> raumClass = SceneStack.INSTANCE.getTop().getClass();
         try {
@@ -121,9 +120,11 @@ public class KampfScene extends BaseScene{
     public void draw(Graphics2D g) {
         super.draw(g);
 
-        g.setColor(Color.BLACK);
-        g.setFont(Draw.FONT_INFO.deriveFont(30f));
-        g.drawString("timer="+timer, 10, HEIGHT - 90);
+        if(KampfScene.timer != 0) {
+            g.setColor(Color.GRAY);
+            g.setFont(Draw.FONT_INFO.deriveFont(30f));
+            Draw.drawTextCentered(g, "%.2fs".formatted((KampfScene.timer * 1d) / FPS), WIDTH / 2, HEIGHT - 40, true);
+        }
     }
 
     @Override
