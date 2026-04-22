@@ -12,7 +12,7 @@ public class ChemieraumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, ChemiegangScene::new, PfeilObject.UNTEN));
 
-        objects.add(new ButtonObject(Images.get("/assets/characters/kko.png"),
+        objects.add(new ButtonObject(LehrerObject.getImage(Department.CHEMISTRY),
                 () -> {
                     SceneStack.INSTANCE.push(new KampfScene(Department.COMPUTER_SCIENCE));
                     SceneStack.INSTANCE.push(new InventarScene(false));

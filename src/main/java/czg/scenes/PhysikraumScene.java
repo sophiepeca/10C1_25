@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package czg.scenes;
 
 import czg.objects.*;
 import czg.scenes.minigame.Minigames;
 import czg.util.Images;
 
-/**
- *
- * @author guest-rwl69f
- */
 public class PhysikraumScene extends BaseScene{
     public PhysikraumScene(){
         //Einfügen des Hintergrunds
@@ -20,7 +12,7 @@ public class PhysikraumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, PhysikgangScene::new, PfeilObject.UNTEN));
 
-        objects.add(new ButtonObject(Images.get("/assets/characters/tno.png"),
+        objects.add(new ButtonObject(LehrerObject.getImage(Department.PHYSICS),
                 () -> {
                     SceneStack.INSTANCE.push(new KampfScene(Department.COMPUTER_SCIENCE));
                     SceneStack.INSTANCE.push(new InventarScene(false));

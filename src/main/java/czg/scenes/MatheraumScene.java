@@ -7,6 +7,7 @@ import czg.sound.BaseSound;
 import czg.sound.EndOfFileBehaviour;
 import czg.sound.StreamSound;
 import czg.util.Images;
+
 public class MatheraumScene extends BaseScene{
     public MatheraumScene(){
         //Einfügen des Hintergrunds
@@ -15,7 +16,7 @@ public class MatheraumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, MathegangScene::new, PfeilObject.UNTEN));
 
-        objects.add(new ButtonObject(Images.get("/assets/characters/gei.png"),
+        objects.add(new ButtonObject(LehrerObject.getImage(Department.MATHEMATICS),
                 () -> {
                     SceneStack.INSTANCE.push(new KampfScene(Department.COMPUTER_SCIENCE));
                     SceneStack.INSTANCE.push(new InventarScene(false));

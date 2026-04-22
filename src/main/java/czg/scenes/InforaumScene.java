@@ -12,7 +12,7 @@ public class InforaumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, InfogangScene::new, PfeilObject.UNTEN));
 
-        objects.add(new ButtonObject(Images.get("/assets/characters/bre.png"),
+        objects.add(new ButtonObject(LehrerObject.getImage(Department.COMPUTER_SCIENCE),
                 () -> {
                     SceneStack.INSTANCE.push(new KampfScene(Department.COMPUTER_SCIENCE));
                     SceneStack.INSTANCE.push(new InventarScene(false));

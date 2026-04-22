@@ -80,7 +80,7 @@ public class LehrerObject extends BaseObject{
             return Images.get("/assets/characters/kko.png");
         }
         
-        throw new IllegalArgumentException("Konnte der Fachschaft "+fachschaft+", kein Foto zuordnen!");
+        throw new IllegalArgumentException("Konnte der Fachschaft "+fachschaft+" kein Foto zuordnen!");
     }
 
     @Override
