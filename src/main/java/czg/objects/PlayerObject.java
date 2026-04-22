@@ -11,7 +11,10 @@ import czg.util.character_creator.SaveFile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.function.Function;
 
 import static czg.MainWindow.PIXEL_SCALE;
@@ -187,7 +190,6 @@ public class PlayerObject extends BaseObject{
                 }
             }
             if (KampfScene.PlayerTurn) {
-                System.out.println(KampfScene.clicked);
                 if(KampfScene.clicked != null) {
                     System.out.println("Du bist am Angreifen");
                     KampfScene.Zwischenschaden = angriff(KampfScene.clicked);

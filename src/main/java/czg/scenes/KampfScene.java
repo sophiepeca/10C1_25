@@ -1,9 +1,9 @@
 package czg.scenes;
+
 import czg.MainWindow;
 import czg.objects.*;
 import czg.objects.music_loop_object.MusicLoopObject;
 import czg.objects.music_loop_object.SegmentChangeMarker;
-
 import czg.scenes.cover_settings.Rules;
 import czg.scenes.cover_settings.Setting;
 import czg.sound.BaseSound;
@@ -63,10 +63,8 @@ public class KampfScene extends BaseScene{
 
     @Override
     public void update() {
-        super.update();
         clicked = InventarScene.getClickedItem();
-        if(clicked != null)
-            System.out.println(clicked);
+        super.update();
 
         if(timer > 0) {
             timer -= 1;
