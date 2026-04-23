@@ -4,9 +4,11 @@ import czg.objects.ItemType;
 import czg.objects.PlayerObject;
 import czg.scenes.BaseScene;
 import czg.scenes.InventarScene;
+import czg.scenes.KampfScene;
 import czg.scenes.SceneStack;
+import czg.util.character_creator.SaveAndLoad;
 
-import javax.swing.*;
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -66,6 +68,25 @@ public class Console {
                                  InvocationTargetException e3) {
                             System.err.println("Konsole: Konnte Szene '"+sceneName+"' nicht erstellen");
                         }
+                    }
+                }
+                case String s when s.matches("chr .+") -> {
+                    String fileName = s.substring("chr".length()+1);
+                    try {
+                        SaveAndLoad.load(new File(fileName));
+                    } catch (Exception e) {
+                        System.err.println("Unable to load: '"+fileName+"': "+e);
+                    }
+                }
+                case String s when s.matches("hp [pl] \\d+") -> {
+                    try {
+                        int hp = Integer.parseInt(s.split(" ")[2]);
+                        if(s.split(" ")[1].equals("p"))
+                            KampfScene.PlayerLeben = hp;
+                        else
+                            KampfScene.LehrerLeben = hp;
+                    } catch (NumberFormatException x) {
+                        System.err.println("Konsole: Ungültige Zahl");
                     }
                 }
                 case "pop" -> SceneStack.INSTANCE.pop();
