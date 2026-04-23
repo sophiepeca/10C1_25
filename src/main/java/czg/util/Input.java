@@ -30,7 +30,7 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      * Wie lange eine Taste gedrückt sein muss, um als {@link KeyState#HELD}
      * und nicht mehr als {@link KeyState#PRESSED} gesehen zu werden.
      */
-    private static final long HELD_THRESHOLD = 100_000_000;
+    private static final long HELD_THRESHOLD = 50_000_000;
 
     /**
      * Ob Debugging-Informationen angezeigt werden sollen.

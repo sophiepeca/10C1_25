@@ -3,7 +3,6 @@ package czg.objects;
 import czg.scenes.BaseScene;
 import czg.scenes.InventarScene;
 import czg.scenes.KampfScene;
-import czg.scenes.SceneStack;
 import czg.util.Capsule;
 import czg.util.Draw;
 import czg.util.Images;
@@ -17,6 +16,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Function;
 
+import static czg.MainWindow.FPS;
 import static czg.MainWindow.PIXEL_SCALE;
 
 /**
@@ -70,6 +70,11 @@ public class PlayerObject extends BaseObject{
      * Singleton-Instanz
      */
     public static final PlayerObject INSTANCE = new PlayerObject();
+    
+    // Timer, der nach dem Verteidigen startet
+    private int postDefendDelay = 0;
+
+    public int inventoryLockTimer = 0;
 
 
     /**
@@ -90,6 +95,14 @@ public class PlayerObject extends BaseObject{
         updateSprite();
     }
 
+    //Funktion zum Festlegen einer zufälligen x-Koordinate für die Spieler-Figur
+    public static int GetRandomX(){
+        Random r = new Random();
+        int min = 35;
+        int max = 790;
+        return r.nextInt((max - min) + 1) + min;
+    }
+
     public void addItem(ItemType item) {
         inventar.put(item, inventar.getOrDefault(item, 0) + 1);
     }
@@ -99,32 +112,18 @@ public class PlayerObject extends BaseObject{
         if(inventar.get(item) < 1)
             inventar.remove(item);
     }
-    
-    //Funktion zum Festlegen einer zufälligen x-Koordinate für die Spieler-Figur
-    public static int GetRandomX(){
-        Random r = new Random();
-        int min = 35;
-        int max = 790;
-        return r.nextInt((max - min) + 1) + min;
-    }
 
-    /*
-    Bitti bitti nicht noch mal löschen...
-    */
-    public int angriff(ItemType welchesItem) {
-        int level = welchesItem.LEVEL;
-        return level;
-    }
-    
-    public int verteidigung(int schaden, ItemType welchesItem) {
-        int level = welchesItem.LEVEL;
-        
-        schaden -= level;
+    public int verteidigung(int schaden, ItemType item) {
+        schaden -= item.LEVEL + 1;
         if (schaden < 0) {
             schaden = 0;
         }
 
         return schaden;
+    }
+
+    public int angriff(ItemType item) {
+        return item.LEVEL + 1;
     }
 
 
@@ -164,42 +163,73 @@ public class PlayerObject extends BaseObject{
 
     @Override
     public void update(BaseScene scene) {
+        if(inventoryLockTimer > 0)
+            inventoryLockTimer--;
+
         // Inventar öffnen, wenn die Figur angeklickt wird
-        if(allowInventory && isClicked())
-            SceneStack.INSTANCE.push(new InventarScene(true));
+        if(allowInventory && inventoryLockTimer == 0 && isClicked())
+            InventarScene.open(true);
 
         if(KampfScene.imKampf) {
-            if(KampfScene.PlayerVerteidigung) {
+            if(postDefendDelay > 0) {
+                postDefendDelay--;
+                if(postDefendDelay == 0) {
+                    InventarScene.open(false);
+                    KampfScene.turn = KampfScene.Turn.PLAYER_ATTACK;
+                } else {
+                    return;
+                }
+            }
+            
+            if(KampfScene.turn == KampfScene.Turn.PLAYER_DEFEND) {
+                InventarScene.open(false);
+
+                // Timer: Wie viel Zeit wir noch zum Verteidigen gegen den Angriff haben
                 if(KampfScene.timer == 0) {
                     KampfScene.Endschaden = KampfScene.Zwischenschaden;
                     KampfScene.PlayerLeben -= KampfScene.Endschaden;
-                    KampfScene.PlayerVerteidigung = false;
-                    KampfScene.PlayerTurn = true;
-                    return;
-                }
-                else {
+                    KampfScene.lehrerObject.displayItem(null);
+                    postDefendDelay = 2 * FPS;
+                    InventarScene.close();
+                } else {
                     if(KampfScene.clicked != null) {
                         KampfScene.Endschaden = verteidigung(KampfScene.Zwischenschaden, KampfScene.clicked);
                         removeItem(KampfScene.clicked);
                         InventarScene.rebuild();
                         KampfScene.PlayerLeben -= KampfScene.Endschaden;
-                        KampfScene.PlayerVerteidigung = false;
-                        KampfScene.PlayerTurn = true;
-                        return;
+                        KampfScene.timer = 0;
+                        KampfScene.lehrerObject.displayItem(null);
+                        postDefendDelay = 2 * FPS;
+                        InventarScene.close();
                     }
                 }
-            }
-            if (KampfScene.PlayerTurn) {
+            } else if (KampfScene.turn == KampfScene.Turn.PLAYER_ATTACK) {
+                InventarScene.open(false);
+
                 if(KampfScene.clicked != null) {
-                    System.out.println("Du bist am Angreifen");
                     KampfScene.Zwischenschaden = angriff(KampfScene.clicked);
                     removeItem(KampfScene.clicked);
-                    InventarScene.rebuild();
-                    KampfScene.PlayerTurn = false;
-                    KampfScene.lehrerVerteidigung = true;
+                    InventarScene.close();
+                    KampfScene.turn = KampfScene.Turn.LEHRER_DEFEND;
                 }
             }
         }
     }
-    
+
+    @Override
+    public void draw(Graphics2D g) {
+        super.draw(g);
+
+        g.setFont(Draw.FONT_INFO);
+        if(KampfScene.imKampf) {
+            boolean attack = (KampfScene.turn == KampfScene.Turn.PLAYER_ATTACK || KampfScene.turn == KampfScene.Turn.LEHRER_DEFEND);
+
+            String text = attack ? "ANGRIFF" : "VERTEIDIGUNG";
+            g.setColor(attack ? new Color(223, 52, 22) : new Color(83, 159, 234));
+            Draw.drawTextCentered(g, text, x + width / 2, y + height + 5, true);
+
+            g.setColor(Color.WHITE);
+            Draw.drawTextCentered(g, "HP: "+(KampfScene.PlayerLeben > 0 ? KampfScene.PlayerLeben : "--"), x + width  / 2, y + height -20, true);
+        }
+    }
 }

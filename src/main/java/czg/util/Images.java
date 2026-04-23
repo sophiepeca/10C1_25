@@ -114,6 +114,9 @@ public class Images {
 
     public static BufferedImage cropTransparency(BufferedImage image) {
         WritableRaster alpha = image.getAlphaRaster();
+        if(alpha == null)
+            return image;
+
         int minX = 0, minY = 0, maxX = image.getWidth()-1, maxY = image.getHeight()-1;
 
         while(minX < image.getWidth() && Arrays.stream(alpha.getPixels(minX, 0, 1, image.getHeight(), new int[image.getHeight()])).sum()==0)

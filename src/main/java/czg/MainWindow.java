@@ -1,11 +1,8 @@
 package czg;
 
-import czg.objects.ItemType;
-import czg.objects.PlayerObject;
-import czg.scenes.BaseScene;
-import czg.scenes.InventarScene;
 import czg.scenes.SceneStack;
 import czg.scenes.intro.TitleScreenScene;
+import czg.util.Console;
 import czg.util.Input;
 import czg.util.Sounds;
 import czg.util.character_creator.CharacterCreator;
@@ -13,9 +10,9 @@ import czg.util.character_creator.CharacterCreator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Das Haupt-Fenster. Hier wird die Grafik ausgegeben.
@@ -52,9 +49,6 @@ public class MainWindow extends JFrame implements Runnable {
      * auch immer denselben {@link System#nanoTime()}-Wert benutzt
      */
     public long TIME_AT_UPDATE_START;
-
-    public static int UebrigeLehrer = 5;
-    public static boolean[] UebrigeLehrerArray = {true, true, true, true, true};
 
 
     /**
@@ -110,6 +104,15 @@ public class MainWindow extends JFrame implements Runnable {
             INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
         });
 
+        // Evtl. Befehlsskript lesen
+        if(args.length == 1 && args[0].startsWith("@")) {
+            try {
+                Console.queue.addAll(Files.readAllLines(Path.of(args[0].substring(1))));
+            } catch (IOException e) {
+                System.err.println("Konsole: Konnte Skript nicht lesen!");
+            }
+        }
+
         // Haupt-Schleife in einem neuen Thread starten
         new Thread(INSTANCE, "GameLoop").start();
 
@@ -160,52 +163,12 @@ public class MainWindow extends JFrame implements Runnable {
                 }
                 if(Input.INSTANCE.getKeyState(KeyEvent.VK_D) == Input.KeyState.PRESSED)
                     Input.debugDrawMode = (Input.debugDrawMode + 1)%3;
-                if(Input.INSTANCE.getKeyState(KeyEvent.VK_NUMBER_SIGN) == Input.KeyState.PRESSED) {
-                    switch(JOptionPane.showInputDialog(MainWindow.INSTANCE, "Console")) {
-                        case "impulse 101" -> {
-                            Arrays.stream(ItemType.values()).forEach(i -> PlayerObject.INSTANCE.inventar.put(i, 999));
-                            InventarScene.rebuild();
-                        }
-                        case "maimais" -> {
-                            PlayerObject.INSTANCE.addItem(ItemType.TEXT);
-                            PlayerObject.INSTANCE.addItem(ItemType.PAPIER);
-                            InventarScene.rebuild();
-                        }
-                        case "clear" -> {
-                            PlayerObject.INSTANCE.inventar.clear();
-                            InventarScene.rebuild();
-                        }
-                        case String s when s.matches("give .+ \\d+") -> {
-                            String[] parts = s.split(" ");
-                            try {
-                                ItemType type = ItemType.valueOf(parts[1]);
-                                int count = Math.max(1, Integer.parseInt(parts[2]));
-
-                                PlayerObject.INSTANCE.inventar.put(type, PlayerObject.INSTANCE.inventar.getOrDefault(type,0)+count);
-                                InventarScene.rebuild();
-                            } catch (IllegalStateException | NumberFormatException e) {}
-                        }
-                        case String s when s.matches("scene .+") -> {
-                            Class<?> sceneClass = null;
-                            try {
-                                sceneClass = Class.forName("czg.scenes."+s.split(" ")[1]);
-                            } catch(ClassNotFoundException e) {
-                                try {
-                                    sceneClass = Class.forName(s.split(" ")[1]);
-                                } catch (ClassNotFoundException e2) {
-                                }
-                            }
-                            if(sceneClass != null && BaseScene.class.isAssignableFrom(sceneClass)) {
-                                try {
-                                    Constructor<?> constructor = sceneClass.getConstructor();
-                                    BaseScene sceneInstance = (BaseScene) constructor.newInstance();
-                                    SceneStack.INSTANCE.push(sceneInstance);
-                                } catch (NoSuchMethodException|InstantiationException|IllegalAccessException e3) {} catch (InvocationTargetException e) {}
-                            }
-                        }
-                        default -> {}
-                    }
+                if(Input.INSTANCE.getKeyState(KeyEvent.VK_C) == Input.KeyState.PRESSED) {
+                    Console.queue.add(JOptionPane.showInputDialog(MainWindow.INSTANCE, "Console"));
                 }
+
+                // Ausstehende Befehle verarbeiten
+                Console.processQueue();
 
                 // Grafik
                 SceneStack.INSTANCE.repaint();

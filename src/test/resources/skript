@@ -1,0 +1,5 @@
+pop
+scene FoyerScene
+give DEBUG 999
+give ZIRKEL 999
+chr src/test/resources/KAWAIII.czgame_chr

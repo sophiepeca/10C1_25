@@ -66,7 +66,7 @@ public class InventarScene extends BaseScene {
             objects.add(exit);
             right = exit.x;
         } else {
-            right = iLeft + iWidth - iPadding * 2;
+            right = iLeft + iWidth - iPadding * 4;
         }
 
         // Reihe nach oben
@@ -149,6 +149,16 @@ public class InventarScene extends BaseScene {
         }
         SceneStack.INSTANCE.replace(oldInv, newInv);
         INSTANCE = newInv;
+    }
+
+    public static void open(boolean allowClosing) {
+        if(INSTANCE == null)
+            SceneStack.INSTANCE.push(new InventarScene(allowClosing));
+    }
+
+    public static void close() {
+        if(INSTANCE != null)
+            SceneStack.INSTANCE.remove(InventarScene.INSTANCE);
     }
 
     private void changeRow(int by) {

@@ -22,7 +22,5 @@ public class MathegangScene extends BaseScene{
         PlayerObject.INSTANCE.x = PlayerObject.GetRandomX();
         PlayerObject.INSTANCE.y = 295;
         
-        objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_menu.png"),
-                () -> SceneStack.INSTANCE.push(Minigames.generateMinigame(Department.MATHEMATICS))));
     }
 }

@@ -24,7 +24,7 @@ public final class SaveAndLoad {
      * Die aktuellen Farben speichern
      * @param a Damit diese Methode schön als Methoden-Referenz an {@link JButton#addActionListener(ActionListener)} übergeben werden kann
      */
-    static void save(ActionEvent a) {
+    static void saveFromUI(ActionEvent a) {
         // Datei wählen
         if(fileChooser.showSaveDialog(CharacterCreator.INSTANCE.get()) != JFileChooser.APPROVE_OPTION)
             return;
@@ -40,40 +40,48 @@ public final class SaveAndLoad {
                 "Speichern", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
             return;
 
-
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(selection))) {
-            // Datei schreiben
-            oos.writeObject(new SaveFile());
+        try {
+            save(selection);
             // Erfolg verkünden
             JOptionPane.showMessageDialog(CharacterCreator.INSTANCE.get(), selection+" gespeichert", "Erfolgreich gespeichert", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // Fehlernachricht übermitteln
             JOptionPane.showMessageDialog(CharacterCreator.INSTANCE.get(), e, "Fehler beim Speichern", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
-     * Die Farben für die Spielfigur aus einer mit {@link #save(ActionEvent)} gespeicherten Datei laden
-     * @param a Siehe {@link #save(ActionEvent)}
+     * Die Farben für die Spielfigur aus einer mit {@link #saveFromUI(ActionEvent)} gespeicherten Datei laden
+     * @param a Siehe {@link #saveFromUI(ActionEvent)}
      */
-    static void load(ActionEvent a) {
+    static void loadFromUI(ActionEvent a) {
         // Speicherort wählen
         if(fileChooser.showOpenDialog(CharacterCreator.INSTANCE.get()) != JFileChooser.APPROVE_OPTION)
             return;
 
         File selection = fileChooser.getSelectedFile();
 
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(selection))) {
-            // Datei laden
-            SaveFile saveFile = (SaveFile) ois.readObject();
-            // Geladene Farben übernehmen
-            saveFile.apply();
+        try {
+            load(selection);
             // Erfolg verkünden
             JOptionPane.showMessageDialog(CharacterCreator.INSTANCE.get(), selection+" geladen", "Erfolgreich geladen", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             // Fehlernachricht übermitteln
             JOptionPane.showMessageDialog(CharacterCreator.INSTANCE.get(), e, "Fehler beim Laden", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public static void save(File path) throws Exception {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+        oos.writeObject(new SaveFile());
+    }
+
+    public static void load(File path) throws Exception {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+        // Datei laden
+        SaveFile saveFile = (SaveFile) ois.readObject();
+        // Geladene Farben übernehmen
+        saveFile.apply();
     }
 
 }

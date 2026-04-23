@@ -1,9 +1,9 @@
 package czg.objects;
 
 import czg.util.Images;
-import czg.objects.Department;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 /**
@@ -42,7 +42,8 @@ public enum ItemType {
     WLAN("Wlan", "/assets/items/wlan.png", 1),
     WUNDERKERZE("Wunderkerze", "/assets/items/wunderkerze.png", 1),
     ZETTEL("Zettel", "/assets/items/zettel.png", 2),
-    ZIRKEL("Zirkel", "/assets/items/zirkel.png", 0);
+    ZIRKEL("Zirkel", "/assets/items/zirkel.png", 0),
+    DEBUG("Debug", "", 99);
         
     public final String NAME;
     public final Image SPRITE;
@@ -51,7 +52,7 @@ public enum ItemType {
     ItemType(String name, String imagePath, int level) {
         this.NAME = name;
         this.LEVEL = level;
-        this.SPRITE = Images.get(imagePath);
+        this.SPRITE = Images.cropTransparency((BufferedImage) Images.get(imagePath));
     }
 
     /**
@@ -117,7 +118,7 @@ public enum ItemType {
         
     }
     
-    public static List<ItemType> getItems(int level, Department fachschaft) { // Items mit jeweiligen Leveln an Lehrer mit jeweiligen Leveln  verteilen
+    public static List<ItemType> getItems(Department fachschaft) { // Items mit jeweiligen Leveln an Lehrer mit jeweiligen Leveln  verteilen
         if (fachschaft == Department.COMPUTER_SCIENCE) {
             
             return List.of(  //die Items werden zurückgegeben
@@ -158,8 +159,8 @@ public enum ItemType {
                     ItemType.SCHUTZBRILLE, //level 1 (eigentlich level 2)
                     ItemType.WUNDERKERZE//level 2
             );
+        } else {
+            throw new RuntimeException("BRO java is actually doch nicht so tuff");
         }
-        
-        throw new IllegalArgumentException("Konnte nicht die Items für Fachschaft "+fachschaft+", Level "+level+" ermitteln!");
     }
 }

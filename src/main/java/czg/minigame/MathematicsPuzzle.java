@@ -144,45 +144,45 @@ public enum MathematicsPuzzle {
     }),
 
     /**
-     * Level 3: Läufer TODO
+     * Level 3: Läufer
      */
-    P_20("/assets/minigames/mathematics/puzzle_3_1.png", 7, new double[][][] {
+    P_20("/assets/minigames/mathematics/puzzle_3_1.png", 0, new double[][][] {
         {
             {0.26, 0.26, 180.0},    // Großes Dreieck 1
             {0.26, 0.56, -135.0},   // Großes Dreieck 2
             {0.44, 0.0, 180.0},     // Mittleres Dreieck
-            {0.49, 0.05, 135.0},      // Kleines Dreieck 1
-            {0.62, 0.84, 90.0},      // Kleines Dreieck 2
+            {0.49, 0.05, 135.0},    // Kleines Dreieck 1
+            {0.62, 0.84, 90.0},     // Kleines Dreieck 2
             {0.0, 0.57, -45.0},     // Parallelogramm
             {0.44, 0.71, 0.0}       // Quadrat
         }
     }),
     /**
-     * Level 3: Kamel TODO
+     * Level 3: Kamel
      */
-    P_21("/assets/minigames/mathematics/puzzle_3_2.png", 7, new double[][][] {
+    P_21("/assets/minigames/mathematics/puzzle_3_2.png", 0, new double[][][] {
         {
-            {0.33, 0.4, 0.0},
-            {0.0, 0.0, 180.0},
-            {0.33, 0.0, 90.0},
-            {0.5, 0.0, 0.0},
-            {0.33, 0.4, 180.0},
-            {0.5, 0.2, 90.0},
-            {0.33, 0.6, 0.0}
+            {0.0, 0.51, 135.0},     // Großes Dreieck 1
+            {0.35, 0.32, 180.0},    // Großes Dreieck 2
+            {0.0, 0.27, -135.0},    // Mittleres Dreieck
+            {0.65, 0.0, 180.0},     // Kleines Dreieck 1
+            {0.65, 0.0, 180.0},     // Kleines Dreieck 2
+            {0.69, 0.15, 0.0},      // Parallelogramm
+            {0.31, 0.17, 0.0}       // Quadrat
         }
     }),
     /**
-     * Level 3: Hai TODO
+     * Level 3: Hai
      */
-    P_22("/assets/minigames/mathematics/puzzle_3_3.png", 7, new double[][][] {
+    P_22("/assets/minigames/mathematics/puzzle_3_3.png", 0, new double[][][] {
         {
-            {0.33, 0.4, 0.0},
-            {0.0, 0.0, 180.0},
-            {0.33, 0.0, 90.0},
-            {0.5, 0.0, 0.0},
-            {0.33, 0.4, 180.0},
-            {0.5, 0.2, 90.0},
-            {0.33, 0.6, 0.0}
+            {0.0, 0.0, 45.0},       // Großes Dreieck 1
+            {0.26, 0.31, 90.0},     // Großes Dreieck 2
+            {0.48, 0.66, 180.0},    // Mittleres Dreieck
+            {0.48, 0.14, 0.0},      // Kleines Dreieck 1
+            {0.56, 0.49, 90.0},     // Kleines Dreieck 2
+            {0.12, 0.49, 90.0},     // Parallelogramm
+            {0.7, 0.31, 0.0}        // Quadrat
         }
     });
 
@@ -214,7 +214,7 @@ public enum MathematicsPuzzle {
      * Wie viel Prozent des Puzzles unbedeckt bleiben darf,
      * damit es trotzdem als gelöst gilt
      */
-    private static final double MARGIN_OF_ERROR = 0.025;
+    private static final double MARGIN_OF_ERROR = 0.02;
 
     /**
      * Wie viele Teile vorgegeben sind
@@ -243,7 +243,7 @@ public enum MathematicsPuzzle {
         // Zufallszahl zwischen 0 (inklusiv) und 3 (exklusiv)
         int r = new Random().nextInt(3);
         // Entsprechenden Eintrag aus PUZZLES zurückgeben
-        return PUZZLES[level][0];
+        return PUZZLES[level][r];
     }
 
     /**

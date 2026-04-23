@@ -4,6 +4,8 @@ import czg.objects.*;
 import czg.scenes.minigame.Minigames;
 import czg.util.Images;
 
+import static czg.MainWindow.PIXEL_SCALE;
+
 public class ChemieraumScene extends BaseScene{
     public ChemieraumScene(){
         //Einfügen des Hintergrunds
@@ -12,19 +14,14 @@ public class ChemieraumScene extends BaseScene{
         //Pfeilobjekt für den Wechsel in die Gangszene
         objects.add(new PfeilObject(this, ChemiegangScene::new, PfeilObject.UNTEN));
 
-        objects.add(new ButtonObject(LehrerObject.getImage(Department.CHEMISTRY), 600, 250,
-                () -> {
-                    SceneStack.INSTANCE.push(new KampfScene(Department.COMPUTER_SCIENCE));
-                    SceneStack.INSTANCE.push(new InventarScene(false));
-                    PlayerObject.INSTANCE.allowInventory = false;
-                }));
+        LehrerObject.addButtonObject(this, Department.CHEMISTRY, 120 * PIXEL_SCALE, 70 * PIXEL_SCALE);
 
         //Einfügen der Spieler-Figur
         this.objects.add(PlayerObject.INSTANCE);
         PlayerObject.INSTANCE.x = 170;
-        PlayerObject.INSTANCE.y = 290;
+        PlayerObject.INSTANCE.y = 330;
 
-        objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_menu.png"),
+        objects.add(new ButtonObject(Images.get("/assets/minigames/general/button_play.png"), 155 * PIXEL_SCALE, 69 * PIXEL_SCALE,
                 () -> SceneStack.INSTANCE.push(Minigames.generateMinigame(Department.CHEMISTRY))));
         }
 }

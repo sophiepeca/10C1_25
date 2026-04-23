@@ -1,10 +1,7 @@
 package czg.scenes.minigame;
 
 import czg.MainWindow;
-import czg.objects.BackdropObject;
-import czg.objects.BaseObject;
-import czg.objects.ButtonObject;
-import czg.objects.ItemType;
+import czg.objects.*;
 import czg.scenes.BaseScene;
 import czg.scenes.SceneStack;
 import czg.util.Images;
@@ -34,13 +31,13 @@ public class MinigameEndScene extends BaseScene {
 
             BaseObject rewardContainer = new BaseObject(Images.get("/assets/minigames/general/reward_container.png"));
             rewardContainer.x = (MainWindow.WIDTH - rewardContainer.width) / 2;
-            rewardContainer.y = (int)((MainWindow.HEIGHT - rewardContainer.height) * 0.9);
+            rewardContainer.y = (int)((MainWindow.HEIGHT - rewardContainer.height) * 0.8);
 
             objects.add(rewardContainer);
 
-            BaseObject rewardItem = new BaseObject(reward.SPRITE);
-            rewardItem.x = (MainWindow.WIDTH - rewardContainer.width + rewardContainer.width-rewardItem.width) / 2;
-            rewardItem.y = (int)((MainWindow.HEIGHT - rewardContainer.height) * 0.9) + (rewardContainer.height-rewardItem.height) / 2;
+            BaseObject rewardItem = new ItemObject(reward, 0, 0, 0);
+            rewardItem.x = MainWindow.WIDTH / 2 - rewardItem.width / 2;
+            rewardItem.y = rewardContainer.y + rewardContainer.height / 2 - rewardItem.height / 2;
 
             objects.add(rewardItem);
         } else {
