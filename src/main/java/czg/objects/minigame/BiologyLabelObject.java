@@ -2,6 +2,7 @@ package czg.objects.minigame;
 
 import czg.objects.BaseObject;
 import czg.objects.Department;
+import czg.util.Draw;
 
 import java.awt.*;
 
@@ -25,6 +26,7 @@ public class BiologyLabelObject extends BaseObject {
         }
         g.fillRect(x, y, width, height);
         g.setColor(Color.BLACK);
+        g.setFont(Draw.FONT_INFO.deriveFont(13f));
         g.drawString(name, x + 5, y + (height / 2)+3 );
     }
 }
