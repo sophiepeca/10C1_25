@@ -55,7 +55,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Das Chemie Minigame}
+	\frametitle{Das Chemie-Minigame}
 \begin{minipage}[l]{0.40\textwidth}
 	\begin{itemize}
 		\item Konzept: Watersort Puzzle
@@ -72,10 +72,28 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{Umsetzung}
+        \begin{itemize}
+            \item ChemieLevelScene \pause
+        \begin{itemize}
+            \item Erweiterung der \texttt{LevelScene} \pause
+        \end{itemize}
+            \item Reagenzglas \pause
+        \begin{itemize}
+            \item Erweiterung von \texttt{BaseObject} \pause
+        \end{itemize}
+            \item ChemieGameObject \pause
+        \begin{itemize}
+            \item Erweiterung von \texttt{BaseObject}
+        \end{itemize}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Spielmechanik}
       \begin{figure}
         \centering
-        \begin{minipage}[l]{0.2\textwidth}
+        \begin{minipage}[l]{0.3\textwidth}
           \centering
           \includegraphics[width=\linewidth]{../präsi/bilder/ChemieLevelStart.png}
           \caption{Levelstart}
@@ -83,7 +101,7 @@
         \hfill
         $\Rightarrow$
         \hfill
-        \begin{minipage}[l]{0.2\textwidth}
+        \begin{minipage}[l]{0.3\textwidth}
           \centering
           \includegraphics[width=\linewidth]{../präsi/bilder/ChemieGlasAuswahl.png}
           \caption{Glas auswählen}
@@ -91,18 +109,10 @@
         \hfill
         $\Rightarrow$
         \hfill
-        \begin{minipage}[l]{0.2\textwidth}
+        \begin{minipage}[l]{0.3\textwidth}
           \centering
           \includegraphics[width=\linewidth]{../präsi/bilder/ChemieUmschuetten.png}
             \caption{Umschütten}
-        \end{minipage}
-        \hfill
-        $\Rightarrow$
-        \hfill
-        \begin{minipage}[l]{0.2\textwidth}
-          \centering
-          \includegraphics[width=\linewidth]{../präsi/bilder/ChemieLevelEnde.png}
-          \caption{Level gewinnen/verlieren}
         \end{minipage}
       \end{figure}
 \end{frame}
@@ -144,7 +154,7 @@ Sie beinhaltet:
 \end{frame}
 
 \begin{frame}
-	\frametitle{ChemieGameObjects}
+	\frametitle{ChemieGameObject}
 	Eine Erweiterung von \texttt{BaseObject}, die das gesamte Chemie-Minigame verwaltet.
 
 	Sie beinhaltet:
@@ -169,7 +179,7 @@ Sie beinhaltet:
 
 
 \begin{frame}
-	\frametitle{Das Physik Minigame}
+	\frametitle{Das Physik-Minigame}
 	\begin{minipage}[l]{0.40\textwidth}
 		\begin{itemize}
 			\item Konzept: Überlagerung von Kräften
@@ -186,10 +196,24 @@ Sie beinhaltet:
 \end{frame}
 
 \begin{frame}
+	\frametitle{Umsetzung}
+        \begin{itemize}
+            \item PhysikLevelScene \pause
+        \begin{itemize}
+            \item Erweiterung der \texttt{LevelScene} \pause
+        \end{itemize}
+            \item PhysikGameObject \pause
+        \begin{itemize}
+            \item Erweiterung von \texttt{BaseObject}
+        \end{itemize}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Spielmechanik}
       \begin{figure}
         \centering
-        \begin{minipage}[l]{0.25\textwidth}
+        \begin{minipage}[l]{0.3\textwidth}
           \centering
           \includegraphics[width=\linewidth]{../präsi/bilder/PhysikLevelStart.png}
           \caption{Levelstart}
@@ -197,18 +221,18 @@ Sie beinhaltet:
         \hfill
         $\Rightarrow$
         \hfill
-        \begin{minipage}[l]{0.25\textwidth}
+        \begin{minipage}[l]{0.3\textwidth}
           \centering
           \includegraphics[width=\linewidth]{../präsi/bilder/PhysikSpielerkraft.png}
-          \caption{Glas auswählen}
+          \caption{Spielerkraft einstellen}
         \end{minipage}
         \hfill
         $\Rightarrow$
         \hfill
-        \begin{minipage}[l]{0.25\textwidth}
+        \begin{minipage}[l]{0.3\textwidth}
           \centering
           \includegraphics[width=\linewidth]{../präsi/bilder/PhysikFlug.png}
-            \caption{Umschütten}
+            \caption{Flugphase}
         \end{minipage}
       \end{figure}
 \end{frame}
@@ -269,6 +293,22 @@ Die Klasse beinhaltet:
 \end{frame}
 
 \begin{frame}
+	\frametitle{Umsetzung}
+        \begin{itemize}
+            \item BiologyLevelScene \pause
+        \begin{itemize}
+            \item Erweiterung der \texttt{LevelScene} \pause
+        \end{itemize}
+            \item BiologyLabelObject \pause
+        \begin{itemize}
+            \item Erweiterung von \texttt{BaseObject} \pause
+        \end{itemize}
+        \item BiologyData \pause
+        \item BiologyPlant
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
 	\frametitle{BiologyLevelScene}
 	Eine Erweiterung von \texttt{BaseScene}, die das gesamte Biologie-Minigame verwaltet.
 
@@ -293,7 +333,7 @@ Die Klasse beinhaltet:
 \end{frame}
 
 \begin{frame}
-	\frametitle{BiologyLabelScene}
+	\frametitle{BiologyLabelObject}
 Eine Erweiterung von \texttt{BaseObject}, die ein anklickbares, beschriftetes Label darstellt.
 
 Die Klasse beinhaltet:
