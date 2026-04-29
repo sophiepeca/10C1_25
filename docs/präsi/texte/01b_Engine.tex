@@ -8,31 +8,32 @@
 \begin{frame}
 	\frametitle{Grundkonzepte}
 	\begin{itemize}
-		\item Oberfläche und Eingabe mit \textit{Swing} \pause
-		\item Hauptschleife \pause
-		\item Objekte \pause
+		\item Oberfläche und Eingabe mit \textit{Swing}
+		\item Hauptschleife
+		\item Objekte
 		\begin{itemize}
 			\item Bild
 			\item Position
 			\item Beliebige Logik
-		\end{itemize} \pause
-		\item Szenen \pause
+		\end{itemize}
+		\item Szenen
 		\begin{itemize}
 			\item Mehrere Objekte
 			\item Beliebige Logik
-		\end{itemize} \pause
-		\item Szenenstapel \pause
+		\end{itemize}
+		\item Szenenstapel
 		\begin{itemize}
 			\item Mehrere Szenen übereinander
 		\end{itemize}
+		\item Sound
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Oberfläche}
 	\begin{itemize}
-		\item \textit{Java Swing Framework} \pause
-		\item Fenster \pause
+		\item \textit{Java Swing Framework}
+		\item Fenster
 		\item Eingabe über \texttt{KeyListener} und \texttt{MouseListener}
 	\end{itemize}
 \end{frame}
@@ -40,20 +41,25 @@
 \begin{frame}
 	\frametitle{Hauptschleife}
 	\begin{itemize}
-		\item Zähler: Um seit dem letzten Durchlauf vergangene Zeit erhöhen \pause
+		\item Endlosschleife
+		\item Zähler: Um seit dem letzten Durchlauf vergangene Zeit erhöhen
 		\item Erreicht $\frac{1}{60}s$: Durchlauf der Logik und Grafik
+		\begin{itemize}
+			\item Alle Szenen bzw. Objekte
+			\item Tastaturkürzel
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Objekte}
 	\begin{itemize}
-		\item \texttt{BaseObject}-Klasse \pause
+		\item \texttt{BaseObject}-Klasse
 		\item Methoden:
 		\begin{itemize}
 			\item \texttt{update}
-			\item \texttt{draw}
 			\item \texttt{unload}
+			\item \texttt{draw}
 			\item \texttt{isClicked}
 		\end{itemize}
 	\end{itemize}
@@ -62,14 +68,14 @@
 \begin{frame}
 	\frametitle{Szene}
 	\begin{itemize}
-		\item \texttt{BaseScene}-Klasse \pause
+		\item \texttt{BaseScene}-Klasse
 		\item Methoden:
 		\begin{itemize}
 			\item \texttt{update}
 			\item \texttt{draw}
 			\item \texttt{unload}
-		\end{itemize} \pause
-		\item Verdeckungs-Einstellungen \pause
+		\end{itemize}
+		\item Verdeckungs-Einstellungen
 		\item Tags
 	\end{itemize}
 \end{frame}
@@ -77,26 +83,34 @@
 \begin{frame}
 	\frametitle{Szenenstapel}
 	\begin{itemize}
-		\item Liste von Szenen (\texttt{BaseScene}-Instanzen) \pause
-		\item Ausführen von \texttt{update} \pause
-		\item Ausführen von \texttt{draw} \pause
+		\item Liste von Szenen (\texttt{BaseScene}-Instanzen)
+		\item Ausführen von \texttt{update}, \texttt{draw} und \texttt{unload}
 		\item Anwenden von Verdeckungs-Einstellungen
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Verdeckungs-Einstellungen}
-	Was soll passieren, wenn eine bestimmte Szene über einer anderen liegt? \pause
+	Was soll passieren, wenn eine bestimmte Szene über einer anderen liegt?
 	\vspace{0.3cm}
 	
 	\begin{itemize}
-		\item Zuordnung Tag(s) $\rightarrow$ Regeln \pause
-		\item Werden kombiniert \pause
-		\item Soll die Szene... \pause
+		\item Zuordnung Tag(s) $\rightarrow$ Regeln
+		\item Werden kombiniert
+		\item Soll die Szene...
 		\begin{itemize}
-			\item[] ... gezeichnet werden? \pause
-			\item[] ... ihre Logik ausführen? \pause
+			\item[] ... gezeichnet werden?
+			\item[] ... ihre Logik ausführen?
 			\item[] ... ihren Ton abspielen?
 		\end{itemize}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+		\begin{figure}
+			\includegraphics[width=0.4\textwidth]{bilder/Verdecken.drawio.png}
+			\caption{Beispiel Verdeckungs-Einstellungen}
+		\end{figure}
+	\end{center}
 \end{frame}

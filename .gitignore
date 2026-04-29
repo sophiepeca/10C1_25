@@ -21,6 +21,8 @@ docs/**/*.toc
 docs/**/*.nav
 docs/**/*.out
 docs/**/*.snm
+docs/**/*.fls
+docs/**/*.fdb_latexmk
 
 # https://maven.apache.org/wrapper/#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
