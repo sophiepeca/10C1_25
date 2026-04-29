@@ -186,8 +186,21 @@ public class PlayerObject extends BaseObject{
                 }
             }
 
+            // Die Logik, wenn der Schüler gerade am Zug ist.
+            if (KampfScene.turn == KampfScene.Turn.PLAYER_ATTACK) {
+                InventarScene.open(false);
+
+                // Wenn der Schüler ein Item auswählt, wird mit diesem ein Angriff ausgeführt und der Lehrer muss verteidigen.
+                if(KampfScene.clicked != null) {
+                    KampfScene.Zwischenschaden = angriff(KampfScene.clicked);
+                    removeItem(KampfScene.clicked);
+                    InventarScene.close();
+                    KampfScene.turn = KampfScene.Turn.LEHRER_DEFEND;
+                }
+            }
+
             // Hier ist die Logik für die Verteidigung des Schülers.
-            if(KampfScene.turn == KampfScene.Turn.PLAYER_DEFEND) {
+            else if(KampfScene.turn == KampfScene.Turn.PLAYER_DEFEND) {
                 InventarScene.open(false);
 
                 // Timer: Wie viel Zeit wir noch zum Verteidigen gegen den Angriff haben
@@ -215,19 +228,6 @@ public class PlayerObject extends BaseObject{
                     }
                 }
 
-            }
-
-            // Die Logik, wenn der Schüler gerade am Zug ist.
-            else if (KampfScene.turn == KampfScene.Turn.PLAYER_ATTACK) {
-                InventarScene.open(false);
-
-                // Wenn der Schüler ein Item auswählt, wird mit diesem ein Angriff ausgeführt und der Lehrer muss verteidigen.
-                if(KampfScene.clicked != null) {
-                    KampfScene.Zwischenschaden = angriff(KampfScene.clicked);
-                    removeItem(KampfScene.clicked);
-                    InventarScene.close();
-                    KampfScene.turn = KampfScene.Turn.LEHRER_DEFEND;
-                }
             }
         }
     }
