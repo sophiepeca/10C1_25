@@ -17,7 +17,7 @@ public class EntranceScene extends BaseScene {
         final int foyerPlayerX = PlayerObject.INSTANCE.x;
         final int foyerPlayerY = PlayerObject.INSTANCE.y;
         PlayerObject.INSTANCE.x = 35 * PIXEL_SCALE;
-        PlayerObject.INSTANCE.y = HEIGHT - 10 * PIXEL_SCALE - PlayerObject.INSTANCE.height;
+        PlayerObject.INSTANCE.y = HEIGHT - 14 * PIXEL_SCALE - PlayerObject.INSTANCE.height;
 
         objects.add(new BackdropObject(Images.get("/assets/intro/entrance.png")));
         objects.add(new ButtonObject(null, 118 * PIXEL_SCALE, 38 * PIXEL_SCALE, 98 * PIXEL_SCALE, 72 * PIXEL_SCALE , () -> {

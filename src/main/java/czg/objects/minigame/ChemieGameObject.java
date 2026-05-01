@@ -16,9 +16,10 @@ import czg.util.Images;
  * Das Chemie-Minigame als BaseObject.
  */
 public class ChemieGameObject extends BaseObject {
-    private final Map<String, Image> blockBilder = new HashMap<>();
+
+    private final Map<String, Image> blockBilder = new HashMap<>(); //Bilder mit Farben hinterlegen
     private List<Reagenzglas> glaeser;
-    private int ausgewaehltesGlas = -1;
+    private int ausgewaehltesGlas = -1; //anfänglich kein ausgewähltes Glas
     private final LevelScene levelSzene;
     private final int level;
 
@@ -35,11 +36,13 @@ public class ChemieGameObject extends BaseObject {
         levelErstellen();
     }
 
+    //Konstanten
     private static final int ABSTAND = 0;
     private static final int SPIEL_X = 140;
     private static final int SPIEL_Y = 200;
     private static final int SPIEL_BREITE = 560;
 
+    //Schwierigkeitsgrad-spezifisches Level erstellen
     private void levelErstellen() {
         String[] farben = switch (level) {
             case 0 -> new String[]{"Blue", "Green", "Pink"};
@@ -47,16 +50,21 @@ public class ChemieGameObject extends BaseObject {
             default -> new String[]{"Blue", "Green", "Pink", "Purple", "Yellow"};
         };
 
-        List<String> alle = new ArrayList<>();
+        List<String> alle = new ArrayList<>(); //Liste aller Farben
+
+        //Farbblöcke MAX_KAPAZITAET-oftmal in Reagenzgläser füllen
         for (String f : farben)
             for (int i = 0; i < Reagenzglas.MAX_KAPAZITAET; i++) alle.add(f);
+        //mischen (zufällige Befüllung)
         Collections.shuffle(alle);
 
-        glaeser = new ArrayList<>();
+        glaeser = new ArrayList<>(); // Liste aller Gläser
         int anzahl = farben.length + 2; // +2 leere Gläser
         int gesamtBreite = anzahl * Reagenzglas.GLAS_BREITE + (anzahl - 1) * ABSTAND;
+        //Gläser zentrieren
         int startX = SPIEL_X + (SPIEL_BREITE - gesamtBreite) / 2;
 
+        //befüllte Gläser
         for (int i = 0; i < farben.length; i++) {
             Reagenzglas g = new Reagenzglas(
                     Images.get("/assets/minigames/chemistry/ChemieTesttubeSimple.png"),
@@ -70,6 +78,7 @@ public class ChemieGameObject extends BaseObject {
             glaeser.add(g);
         }
 
+        //leere Gläser
         for (int i = farben.length; i < anzahl; i++) {
             glaeser.add(new Reagenzglas(
                     Images.get("/assets/minigames/chemistry/ChemieTesttubeSimple.png"),
@@ -85,8 +94,10 @@ public class ChemieGameObject extends BaseObject {
         ausgewaehltesGlas = -1;
     }
 
+    //Farben der Blöcke
     private static final String[] ALLE_FARBEN = {"Blue", "Green", "Pink", "Purple", "Yellow"};
 
+    //Bilder der Blöcke
     private void bilderLaden() {
         for (String f : ALLE_FARBEN)
             blockBilder.put(f, Images.get("/assets/minigames/chemistry/" + f + "ColorDefaultBlock.png"));
@@ -103,6 +114,7 @@ public class ChemieGameObject extends BaseObject {
         } else {
             umschuetten(ausgewaehltesGlas, geklickt);
             auswahlAufheben();
+            //levelWon aufrufen
             if (istGewonnen()) levelSzene.levelWon();
         }
     }
@@ -114,13 +126,14 @@ public class ChemieGameObject extends BaseObject {
         if (jetzt - letzteZeitAktualisierung >= 1000) {
             verbleibendeSekunden--;
             letzteZeitAktualisierung = jetzt;
+            //falls Zeit abläuft, Level verloren
             if (verbleibendeSekunden <= 0) {
                 levelSzene.levelLost();
                 return;
             }
         }
 
-        // Klick-Erkennung
+        //Klick-Erkennung
         for (int i = 0; i < glaeser.size(); i++) {
             if (glaeser.get(i).isClicked()) {
                 mausGeklickt(i);
@@ -129,7 +142,7 @@ public class ChemieGameObject extends BaseObject {
         }
     }
 
-
+    //Umschütten, falls möglich
     private void umschuetten(int von, int nach) {
         Reagenzglas v = glaeser.get(von);
         Reagenzglas n = glaeser.get(nach);
@@ -141,6 +154,7 @@ public class ChemieGameObject extends BaseObject {
             n.blockHinzufuegen(v.oberstenBlockEntfernen());
     }
 
+    //Glasauswahl rückgängig machen
     private void auswahlAufheben() {
         if (ausgewaehltesGlas != -1)
             glaeser.get(ausgewaehltesGlas).setAusgewaehlt(false);

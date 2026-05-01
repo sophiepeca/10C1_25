@@ -63,7 +63,7 @@
 	\frametitle{Das Chemie-Minigame}
 \begin{minipage}[l]{0.40\textwidth}
 	\begin{itemize}
-		\item Konzept: Watersort Puzzle
+		\item Konzept: Watersort-Puzzle
 		\item Level: untersch. viele Farben und Gläser
 		\end{itemize}
 \end{minipage}
@@ -74,6 +74,34 @@
 	\caption{Beispiel Chemie-Minigame}
 	\end{figure}
 \end{minipage}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Spielmechanik}
+	\begin{figure}
+		\centering
+		\begin{minipage}[l]{0.3\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{../präsi/bilder/ChemieLevelStart.png}
+			\caption{Levelstart}
+		\end{minipage}
+		\hfill
+		$\Rightarrow$
+		\hfill
+		\begin{minipage}[l]{0.3\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{../präsi/bilder/ChemieGlasAuswahl.png}
+			\caption{Glas auswählen}
+		\end{minipage}
+		\hfill
+		$\Rightarrow$
+		\hfill
+		\begin{minipage}[l]{0.3\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{../präsi/bilder/ChemieUmschuetten.png}
+			\caption{Umschütten}
+		\end{minipage}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -94,37 +122,9 @@
         \end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Spielmechanik}
-      \begin{figure}
-        \centering
-        \begin{minipage}[l]{0.3\textwidth}
-          \centering
-          \includegraphics[width=\linewidth]{../präsi/bilder/ChemieLevelStart.png}
-          \caption{Levelstart}
-        \end{minipage}
-        \hfill
-        $\Rightarrow$
-        \hfill
-        \begin{minipage}[l]{0.3\textwidth}
-          \centering
-          \includegraphics[width=\linewidth]{../präsi/bilder/ChemieGlasAuswahl.png}
-          \caption{Glas auswählen}
-        \end{minipage}
-        \hfill
-        $\Rightarrow$
-        \hfill
-        \begin{minipage}[l]{0.3\textwidth}
-          \centering
-          \includegraphics[width=\linewidth]{../präsi/bilder/ChemieUmschuetten.png}
-            \caption{Umschütten}
-        \end{minipage}
-      \end{figure}
-\end{frame}
 
 \begin{frame}
 \frametitle{ChemieLevelScene}
-Eine Erweiterung der \texttt{LevelScene}, welche das \texttt{ChemieGameObject} zur \texttt{objects}-Liste hinzufügt.
 
 Sie beinhaltet:
 	\begin{itemize}
@@ -134,52 +134,46 @@ Sie beinhaltet:
 \end{frame}
 
 \begin{frame}
-	\frametitle{Reagenzglas}
-	Eine Erweiterung von \texttt{BaseObject}, die ein einzelnes Reagenzglas darstellt.
-	Die Klasse beinhaltet:
-		\begin{itemize}
-			\item \texttt{MAX\_KAPAZITAET}, \texttt{GLAS\_BREITE}, \texttt{GLAS\_HOEHE}: Statische Konstanten
-			\item \texttt{blockBilder}: \texttt{Map<String, Image>}.
-			\item \texttt{blockHinzufuegen(String farbe)}
-			\item \texttt{oberstenBlockEntfernen()}
-		\end{itemize}
+    \frametitle{Reagenzglas}
+
+    \begin{itemize}
+        \item \textbf{Zustand}
+        \begin{itemize}
+            \item Blöcke werden von oben eingefügt entnommen (Stack-Prinzip)
+            \item \texttt{istLeer()}, \texttt{istVoll()} – Füllzustand abfragen
+            \item \texttt{istGeloest()} – \texttt{true}, wenn alle Blöcke dieselbe Farbe haben
+        \end{itemize} \pause
+
+        \item \textbf{Interaktion}
+        \begin{itemize}
+            \item \texttt{kannAblegen(farbe)} – Kompatibilität mit oberstem Block
+            \item \texttt{blockHinzufuegen()} / \texttt{oberstenBlockEntfernen()}
+            \item \texttt{setAusgewaehlt()} – verschiebt Glas sichtbar
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Reagenzglas}
+    \frametitle{ChemieGameObject}
 
-	\begin{itemize}
-		\item \texttt{oberstenBlockAnschauen()}
-		\item \texttt{istLeer()}, \texttt{istVoll()}
-		\item \texttt{istGeloest()}
-		\item \texttt{kannAblegen(String farbe)}
-		\item \texttt{setAusgewaehlt(boolean)}
-		\item \texttt{draw(Graphics2D g)}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{ChemieGameObject}
-	Eine Erweiterung von \texttt{BaseObject}, die das gesamte Chemie-Minigame verwaltet.
-
-	Sie beinhaltet:
-		\begin{itemize}
-			\item \texttt{blockBilder}: Eine \texttt{Map<String, Image>}, die Farbnamen auf die zugehörigen Block-Bilder abbildet und an alle \texttt{Reagenzglas}-Objekte weiterreicht
-			\item \texttt{glaeser}: Eine \texttt{List<Reagenzglas>}
-			\item \texttt{ausgewaehltesGlas}
-			\item \texttt{verbleibendeSekunden}
-		\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{ChemieGameObjects}
-	\begin{itemize}
-		\item \texttt{levelErstellen()}
-		\item \texttt{umschuetten(int von, int nach)}
-		\item \texttt{istGewonnen()}
-		\item \texttt{update(BaseScene)}
-		\item \texttt{draw(Graphics2D)}
-	\end{itemize}
+    \begin{itemize}
+        \item \textbf{Spielaufbau} 
+        \begin{itemize} 
+            \item \texttt{levelErstellen()} befüllt Gläser zufällig + zwei leere Puffergläser
+        \end{itemize}
+ \pause
+        \item \textbf{Interaktion} 
+        \begin{itemize} 
+            \item \texttt{update()} erkennt Klicks, aktualisiert Timer -> bei Ablauf \texttt{levelLost()}
+            \item \texttt{umschuetten(von, nach)} verschiebt gleichfarbige
+                  Blöcke vom Quell- ins Zielglas
+        \end{itemize}
+ \pause
+        \item \textbf{Auswertung} 
+        \begin{itemize}
+            \item \texttt{istGewonnen()} – \texttt{true}, wenn alle Gläser leer oder einfarbig
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 
@@ -198,20 +192,6 @@ Sie beinhaltet:
 			\caption{Beispiel Physik-Minigame}
 		\end{figure}
 	\end{minipage}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Umsetzung}
-        \begin{itemize}
-            \item PhysikLevelScene \pause
-        \begin{itemize}
-            \item Erweiterung der \texttt{LevelScene} \pause
-        \end{itemize}
-            \item PhysikGameObject \pause
-        \begin{itemize}
-            \item Erweiterung von \texttt{BaseObject}
-        \end{itemize}
-        \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -243,8 +223,21 @@ Sie beinhaltet:
 \end{frame}
 
 \begin{frame}
+	\frametitle{Umsetzung}
+        \begin{itemize}
+            \item PhysikLevelScene \pause
+        \begin{itemize}
+            \item Erweiterung der \texttt{LevelScene} \pause
+        \end{itemize}
+            \item PhysikGameObject \pause
+        \begin{itemize}
+            \item Erweiterung von \texttt{BaseObject}
+        \end{itemize}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
 	\frametitle{PhysikLevelScene}
-Eine Erweiterung der \texttt{LevelScene}, welche das \texttt{PhysikGameObject} zur \texttt{objects}-Liste hinzufügt.
 
 Sie beinhaltet:
 	\begin{itemize}
@@ -255,29 +248,28 @@ Sie beinhaltet:
 
 \begin{frame}
 	\frametitle{PhysikGameObject}
-Eine Erweiterung von \texttt{BaseObject}, die das gesamte Physik-Minigame verwaltet.
-Das Spiel läuft in drei Phasen ab: \texttt{PHASE\_VORBEREITUNG}, \texttt{PHASE\_SIMULATION}, \texttt{PHASE\_ERGEBNIS}
 
-Die Klasse beinhaltet:
-	\begin{itemize}
-		\item \texttt{simulateButton}
-		\item \texttt{basisBeschleunigungen}
-		\item \texttt{kraftRichtung}
-		\item \texttt{wand}
-		\item \texttt{ziel}
-		\item \texttt{levelInitialisieren()}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{PhysikGameObject}
-	\begin{itemize}
-		\item \texttt{simulationStarten()}
-		\item \texttt{ballBewegen()}
-		\item \texttt{simulationStoppen(boolean treffer)}
-		\item \texttt{update(BaseScene)}
-		\item \texttt{draw(Graphics2D)}
-	\end{itemize}
+\begin{itemize}
+        \item \textbf{Phase 1 – Vorbereitung}
+        \begin{itemize}
+            \item Basiskräfte levelspezifisch zeichnen
+            \item Spieler*in zieht Kraftpfeil vom Ball weg (\texttt{kraftRichtung}: \texttt{"RIGHT"} / \texttt{"UP"})
+            \item \texttt{simulateButton} startet die Simulation
+        \end{itemize} 
+ \pause
+        \item \textbf{Phase 2 – Simulation} 
+        \begin{itemize} 
+            \item \texttt{simulationStarten()} übernimmt Spielerkraft als Startgeschwindigkeit
+            \item \texttt{ballBewegen()} wendet \texttt{basisBeschleunigungen} an
+            \item prüft Kollisionen mit Rand, Wand, Ziel
+        \end{itemize}
+ \pause
+        \item \textbf{Phase 3 – Ergebnis} 
+        \begin{itemize}
+            \item \texttt{simulationStoppen(treffer)} -> \texttt{levelWon()} / \texttt{levelLost()}
+            \item \texttt{draw()} zeigt Ergebnis; \texttt{levelInitialisieren()} setzt Level zurück
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -315,31 +307,32 @@ Die Klasse beinhaltet:
 
 \begin{frame}
 	\frametitle{BiologyLevelScene}
-	Eine Erweiterung von \texttt{BaseScene}, die das gesamte Biologie-Minigame verwaltet.
 
-	Die Klasse beinhaltet:
-		\begin{itemize}
-			\item \texttt{selectedLabel}
-			\item \texttt{imagePlaceholders}
-			\item \texttt{chosen}
-			\item \texttt{getLabelAtSlot(int slot)}
-			\item \texttt{reset()}
-		\end{itemize}
-\end{frame}
+\begin{itemize}
+        \item \textbf{Spielaufbau}
+        \begin{itemize} 
+            \item 4 zufällig gewählte Pflanzen (\texttt{chosen})
+            \item \texttt{reset()} neues Level mit neuen Pflanzen
+        \end{itemize}
+         \pause
+        \item \textbf{Interaktion} 
+        \begin{itemize} 
+            \item \texttt{update()} verarbeitet Klicks: Label auswählen, abwählen\\
+                  oder Bild zuordnen (\texttt{selectedLabel})
+            \item \texttt{getLabelAtSlot(slot)} gibt aktuell platziertes Label zurück
+        \end{itemize}
+         \pause
 
-\begin{frame}
-	\frametitle{BiologyLevelScene}
-	\begin{itemize}
-		\item \texttt{update()}
-		\item \texttt{checkWin()}
-		\item \texttt{allPlaced()}
-		\item \texttt{draw(Graphics2D g2)}
-	\end{itemize}
+        \item \textbf{Auswertung} 
+        \begin{itemize}
+            \item \texttt{allPlaced()} prüft, ob alle vier Slots belegt sind
+            \item \texttt{checkWin()} vergleicht jedes Label mit  Pflanzennamen -> LevelWon/LevelLost
+        \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{BiologyLabelObject}
-Eine Erweiterung von \texttt{BaseObject}, die ein anklickbares, beschriftetes Label darstellt.
 
 Die Klasse beinhaltet:
 	\begin{itemize}
@@ -349,10 +342,3 @@ Die Klasse beinhaltet:
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Weitere Klassen}
-	\begin{itemize}
-    \item Die Klasse \texttt{BiologyData}
-	\item Die Klasse \texttt{BiologyPlant}
-	\end{itemize}
-\end{frame}
