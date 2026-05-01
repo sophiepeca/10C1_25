@@ -55,7 +55,7 @@
 \begin{frame}
 	\frametitle{Gang- und Raumszenen}
 	\begin{itemize}
-		\item jede Szene eigene Klasse
+		\item für jede Szene gibt es eine eigene Klasse
 		\item Szenenwechsel per Pfeil in den Gängen
 		\item Eintritt in Räume über die Türen
 		\item in jeder Szene taucht der Spieler auf
@@ -64,8 +64,8 @@
 
 \begin{frame}
 	\begin{figure}
-	\includegraphics[width = 11 cm]{bilder/Chemiegang.png}
-	\caption{Chemiegang}
+		\includegraphics[width = 11 cm]{bilder/Chemiegang.png}
+		\caption{Chemiegang}
 	\end{figure}
 \end{frame}
 
@@ -82,11 +82,11 @@
 	\begin{minipage}{0.45\textwidth}
 		\begin{itemize}
 			\item formale Parameter:
-				\begin{itemize}
+			\begin{itemize}
 				\item Originalszene
 				\item Zielszene
 				\item Richtung
-				\end{itemize}
+			\end{itemize}
 			\item getSprite(int Richtung)
 			\item Festlegen der Position des Pfeils abhängig von der angegebenen Richtung
 		\end{itemize}
@@ -105,8 +105,8 @@
 	\begin{itemize}
 		\item Wenn das Objekt angeklickt wird:
 		\begin{itemize}
-		\item Austausch der alten gegen die neue Szene im Szenenstapel
-		\item Timer für das Inventar
+			\item Austausch der alten gegen die neue Szene im Szenenstapel
+			\item Timer für das Inventar
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -141,16 +141,23 @@
 	\frametitle{Position des Spielers}
 	\begin{minipage}{0.6\textwidth}
 		\begin{itemize}
-			\item Methode getSprite(int Richtung)
+			\item Methode getRandomX()
 			\begin{itemize}
-				\item festlegen einer zufälligen x-Koordinate für die Spielfigur
+				\item Festlegen einer zufälligen x-Koordinate für die Spielfigur
 			\end{itemize}
 		\end{itemize}
 	\end{minipage}
 	\begin{minipage}{0.35\textwidth}
 		\begin{figure}
 			\includegraphics[width = 3.75 cm]{bilder/Spieler.png}
-			\caption{Spieler}
+			\caption{Spielfigur}
 		\end{figure}
 	\end{minipage}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width = 11 cm]{bilder/Foyer.png}
+		\caption{Foyer}
+	\end{figure}
 \end{frame}
