@@ -254,7 +254,7 @@ public enum MathematicsPuzzle {
      * @return Ob die Form richtig gelegt wurde
      */
     public boolean isSolutionValid(int x, int y, int width) {
-        // Initialisierung des BufferedImage des Steines
+        // Initialisierung des BufferedImage des Puzzles
         BufferedImage bufferedSprite = (BufferedImage) SPRITE;
 
         // Initialisierung des BufferedImage des Fensters
@@ -280,7 +280,7 @@ public enum MathematicsPuzzle {
                 int px = (int) (x + col*spriteScale);
                 int py = (int) (y + row*spriteScale);
 
-                // Falls der Pixel im Bild eine andere Farbe als im Fenster hat, bedeutet das er ist verdeckt.
+                // Falls der Pixel im Bild eine andere Farbe als im Fenster hat, bedeutet das, er ist verdeckt.
                 if (bufferedSprite.getRGB(col, row) != bufferedMainWindow.getRGB(px, py)) amountOfCoveredPixel++;
 
                 amountOfPixel++;
