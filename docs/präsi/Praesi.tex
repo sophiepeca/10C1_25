@@ -1,4 +1,4 @@
-\documentclass{beamer} [10.12.2024]
+\documentclass{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
 \usepackage[T1]{fontenc}
@@ -17,12 +17,24 @@
 \setbeamertemplate{caption}[numbered]
 \bibliographystyle{plain} 
 
-\definecolor{lightblue}{rgb}{0.47, 0.47, 0.85}
+\definecolor{sixseven}{rgb}{0.21, 0.67, 0.69}
 
 
 \mode<presentation>{%
-	\usetheme{Berlin}
-	\setbeamercovered{transparent}
+	\usetheme[compress]{Berlin}
+	
+	\setbeamercolor{structure}{fg=sixseven}
+	\setbeamercolor{section in head/foot}{bg=sixseven, fg=white}
+	\setbeamercolor{frametitle}{bg=sixseven, fg=white}
+	
+	\setbeamertemplate{headline}{%
+		\leavevmode%
+		\begin{beamercolorbox}[wd=\paperwidth, ht=2.5ex, dp=1.125ex,
+			leftskip=0.3cm, rightskip=0.3cm]{section in head/foot}%
+			\usebeamerfont{section in head/foot}%
+			\insertsectionnavigationhorizontal{\paperwidth}{\hskip0pt plus1filll}{\hskip0pt plus1filll}%
+		\end{beamercolorbox}%
+	}
 }
 
 

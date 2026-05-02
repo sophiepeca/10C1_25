@@ -105,25 +105,6 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Umsetzung}
-        \begin{itemize}
-            \item ChemieLevelScene \pause
-        \begin{itemize}
-            \item Erweiterung der \texttt{LevelScene} \pause
-        \end{itemize}
-            \item Reagenzglas \pause
-        \begin{itemize}
-            \item Erweiterung von \texttt{BaseObject} \pause
-        \end{itemize}
-            \item ChemieGameObject \pause
-        \begin{itemize}
-            \item Erweiterung von \texttt{BaseObject}
-        \end{itemize}
-        \end{itemize}
-\end{frame}
-
-
-\begin{frame}
 \frametitle{ChemieLevelScene}
 
 Sie beinhaltet:
@@ -222,19 +203,6 @@ Sie beinhaltet:
       \end{figure}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Umsetzung}
-        \begin{itemize}
-            \item PhysikLevelScene \pause
-        \begin{itemize}
-            \item Erweiterung der \texttt{LevelScene} \pause
-        \end{itemize}
-            \item PhysikGameObject \pause
-        \begin{itemize}
-            \item Erweiterung von \texttt{BaseObject}
-        \end{itemize}
-        \end{itemize}
-\end{frame}
 
 \begin{frame}
 	\frametitle{PhysikLevelScene}
@@ -253,20 +221,22 @@ Sie beinhaltet:
         \item \textbf{Phase 1 – Vorbereitung}
         \begin{itemize}
             \item Basiskräfte levelspezifisch zeichnen
-            \item Spieler*in zieht Kraftpfeil vom Ball weg (\texttt{kraftRichtung}: \texttt{"RIGHT"} / \texttt{"UP"})
-            \item \texttt{simulateButton} startet die Simulation
+            \item Spieler*in zieht Kraftpfeil vom Ball weg (\texttt{kraftRichtung}
+            \item Start: \texttt{simulateButton}
         \end{itemize} 
  \pause
         \item \textbf{Phase 2 – Simulation} 
         \begin{itemize} 
-            \item \texttt{simulationStarten()} übernimmt Spielerkraft als Startgeschwindigkeit
+            \item \texttt{simulationStarten()}: Spielerkraft als Startgeschwindigkeit
             \item \texttt{ballBewegen()} wendet \texttt{basisBeschleunigungen} an
-            \item prüft Kollisionen mit Rand, Wand, Ziel
+            \begin{itemize}
+            	\item[$\Rightarrow$] prüft Kollisionen mit Rand, Wand, Ziel
+            \end{itemize}
         \end{itemize}
  \pause
         \item \textbf{Phase 3 – Ergebnis} 
         \begin{itemize}
-            \item \texttt{simulationStoppen(treffer)} -> \texttt{levelWon()} / \texttt{levelLost()}
+            \item \texttt{simulationStoppen(treffer)} -> \texttt{levelWon()}/\texttt{levelLost()}
             \item \texttt{draw()} zeigt Ergebnis; \texttt{levelInitialisieren()} setzt Level zurück
         \end{itemize}
     \end{itemize}
@@ -289,25 +259,17 @@ Sie beinhaltet:
 	\end{minipage}
 \end{frame}
 
+
 \begin{frame}
-	\frametitle{Umsetzung}
-        \begin{itemize}
-            \item BiologyLevelScene \pause
-        \begin{itemize}
-            \item Erweiterung der \texttt{LevelScene} \pause
-        \end{itemize}
-            \item BiologyLabelObject \pause
-        \begin{itemize}
-            \item Erweiterung von \texttt{BaseObject} \pause
-        \end{itemize}
-        \item BiologyData \pause
-        \item BiologyPlant
-        \end{itemize}
+	\frametitle{BiologyData und BiologyPlant}
+    \begin{itemize}
+                \item BiologyData: Levelspezifische Arrays mit Pflanzenbildern
+                \item BiologyPlant: einzelne Pflanze (Name und Bild)
+            \end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{BiologyLevelScene}
-
 \begin{itemize}
         \item \textbf{Spielaufbau}
         \begin{itemize} 
