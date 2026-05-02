@@ -9,6 +9,7 @@ import java.awt.*;
  * welches eine gegebene Funktion ausführt, sobald der Button gedrückt wird.
  */
 public class ButtonObject extends BaseObject {
+    public boolean includeTransparency = true;
     public final Runnable method;
 
     /**
@@ -51,7 +52,7 @@ public class ButtonObject extends BaseObject {
 
     @Override
     public void update(BaseScene scene) {
-        if(isClicked()) {
+        if(isClicked(includeTransparency)) {
             method.run();
         }
     }

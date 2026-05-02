@@ -30,7 +30,7 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      * Wie lange eine Taste gedrückt sein muss, um als {@link KeyState#HELD}
      * und nicht mehr als {@link KeyState#PRESSED} gesehen zu werden.
      */
-    private static final long HELD_THRESHOLD = 100_000_000;
+    private static final long HELD_THRESHOLD = 50_000_000;
 
     /**
      * Ob Debugging-Informationen angezeigt werden sollen.
@@ -168,8 +168,8 @@ public class Input implements KeyListener, MouseListener, FocusListener {
      * Siehe {@link #keyButtonsToUpdateToHeld}, {@link #getKeyState(int)}
      */
     public void update() {
-        keyButtonsToUpdateToHeld.forEach(code -> keyStates.put(code, MainWindow.INSTANCE.TIME_AT_UPDATE_START - HELD_THRESHOLD));
-        mouseButtonsToUpdateToHeld.forEach(code -> mouseStates.put(code, MainWindow.INSTANCE.TIME_AT_UPDATE_START - HELD_THRESHOLD));
+        keyButtonsToUpdateToHeld.forEach(code -> keyStates.computeIfPresent(code, (k,v) -> MainWindow.INSTANCE.TIME_AT_UPDATE_START - HELD_THRESHOLD));
+        mouseButtonsToUpdateToHeld.forEach(code -> mouseStates.computeIfPresent(code, (k,v) -> MainWindow.INSTANCE.TIME_AT_UPDATE_START - HELD_THRESHOLD));
         keyButtonsToUpdateToHeld.clear();
         mouseButtonsToUpdateToHeld.clear();
 

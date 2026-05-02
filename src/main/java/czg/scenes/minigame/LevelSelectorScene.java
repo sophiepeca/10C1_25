@@ -8,9 +8,9 @@ import czg.scenes.BaseScene;
 import czg.scenes.SceneStack;
 import czg.scenes.cover_settings.CoverSettings;
 import czg.sound.EndOfFileBehaviour;
-import czg.sound.SoundGroup;
 import czg.sound.StreamSound;
 import czg.util.Images;
+import czg.util.Sounds;
 
 /**
  * Szene, mit welcher die Levels eines Minigames gestartet werden
@@ -67,7 +67,7 @@ public class LevelSelectorScene extends BaseScene {
         objects.add(buttonLevel3);
 
         // Gang-Musik pausieren
-        SoundGroup.GLOBAL_SOUNDS.pause();
+        Sounds.HALLWAY_MUSIC.setPlaying(false);
         // Minigame-Musik starten
         sounds.get().addSound(new StreamSound("/assets/sound/minigame.ogg", true, EndOfFileBehaviour.LOOP));
     }
@@ -77,6 +77,6 @@ public class LevelSelectorScene extends BaseScene {
         super.unload();
 
         // Gang-Musik fortsetzen
-        SoundGroup.GLOBAL_SOUNDS.resume();
+        Sounds.HALLWAY_MUSIC.setPlaying(true);
     }
 }

@@ -1,15 +1,45 @@
 
 % Glossar
 
-\chapter*{Glossar}
+\chapter{Glossar}
+
+\section{Java}
 
 \begin{description}
- \item[MySQL]{MySQL ist ein relationales Datenbankmanagmentsystem. Es ist quelloffen und als Opensource verfügbar. Es bildet die Grundlage für dynamische "`Webauftritte"'}. 
- 
- Auf dem MySQL-Server, können mehrere Datenbanken erstellt werden. Auf diese kann unter anderem mit PHP zugegriffen werden.
- \item[PHP]PHP ist eine Skriptsprache zur Erstellung dynamischer Webseiten und wird für Webanwendungen verwendet.
- \item[Relationales Datenbanksystem] Es basiert auf einem tabellenorientierten Modell, in dem die Eigenschaften eines real existierenden Objektes im mathematischen Sinne zueinander beschrieben werden. Sie werden als Datensatz bezeichnet.
- 
- Durch Primär- und Fremdschlüssel können Beziehungen zwischen Tabellen erstellt werden.
- 
+	\item[Klasse] Sammlung an Methoden und Variablen bzw. Definition einer Datenstruktur.
+	\item[Konstruktor] Spezielle Methode einer Klasse, die beim instantiieren dieser aufgerufen wird.
+	\item[Kindklasse, erweitern] Eine neue Klasse, die Kindklasse, übernimmt alle (mindestens
+		als \texttt{protected} deklarierte) Methoden und Variablen der erweiterten Klasse,
+		der Elternklasse.
+	\item[\texttt{abstract}] Java-Schlüsselwort. Bei Klassen: Klasse kann nicht direkt
+		instantiiert werden. Bei Methoden: Kindklassen \textbf{müssen} diese überschreiben.
+	\item[Interface] Spezielle Art von Klasse, welche ausschließlich abstrakte Methoden besitzt.
+	\item[Enumeration, Enum]: Spezielle Art von Klasse, welche eine Feste Anzahl an benannten
+		Instanzen definiert, also nicht beliebig instantiiert werden kann.
+	\item[\texttt{public}] Java-Schlüsselwort. Klasse, Methode oder Variable kann von
+		überall erreicht werden.
+	\item[\texttt{protected}] Java-Schlüsselwort. Klasse, Methode oder Variable kann
+		nur innerhalb des gleichen Paketes oder von Kindklassen erreicht werden.
+	\item[\texttt{private}] Java-Schlüsselwort. Klasse, Methode oder Variable kann
+		nur innerhalb ihrer Klasse erreicht werden.
+	\item[\texttt{static}] Java-Schlüsselwort. Klasse, Methode oder Variable kann
+		unabhängig von einer Instanz verwendet werden, gehört also direkt zu einer
+		Klasse.
+	\item[Map, HashMap, LinkedHashMap] Eindeutige Zuordnung von Wertepaaren.
+	\item[Schlüsselmenge] Menge der Werte, denen in einer \texttt{Map} ein Wert zugeordnet ist.
+\end{description}
+
+
+\section{Spiel}
+
+\begin{description}
+	\item[Spiel-Engine, Engine] Code-Grundgerüst bzw. Bibliothek, welche maßgebliche
+		Unterstützung beim Erstellen eines Spiels bietet.
+	\item[Spiel-Objekt, Objekt] Akteur innerhalb des Spiels. Hat eine Position, Größe und optional ein Bild.
+	\item[\texttt{BackdropObject}] Ein Objekt, welches ein Bild oder eine Farbe über die Größe
+		des gesamten Spielfensters anzeigt. Wird verwendet, um schnell Hintergrundbilder
+		einbinden zu können. Das Objekt hat sonst keine weiteren Eigenschaften.
+	\item[\texttt{ButtonObject}] Ein Objekt, welches optional ein Bild anzeigt und, wenn es
+	    angeklickt wird, beliebigen Code ausführt.
+	\item[Szene] Eine Gruppe von Objekten.
 \end{description}

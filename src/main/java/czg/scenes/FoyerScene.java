@@ -14,7 +14,7 @@ public class FoyerScene extends BaseScene{
         objects.add(new PfeilObject(this, GangHausmeisterScene::new, PfeilObject.RECHTS));
         objects.add(new PfeilObject(this, PhysikgangScene::new, PfeilObject.LINKS));
         objects.add(new PfeilObject(this, ErstesOGScene::new, PfeilObject.OBEN));
-        
+
         //Einfügen der Spieler-Figur
         this.objects.add(PlayerObject.INSTANCE);
         PlayerObject.INSTANCE.x = 330;

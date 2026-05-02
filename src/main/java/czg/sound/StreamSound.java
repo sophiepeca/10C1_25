@@ -38,7 +38,13 @@ public class StreamSound extends BaseSound {
      * Speichert die länge von Sounds in Bytes
      */
     private static final Map<String, Long> trackLengthCache = new HashMap<>();
-
+    static {
+        trackLengthCache.put("/assets/sound/fight_intro.ogg", 3796464L);
+        trackLengthCache.put("/assets/sound/fight_loop.ogg", 10030744L);
+        trackLengthCache.put("/assets/sound/mensa.ogg", 14114560L);
+        trackLengthCache.put("/assets/sound/hallway.ogg", 24963840L);
+        trackLengthCache.put("/assets/sound/minigame.ogg", 46080560L);
+    }
 
     /**
      * {@link SourceDataLine}, in welche die gelesenen Audiodaten geschrieben werden
@@ -177,7 +183,7 @@ public class StreamSound extends BaseSound {
      * @param audioFilePath Pfad zur Audiodatei
      * @return Die länge des {@link AudioInputStream}s in Bytes
      */
-    private static long getTrackLength(String audioFilePath) {
+    public static long getTrackLength(String audioFilePath) {
         return trackLengthCache.computeIfAbsent(audioFilePath, p -> {
             long counter = 0;
             long skipped;
@@ -244,9 +250,9 @@ public class StreamSound extends BaseSound {
                         // Stream-Ende erreicht:
                         if (bytesRead == -1) {
                             // Entsprechende Aktion ausführen
-                            //      LOOP    -> Seek-Logik wird beim nächsten Durchlauf ausgeführt, isPlaying bleibt true
+                            //      LOOP                -> Seek-Logik wird beim nächsten Durchlauf ausgeführt, isPlaying bleibt true
                             //      RESTART_AND_PAUSE   -> -''-, isPlaying wird false
-                            //      STOP    -> stop() wird aufgerufen, wird aus der Liste entfernt (, isPlaying wird false)
+                            //      STOP                -> stop() wird aufgerufen, wird aus der Liste entfernt, isPlaying wird false
                             sound.endOfFileBehaviour.function.accept(sound);
 
                             // bytesRead-Zähler wird *noch nicht* zurückgesetzt, damit

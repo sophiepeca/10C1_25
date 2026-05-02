@@ -1,0 +1,67 @@
+\documentclass[11pt, oneside, halfparskip, smallheadings, automark]{scrreprt}
+
+\input{texte/00_praeambel}
+
+
+%   ********************************************************************************
+%  Informationen für die Titelseite:
+%  verwenden und anpassen, oder Entwurf einer eigenen Titelseite mit passender ansprechender Abbildung
+%   ********************************************************************************
+
+%   Name des Projektes (Schlagwort)
+    \newcommand{\titel}{Projektname}
+%   Projektthema  
+    \newcommand{\untertitel}{Ein Untertitel zur genaueren Beschreibung des Projektgegenstandes durch etwa zwei Zeilen Text}
+
+%   Namen aller Gruppenmitglieder, Zeilenumbruch durch \newline
+	\newcommand{\name}{Martha Mustermensch, 10x
+		\newline Maxi Musterin-Masterin-Mäusterin, 10x}
+
+%   Namen der Betreuer, Zeilenumbruch durch \newline
+	\newcommand{\betreuer}{Betreuende Person 1 
+        		\newline Betreuende Person 2 
+	          \newline Betreuende Person 3}
+	\newcommand{\eingereicht}{\today}
+
+%   ********************************************************************************
+
+\begin{document}
+
+\input{texte/00_titelseite}
+
+\tableofcontents
+
+%% Bei Bedarf: Abkürzungsverzeichnis einblenden
+%\input{texte/00x_abkuerzungen}
+\input{texte/01_einleitung.tex}
+\input{texte/02_grundlagen.tex}
+\input{texte/03_loesungsidee.tex}
+\input{texte/04_programmdoku.tex}
+\input{texte/05_ablaufprotokolle.tex}
+\input{texte/06_zusammenfassung.tex}
+\input{texte/07_glossar.tex}
+\input{texte/08_literatur.tex}
+
+\begingroup
+\let\clearpage\relax
+% Verhindern des Seitenwechsel zwischen den folgenden Verzeichnissen und Erklärungen
+
+\newpage
+
+\listoffigures
+\lstlistoflistings
+\listoftables
+
+\newpage
+
+\chapter*{Nutzungserklärung}
+Hiermit erklären wir uns einverstanden, dass die Dokumentation und das Projekt für
+schulische Zwecke verwendet werden dürfen. Wir gestatten, die Dokumentation und das Projekt auf der Website der Schule und zum Tag der offenen Tür zu veröffentlichen.
+
+\chapter*{Erklärung der eigenständigen Erstellung des Projektes}
+Hiermit versichern wir, dass wir die Dokumentation und das Projekt selbstständig verfasst und
+keine anderen als die angegebenen Quellen und Hilfsmittel benutzt haben sowie dass alle
+Ausführungen, die den Quellen wörtlich oder sinngemäß entnommen wurden, als solche
+gekennzeichnet sind.
+\endgroup
+\end{document}

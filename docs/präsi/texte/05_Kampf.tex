@@ -1,0 +1,166 @@
+\begin{frame}
+	\begin{center}
+		\Huge Kampf
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Das Kampfkonzept}
+		\begin{itemize}
+		\item Klick auf den Lehrer $\rightarrow$ Kampf startet
+		\item Spieler greift an $\rightarrow$ Lehrer verteidigt
+		\item Lehrer greift an $\rightarrow$ Spieler verteidigt 
+		\item Schaden entspricht der Differenz der Item-Stärken
+		\item Lebenspunkte um Schaden reduziert
+		\item bei 0 oder weniger Lebenspunkten: verloren
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Funktion: getItems}
+	\begin{figure}
+		\centering
+		\includegraphics[width=.8\textwidth]{bilder/GetItems.png}
+		\caption{Ausschnitt der Funktion getItems (Bildschirmfoto des Projektes)}
+		\label{fig:agi}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Lehrer-Funktion}
+		\begin{figure}
+		\centering
+		\includegraphics[width=.6\textwidth]{bilder/Lehrer-Funktion.png}
+		\caption{Ausschnitt der Funktion getItems (Bildschirmfoto des Projektes)}
+		\label{fig:alf}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	Erst erklären warum Idee I nicht funktioniert.\\
+	Dann Idee zwei erklären.\\
+	\begin{itemize}
+		\item Update Funktion noch einmal einführen
+		\item warum sie uns hilft
+		\item verschiedene updates erklären
+		\item noch draw Funktion ansprechen
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Methode 2}
+	\begin{figure}
+		\centering
+		\includegraphics[width=.9\textwidth]{bilder/InfoKampfMethode2.png}
+		\caption{Warum Methode 1 nicht funktioniert}
+		\label{fig:erklaerungMethode2}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Die update() Funktion}
+	\begin{figure}
+		\centering
+		\includegraphics[width=.9\textwidth]{bilder/InfoUpdates.png}
+		\caption{Wie update() funktioniert}
+		\label{fig:erklaerungUpdates}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\begin{algorithm}[H]
+		\begin{algorithmic}[1]
+			\State Hintergrundbild
+			\State Variablen festsetzen
+			\State Lehrer $\gets$ new LehrerObject(FACHSCHAFT)
+			\State button zum Kampfabbruch
+			\State music $\gets$ Kampfmusik
+		\end{algorithmic}
+		\caption{KampfScene(FACHSCHAFT) pseudocode}
+		\label{alg:SceneKonstruction}
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}
+	\begin{algorithm}[H]
+		\begin{algorithmic}[1]
+			\If {LehrerLeben $\leq$ 0}
+				\State Gewonnen
+				\State Dekrementiere UebrigeLehrer
+				\State Beende Kampf
+			\EndIf
+			\If {PlayerLeben $\leq$ 0 $\vee$ |PlayerItems| = 0}
+				\State Verloren
+				\State Beende Kampf
+			\EndIf
+		\end{algorithmic}
+		\caption{KampfScene.update() pseudocode}
+		\label{alg:SceneUpdate}
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}
+	\begin{algorithm}[H]
+		\begin{algorithmic}[1]
+			\If {timer $\neq$ 0}
+			\State draw timer 
+			\EndIf
+		\end{algorithmic}
+		\caption{KampfScene.draw() pseudocode}
+		\label{alg:SceneDraw}
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}
+	\begin{algorithm}[H]
+		\begin{algorithmic}[1]
+			\If {Turn = LehrerAngriff}
+				\State ZwischenSchaden $\gets$ LehrerAngriff()
+				\If {ItemBenutzt} 
+					\State DisplayItem()
+				\EndIf
+				\State timer $\gets$ 4 Sekunden
+				\State Turn $\gets$ PlayerVerteidigung
+			\ElsIf {Turn = LehrerVerteidigung}
+				\State LehrerLeben -= LehrerVerteidigung(Zwischenschaden)
+				\State Turn $\gets$ PlayerAngriff
+			\EndIf
+		\end{algorithmic}
+		\caption{LehrerObject.update() pseudocode}
+		\label{alg:LehrerUpdate}
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}
+	\begin{algorithm}[H]
+		\begin{algorithmic}[1]
+			\If {imKampf}
+			\If {Turn = PlayerAngriff}
+			\State ZwischenSchaden $\gets$ PlayerAngriff(clickedItem)
+			\State Turn $\gets$ LehrerVerteidigung
+			\ElsIf {Turn = PlayerVerteidigung}
+			\State PlayerLeben -= PlayerVerteidigung(Zwischenschaden, clickedItem)
+			\State Turn $\gets$ LehrerAngriff
+			\EndIf
+			\EndIf
+		\end{algorithmic}
+		\caption{PlayerObject.update() pseudocode}
+		\label{alg:PlayerUpdate}
+	\end{algorithm}
+\end{frame}
+
+\begin{frame}
+	\begin{algorithm}[H]
+		\begin{algorithmic}[1]
+			\If {turn = Angriff}
+			\State draw \dq Angriff"
+			\ElsIf {turn = Verteidigung}
+			\State draw "Verteidigung"
+			\EndIf
+			\State draw Leben
+		\end{algorithmic}
+		\caption{draw() pseudocode}
+		\label{alg:Draw}
+	\end{algorithm}
+\end{frame}

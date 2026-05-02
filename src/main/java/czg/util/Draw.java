@@ -28,9 +28,34 @@ public final class Draw {
      * @param x X-Koordinate
      * @param y Y-Koordinate
      */
-    public static void drawTextCentered(Graphics2D g, String text, int x, int y) {
+    public static void drawTextCentered(Graphics2D g, String text, int x, int y, boolean outline) {
         Rectangle2D bounds = g.getFontMetrics().getStringBounds(text, g);
-        g.drawString(text, (int) (x - bounds.getWidth()/2), (int) (y - bounds.getHeight()/2));
+        int tx = (int) (x - bounds.getWidth() / 2);
+        int ty = (int) (y - bounds.getHeight() / 2);
+        if(outline)
+            drawTextWithOutline(g, text, tx, ty);
+        else
+            g.drawString(text, tx, ty);
+    }
+
+    public static void drawTextWithOutline(Graphics2D g, String text, int x, int y) {
+        Color mainColor = g.getColor();
+        Color shadowColor = mainColor.darker().darker().darker();
+
+        g.setColor(shadowColor);
+        g.drawString(text, x - 1, y - 1);
+        g.drawString(text, x - 1, y);
+        g.drawString(text, x - 1, y + 1);
+
+        g.drawString(text, x, y - 1);
+        g.drawString(text, x, y + 1);
+
+        g.drawString(text, x + 1, y - 1);
+        g.drawString(text, x + 1, y);
+        g.drawString(text, x + 1, y + 1);
+
+        g.setColor(mainColor);
+        g.drawString(text, x, y);
     }
 
 

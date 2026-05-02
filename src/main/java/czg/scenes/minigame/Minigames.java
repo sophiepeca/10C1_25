@@ -46,6 +46,13 @@ public class Minigames {
                     new PhysikLevelScene(2)
                 );
             }
+            case BIOLOGY -> {
+                return new LevelSelectorScene(
+                        new BiologyLevelScene(0),
+                        new BiologyLevelScene(1),
+                        new BiologyLevelScene(2)
+                );
+            }
             
             default -> throw new UnsupportedOperationException("Minigame für Fachschaft "+department+" noch nicht implementiert");
         }

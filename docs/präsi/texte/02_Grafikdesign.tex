@@ -1,0 +1,163 @@
+\begin{frame}
+	\begin{center}
+		\Huge Grafikdesign
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Euer Titel}
+\end{frame}
+
+\begin{frame}{Grafikdesign}
+	\begin{minipage}[v]{0.3 \textwidth}
+		\begin{figure}
+			\centering
+			%\includegraphics[width=.9\textwidth]{figures/Bioraum.png}
+			\caption[Bioraum]{Der Bioraum}
+			\label{fig:Bioraum}
+		\end{figure}
+	\end{minipage}
+
+\vfill
+
+\begin{minipage}[v]{0.3 \textwidth}
+	\begin{figure}
+		\centering
+		%\includegraphics[width=.9\textwidth]{figures/Inforaum.png}
+		\caption[Inforaum]{Der Inforaum}
+		\label{fig:Inforaum}
+	\end{figure}
+\end{minipage}
+
+\vfill
+
+\begin{minipage}[v]{0.3 \textwidth}
+	\begin{figure}
+		\centering
+		%\includegraphics[width=.9\textwidth]{figures/Physikraum.png}
+		\caption[Physikraum]{Der Physikraum}
+		\label{fig:Physikraum}
+	\end{figure}
+\end{minipage}
+	
+\end{frame}
+
+\begin{frame}
+	\begin{minipage}{0.3\textwidth}
+		\begin{figure}
+			\centering
+			%\includegraphics[width=0.9\textwidth]{figures/kt_farbverlauf}
+			\label{fig:kt_farbverlauf}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Gang- und Raumszenen}
+	\begin{itemize}
+		\item für jede Szene gibt es eine eigene Klasse
+		\item Szenenwechsel per Pfeil in den Gängen
+		\item Eintritt in Räume über die Türen
+		\item in jeder Szene taucht der Spieler auf
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width = 11 cm]{bilder/Chemiegang.png}
+		\caption{Chemiegang}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Aufbau der Szenenklassen}
+	\begin{figure}
+		\includegraphics[width = 11 cm]{bilder/CodeSzene.png}
+		\caption{Beispielcode (Chemiegang)}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Das Pfeilobjekt}
+	\begin{minipage}{0.45\textwidth}
+		\begin{itemize}
+			\item formale Parameter:
+			\begin{itemize}
+				\item Originalszene
+				\item Zielszene
+				\item Richtung
+			\end{itemize}
+			\item getSprite(int Richtung)
+			\item Festlegen der Position des Pfeils abhängig von der angegebenen Richtung
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\begin{figure}
+			\includegraphics[width = 5 cm]{bilder/Pfeile.png}
+			\caption{Pfeile}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Das Pfeilobjekt}
+	\textbf{Updatefunktion}
+	\begin{itemize}
+		\item Wenn das Objekt angeklickt wird:
+		\begin{itemize}
+			\item Austausch der alten gegen die neue Szene im Szenenstapel
+			\item Timer für das Inventar
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Das Türobjekt}
+	\begin{minipage}{0.65\textwidth}
+		\begin{itemize}
+			\item Formale Parameter:
+			\begin{itemize}
+				\item x-Koordinate
+				\item y-Koordinate
+				\item Originalszene
+				\item Zielszene
+			\end{itemize}
+			\item unsichtbares Objekt
+			\item Updatefunktion
+			\begin{itemize}
+				\item Austausch der Szenen im Szenenstapel
+			\end{itemize}
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.3\textwidth}
+		\begin{figure}
+			\includegraphics[width = 3.5 cm]{bilder/Tür.png}
+			\caption{Tür}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Position des Spielers}
+	\begin{minipage}{0.6\textwidth}
+		\begin{itemize}
+			\item Methode getRandomX()
+			\begin{itemize}
+				\item Festlegen einer zufälligen x-Koordinate für die Spielfigur
+			\end{itemize}
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{0.35\textwidth}
+		\begin{figure}
+			\includegraphics[width = 3.75 cm]{bilder/Spieler.png}
+			\caption{Spielfigur}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+		\includegraphics[width = 11 cm]{bilder/Foyer.png}
+		\caption{Foyer}
+	\end{figure}
+\end{frame}

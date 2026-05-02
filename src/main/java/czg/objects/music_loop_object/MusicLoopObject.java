@@ -55,10 +55,8 @@ public class MusicLoopObject extends BaseObject {
         if(instance.get() != null)
             throw new IllegalStateException("Es kann nur ein MusicLoopObject auf einmal existieren!");
 
-        if(currentTrack == null) {
+        if(currentTrack == null)
             currentTrack = sound;
-            currentTrack.setPlaying(true);
-        }
 
         segmentChangeMarkers.put(sound, marker);
 
@@ -70,6 +68,9 @@ public class MusicLoopObject extends BaseObject {
             throw new IllegalStateException("Es kann nur ein MusicLoopObject auf einmal existieren!");
 
         instance.set(this);
+
+        // Erstes Segment starten
+        currentTrack.setPlaying(true);
 
         // Ggf. den Thread starten bzw. aufwecken
         if (!segmentChangeThread.isAlive()) {

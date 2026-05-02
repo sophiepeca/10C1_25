@@ -1,8 +1,5 @@
 \chapter{Programmdokumentation}
 
-Im Abschnitt \emph{Programmdokumentation} soll der Aufbau und die Struktur des Programms dargelegt werden, also wie die Lösungsidee im Programm umgesetzt wurde. Die Erläuterung der wichtigsten Funktionen und Klassen des Programms soll zusätzlich durch relevante Ausschnitte von kommentierten Quelltexten, Struktogramme und/oder Pseudocode-Beschreibungen von wesentlichen Teilalgorithmen veranschaulicht werden.
-
-
 Das CZGame ist ein am Carl-Zeiss-Gymnasium Jena orientiertes, als Point- \& Click ausgelegtes Spiel. Ziel ist es sich gegen alle Lehrer aus den verschiedenen Fachschaften durchzusetzen. Dabei wird man im Verlauf des Spiels immer besser und bekommt immer stärkere Attribute. \\
 
 \begin{figure}[h!]
@@ -12,59 +9,12 @@ Das CZGame ist ein am Carl-Zeiss-Gymnasium Jena orientiertes, als Point- \& Clic
     \label{fig:placeholder}
 \end{figure}
 
-Das Spiel startet in einer Szene, die dem Foyer der Schule ähnelt. Von hier aus kann man sich mithilfe der Pfeile fortbewegen. Man kann entweder nach links und rechts um in die verschiedenen Gänge der Fachschaften zu gelangen, oder man geht die Treppe in die nächste Etage hinauf. In den Gängen der Fachschaften kann man nun Minigames finden. Diese beinhalten 3 unterschiedlich schwere Level (leicht, mittel, schwer). Die Minigames sind an die jeweilige Fachschaft angelegt. Beispielsweise muss man in der Informatik Logische Schaltungen durchblicken, während der Spieler in der Chemie mit dem sortieren von verschiedenen Flüssigkeiten konfrontiert wird. Schafft man es die Minigames erfolgreich zu lösen, erhält man verschiedenste Items, die einem im Kampf gegen die Lehrer unterstützen. \\
-In den Gängen kann man außerdem in die Räume gehen. Dafür genügt es, wenn man die Tür anklickt. In den Räumen findet man die verschieden Lehrer. Möchte man sich im Kampf gegen diese Beweisen muss man einmal auf den Lehrer klicken. \\
-Der Kampf basiert auf verschiedenen Runden. Lehrer und Schüler versuchen abwechseln sich ihrem gegenüber zu beweisen. Durch die Items kann man stärker werden und die Lehrer leichter besiegen. Dabei muss der Spieler jedoch aufpassen, denn nicht jedes Item hilft bei jedem Lehrer gleich viel. 
+Das Spiel startet in einer Szene, die dem Foyer der Schule ähnelt. Von hier aus kann man sich mithilfe der Pfeile fortbewegen. Man kann entweder nach links und rechts um in die verschiedenen Gänge der Fachschaften zu gelangen, oder man geht die Treppe in die nächste Etage hinauf. Von den Gängen aus kann man in die Räume der jeweiligen Fachschaft gelangen, dies geschieht per Anklicken der Tür.
+Angekommen im Raum einer Fachschaft kann man dort die Minigames finden. Diese beinhalten 3 unterschiedlich schwere Level (leicht, mittel, schwer). Die Minigames sind thematisch an die jeweilige Fachschaft angelegt. Beispielsweise muss man in der Informatik Logische Schaltungen durchblicken, während der Spieler in der Chemie mit dem sortieren von verschiedenen Flüssigkeiten konfrontiert wird. Schafft man es, die Minigames erfolgreich zu lösen, erhält man verschiedenste Items, die einem im Kampf gegen die Lehrer unterstützen. \\
+Diese befinden sich ebenfalls im jeweiligen, zu ihrer Fachschaft passenden Raum. Möchte man sich im Kampf gegen einen der Lehrer beweisen, muss man einmal auf den Lehrer klicken. \\
+Der Kampf basiert auf verschiedenen Runden. Lehrer und Schüler versuchen abwechseln sich ihrem gegenüber zu beweisen. Durch die Items kann man stärker werden und die Lehrer leichter besiegen. Dabei muss der Spieler jedoch aufpassen, denn nicht jedes Item hilft bei jedem Lehrer gleich viel. \\
+Wurden alle Lehrer erfolgreich besiegt, so hat man das Spiel gewonnen.
 
-
-
-\section*{Quelltexte}
-Für Quelltexte eignet sich das Paket \texttt{listings}.
-
-\begin{lstlisting}[caption=Beispiel, label=lst:beispiel, captionpos=b, language=Java]
-public class Test {
-	/**
-	* Hilfreiche Kommentare machen Lesende gluecklich.
-	*/
-	public static void main(String[] args) {
-		int xVar = 0;
-		for (int i = 0; i <= 11; i+=1) {
-			xVar = 3 + xVar;
-		}
-		System.out.println(i +" * 3 = " + xVar);
-	}
-}
-\end{lstlisting}
-
-\section*{Struktogramme}
-Struktogramme können in \texttt{Structorizer} umgesetzt und dann als pdf-Datei exportiert werden. Das Programm \texttt{Structorizer} exportiert das Struktogramm als vollständige Seite (siehe links in der Abbildung \ref{fig:pdfs}. 
-Es muss noch beschnitten werden. Als Online-Tool eignet sich \url{https://pdfresizer.com/crop}.
-\begin{enumerate}
-	\item Datei auswählen (Choose files)
-	\item Hochladen (Upload)
-	\item Am Ende der "`neuen"' Webseite ganz unten bei Action: \texttt{Autocrop} auswählen und dann den Button \texttt{Crop It} wäheln und ins speichern. Die beschnittene Datei befindet sich nun im Downloadordner.
-\end{enumerate}
-\begin{figure}[h!]
-	\centering
-	\begin{minipage}{.45\textwidth}
-		\fbox{\includegraphics[scale=.3]{bilder/test.pdf}}
-	\end{minipage}
-	\hfill
-	\begin{minipage}{.45\textwidth}
-		\fbox{\includegraphics[scale=.3]{bilder/test-crop.pdf}}
-	\end{minipage}
-	\caption{unbeschnittenes und beschnittenes PDF}
-	\label{fig:pdfs}
-\end{figure}
-
-\section*{Formale Beschreibungen von Teilalgorithmen}
-Pseudocode eines Algorithmus sollte in einer \texttt{verbatim}-Umgebung erfolgen:
-\begin{verbatim}
- Initialisiere xVar mit 0
- FÜR i=1 BIS 11
-    xVar = 3 * xVar
- Ausgabe: xVar
-\end{verbatim}
 
 \section{Engine}
 \input{texte/04_programmdoku-Engine.tex}

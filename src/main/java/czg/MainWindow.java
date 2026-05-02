@@ -1,16 +1,18 @@
 package czg;
 
-import czg.scenes.FoyerScene;
 import czg.scenes.SceneStack;
-import czg.sound.EndOfFileBehaviour;
-import czg.sound.SoundGroup;
-import czg.sound.StreamSound;
+import czg.scenes.intro.TitleScreenScene;
+import czg.util.Console;
 import czg.util.Input;
+import czg.util.Sounds;
 import czg.util.character_creator.CharacterCreator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Das Haupt-Fenster. Hier wird die Grafik ausgegeben.
@@ -93,19 +95,23 @@ public class MainWindow extends JFrame implements Runnable {
         // Zeigen
         INSTANCE.setVisible(true);
 
-        // Musik
-        StreamSound music = new StreamSound("/assets/sound/hallway.ogg", true, EndOfFileBehaviour.LOOP);
-        music.getVolumeControl().setValue(-8f);
-        SoundGroup.GLOBAL_SOUNDS.addSound(music);
-
         //Startszene
-        SceneStack.INSTANCE.push(new FoyerScene());
+        SceneStack.INSTANCE.push(new TitleScreenScene());
 
         // Fenstergröße beheben
         SwingUtilities.invokeLater(() -> {
             Insets insets = INSTANCE.getInsets();
             INSTANCE.setSize(WIDTH+insets.left+insets.right, HEIGHT+insets.top+insets.bottom);
         });
+
+        // Evtl. Befehlsskript lesen
+        if(args.length == 1 && args[0].startsWith("@")) {
+            try {
+                Console.queue.addAll(Files.readAllLines(Path.of(args[0].substring(1))));
+            } catch (IOException e) {
+                System.err.println("Konsole: Konnte Skript nicht lesen!");
+            }
+        }
 
         // Haupt-Schleife in einem neuen Thread starten
         new Thread(INSTANCE, "GameLoop").start();
@@ -150,16 +156,19 @@ public class MainWindow extends JFrame implements Runnable {
                 SceneStack.INSTANCE.update();
 
                 // Spezielle Tasten
-                if(Input.INSTANCE.getKeyState(KeyEvent.VK_P) == Input.KeyState.PRESSED)
+                if(CharacterCreator.enabled && Input.INSTANCE.getKeyState(KeyEvent.VK_P) == Input.KeyState.PRESSED)
                     CharacterCreator.INSTANCE.get().setVisible(true);
                 if(Input.INSTANCE.getKeyState(KeyEvent.VK_M) == Input.KeyState.PRESSED) {
-                    if (SoundGroup.GLOBAL_SOUNDS.isPlaying())
-                        SoundGroup.GLOBAL_SOUNDS.pause();
-                    else
-                        SoundGroup.GLOBAL_SOUNDS.resume();
+                    Sounds.HALLWAY_MUSIC.setPlaying(!Sounds.HALLWAY_MUSIC.isPlaying());
                 }
                 if(Input.INSTANCE.getKeyState(KeyEvent.VK_D) == Input.KeyState.PRESSED)
                     Input.debugDrawMode = (Input.debugDrawMode + 1)%3;
+                if(Input.INSTANCE.getKeyState(KeyEvent.VK_C) == Input.KeyState.PRESSED) {
+                    Console.queue.add(JOptionPane.showInputDialog(MainWindow.INSTANCE, "Console"));
+                }
+
+                // Ausstehende Befehle verarbeiten
+                Console.processQueue();
 
                 // Grafik
                 SceneStack.INSTANCE.repaint();

@@ -4,7 +4,7 @@ Das zweite Level kann als \glqq standard\grqq{}-Schwierigkeitsgrad verstanden we
 Nach dem erfolgreichen Beenden eines Levels erhält die Spielfigur ein Item, welches dann im Kampf verwendet werden kann.
 Diese Items hängen von der Fachschaft und dem Schwierigkeitsgrad ab.
 Die Stärke der Items skaliert also mit der Schwierigkeit des beendeten Levels. 
-Da das Bearbeiten schwererer Level länger dauert, wird dies dementsprechend belohnt.\\
+Da das Bearbeiten schwererer Level länger dauert oder eine größere Leistung erfordert, wird dies dementsprechend belohnt.\\
 Im Allgemeinen soll jedes Minispiel mit einer Auswahl des Schwierigkeitsgrades beginnen, welche auch wieder verlassen werden kann, wenn sich doch gegen das Spielen entschieden wird.
 Jedes Level bietet zusätzlich noch die Möglichkeit, zur Auswahl zurückzukehren.
 Nach dem Abschließen des selbigen ist es ebenfalls möglich, das Level neu zu starten.
@@ -22,7 +22,7 @@ Die zweite Komponente bilden verschiedene Logikgatter, aus welchen das im Schalt
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.7\textwidth]{bilder/MinispielInformatik.png}
-	\caption{Level 2 des Minispiels der Fachschaft Informatik}
+	\caption{Level 2 des Minispiels der Fachschaft Informatik (Bildschirmfoto des Projektes)}
 	\label{fig:mginf}
 \end{figure}
 
@@ -292,7 +292,7 @@ Es würde sich eher anbieten das Grundkonzept zu überarbeiten, da dieses genere
 
 Die grundlegende Idee dieses Minispiels basiert auf dem chinesischen Legespiel \glqq Tangram\grqq\footnote{Seite „Tangram“. In: Wikipedia - Die freie Enzyklopädie. Bearbeitungsstand: 17. Januar 2025, 11:35 UTC. URL: https://de.wikipedia.org/w/index.php?title=Tangram\&oldid=252340816 (Abgerufen: 14. April 2026, 11:30 UTC)}.
 Hierbei wird versucht aus gegebenen Steinen eine gegebene Form zu legen.
-Die Spielenden haben gewonnen, wenn die Form zu 95\% mit Steinen bedeckt ist, um das Spielerlebnis angenehmer zu gestalten, da die Steine so nicht exakt am richtigen Platz liegen müssen.
+Die Spielenden haben gewonnen, wenn die Form zu 97.5\% mit Steinen bedeckt ist, um das Spielerlebnis angenehmer zu gestalten, da die Steine so nicht \textit{exakt} am richtigen Platz liegen müssen.
 Diese Überprüfung soll automatisch beim Platzieren der Steine ablaufen, um so das Drücken eines \glqqÜberprüfungs\grqq{}-Knopfes zu ersparen.
 Das Minispiel kann nicht verloren werden.\\
 Die Level der Fachschaft Mathematik bestehen ebenfalls aus zwei wesentlichen Komponenten:
@@ -302,7 +302,7 @@ Außerdem werden zufällig gewählte Steine bereits an die richtige Position pla
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.7\textwidth]{bilder/MinispielMathematik.png}
-	\caption{Level 2 des Minispiels der Fachschaft Mathematik}
+	\caption{Level 2 des Minispiels der Fachschaft Mathematik (Bildschirmfoto des Projektes)}
 	\label{fig:mgma}
 \end{figure}
 
@@ -310,16 +310,16 @@ Außerdem werden zufällig gewählte Steine bereits an die richtige Position pla
 Verschiedene Schwierigkeiten werden auf zwei Weisen ermöglicht:
 
 \begin{itemize}
-    \item Die Anzahl an bereits richtig angeordneten Tangram-Steinen, verringert sich mit jedem Schwierigkeitsgrad.
-            So sind es im ersten Level zwei vorgegebene Steine, im zweiten Level ein und im dritten Level kein vorgegebener Stein.
+    \item Die Anzahl an bereits richtig angeordneten Tangram-Steinen verringert sich mit jedem Schwierigkeitsgrad.
+            So sind es im ersten Level zwei vorgegebene Steine, im zweiten Level einer und im dritten Level keine vorgegebenen Steine.
     \item Die Komplexitität der Silhouette ändert sich dem Schwierigkeitsgrad entsprechend.
 \end{itemize}
 
-Jedes Level verwendet außerdem, im Sinne der Variabilität, drei verschiedene Silhouetten, aus denen bei jedem Minispiel-Start eine zufällig gewählt wird.
+Jedes Level verwendet außerdem, im Sinne der Variabilität, drei verschiedene Silhouetten, von denen bei jedem Minispiel-Start eine zufällig gewählt wird.
 
 \subsubsection{Level 1}
 
-Im folgenden sind die Puzzle des ersten Levels mit einer beispielhaften Lösung abgebildet.
+Im folgenden sind die Puzzle des ersten Levels mit je einer möglichen Lösung abgebildet\footnote{Abbildungen erstellt mit Polypad (URL: https://polypad.amplify.com/tangram [19.04.2026])}.
 
 \begin{figure}[H]
     \centering
@@ -344,7 +344,7 @@ Im folgenden sind die Puzzle des ersten Levels mit einer beispielhaften Lösung 
 
 \subsubsection{Level 2}
 
-Im folgenden sind die Puzzle des zweiten Levels mit einer beispielhaften Lösung abgebildet.
+Im folgenden sind die Puzzle des zweiten Levels mit je einer möglichen Lösung abgebildet\footnote{Abbildungen erstellt mit Polypad (URL: https://polypad.amplify.com/tangram [19.04.2026])}.
 
 \begin{figure}[H]
     \centering
@@ -369,7 +369,7 @@ Im folgenden sind die Puzzle des zweiten Levels mit einer beispielhaften Lösung
 
 \subsubsection{Level 3}
 
-Im folgenden sind die Puzzle des dritten Levels mit einer beispielhaften Lösung abgebildet.
+Im folgenden sind die Puzzle des dritten Levels mit je einer möglichen Lösung abgebildet\footnote{Abbildungen erstellt mit Polypad (URL: https://polypad.amplify.com/tangram [19.04.2026])}.
 
 \begin{figure}[H]
     \centering
@@ -408,4 +408,124 @@ So kann es beispielsweise vorkommen, dass der im zweiten Level bereits platziert
 Außerdem ist diese Art des Erschwerens nicht beliebig skalierbar, da nicht weniger als kein Stein vorgegeben werden kann.\\
 Das dritte Level entspricht nicht vollständig dem Bild einer schwierigen Herausforderung, weil es sich, wie bereits genannt, wenig von den anderen Leveln unterscheidet und das Lösen auch etwas zu einfach ist.
 Es müsste also erschwert werden, was durch das aktuelle System nicht gewährleistet werden kann.
-Eine mögliche Lösung wäre das Einführen eines zweiten Tangram-Sets, wodurch deutlich komplexere Figuren möglich werden und so auch der Unterschied zu den vorherigen Schwierigkeitsgraden deutlich wird. 
+Eine mögliche Lösung wäre das Einführen eines zweiten Tangram-Sets, wodurch deutlich komplexere Figuren möglich werden und so auch der Unterschied zu den vorherigen Schwierigkeitsgraden deutlich wird.
+
+\subsection{Chemie}
+Das Chemie-Minigame ist ein interaktives Sortierpuzzle, das strukturell dem bekannten \glqq{}Water Sort\grqq{}-Prinzip folgt. Die Spielmechanik basiert auf dem Konzept des geordneten Stapels (Stack): Mehrere Reagenzgläser sind mit farbigen Blöcken unterschiedlicher Farbe befüllt, wobei die Reihenfolge der Blöcke zufällig generiert wird.
+Das Ziel des/der Spielers*in ist es, durch gezieltes Umfüllen jedes Reagenzglas mit ausschließlich Blöcken einer einzigen Farbe zu befüllen.
+
+Die Interaktion erfolgt ausschließlich durch Mausklicks: Der/die Spieler*in wählt zunächst ein \glqq{}Quellglas\grqq{} aus, woraufhin dieses visuell hervorgehoben wird, und wählt anschließend ein Zielglas.
+Eine Umfüllung wird nur dann durchgeführt, wenn die folgenden Regeln erfüllt sind:
+\begin{itemize}
+\item das Zielglas ist entweder leer
+\item oder der oberste Block hat dieselbe Farbe wie die/der zu verschiebenden Blöcke
+\end{itemize}
+
+Gleichzeitig läuft ein Countdown, der den/die Spieler*in unter Zeitdruck setzen soll.
+Das Kernkonzept der Implementierung ist die Modellierung jedes Reagenzglases als Stack-Datenstruktur. Die innere Klasse Reagenzglas kapselt eine ArrayList<String>, auf der ausschließlich stack-typische Operationen erlaubt sind:
+\begin{itemize}
+\item Hinzufügen am Ende
+\item Lesen des obersten Elements
+\item und Entfernen des obersten Elements
+\end{itemize}
+
+\subsubsection{Level 1}
+
+Drei Farben (Blau, Grün, Pink) werden auf drei Reagenzgläser verteilt, dazu kommen zwei leere Puffergläser. Mit insgesamt 12 Blöcken und einem großzügigen Verhältnis von Puffer- zu Spielgläsern (2:3) ist dieses Level bewusst zugänglich gehalten und dient primär dem Kennenlernen der Steuerung und der Spielregeln.
+
+\subsubsection{Level 2}
+Mit vier Farben (Blau, Grün, Pink, Lila) steigt die Anzahl der Blöcke auf 16 (Verhältnis 2:4). Der Zustandsraum möglicher Anordnungen wächst kombinatorisch. Die Puffergläser müssen strategisch eingesetzt werden, was ein höheres Maß an planerischem Denken voraussetzt.
+
+\subsubsection{Level 3}
+In diesem Level sind alle fünf Farben (Blau, Grün, Pink, Lila, Gelb) aktiv. 20 Blöcke auf fünf Spielgläsern bei nur zwei Puffergläsern (2:5) ergeben eine deutlich erhöhte Schwierigkeit. Das Zeitlimit von 30 Sekunden ist hierbei besonders herausfordernd, da insgesamt eine höhere Anzahl an Spielzügen nötig sind.
+
+\subsubsection{Reflexion}
+Das Minigame Chemie ist das Minigame, welches am Weitesten weg von unserem Schulalltag bzw. Chemieunterricht ist. Es greift zwar Elemente des Unterrichts auf (Reagenzgläser, Abzug als Hintergrund), jedoch keinen Unterrichtsinhalt. Das Water-Sort-Spiel ist aber ein weitverbreitetes und bekanntes Computerspiel in unserer Generation.
+Die Spielmechanik ist also höchstwahrscheinlich schon jedem/jeder bekannt.
+Deshalb eignet sich es so gut für ein Minigame im CZGame, da es keiner großen Spielanleitung bedarf. Beim Programmieren hat sich dieses Spiel ebenfalls als ein schöner Einstieg erwiesen, da es Online viele Tipps und Hinweise zur Erstellung der Spielmechanik gab.
+Der Artstyle des Minigames – bunte Farben und Pixelart – passt perfekt in die Gestaltung des CZGame.
+Ein Kritikpunkt bleibt jedoch, dass dieses Minispiel, wenig Bezug zu unserer Schule hat und keiner besonders kreativen Coding-Lösung bedarft hat.
+
+\textbf{Schwierigkeitsabstufung und Spielbalance} \\
+Die Progression von drei auf fünf Farben ist nicht linear, sondern exponentiell: Die Anzahl möglicher Ausgangszustände wächst mit jeder zusätzlichen Farbe kombinatorisch, da die zufällige Initialbefüllung das Mischen einer Liste jeden theoretisch erreichbaren Zustand erzeugen kann — einschließlich solcher, die eine sehr lange Lösungssequenz erfordern.
+In der Praxis bedeutet dies, dass Level 3 in einzelnen Durchläufen deutlich schwerer sein kann als in anderen, da die Lösbarkeit zwar stets garantiert ist (durch die zwei Puffergläser), die optimale Zugsequenz jedoch stark von der zufälligen Startanordnung abhängt.
+Eine mögliche Verbesserung wäre die Implementierung eines Lösbarkeits-Checks nach der Generierung, der sicherstellt, dass der Puzzlezustand innerhalb einer definierten Maximalzugzahl lösbar ist.
+
+\subsection{Physik}
+Das Physik-Minigame greift grundlegende Konzepte der klassischen Mechanik auf. Der/die Spieler*in steuert einen Ball, indem er/sie vor dem Schuss einen Kraftpfeil vom Ball wegzieht und damit die Startgeschwindigkeit festlegt. Nach einem Klick auf \glqq{}Simulate\grqq{} fliegt der Ball unter dem Einfluss verschiedener Beschleunigungskräfte – darunter Gewichtskraft und levelspezifische Driftkräfte – und soll ein grün markiertes Zielfeld treffen.
+Die Spielmechanik setzt auf das Prinzip der Überlagerung von Kräften: Die vom Spieler eingestellte Anfangskraft addiert sich pro Frame mit den Basisbeschleunigungen des Levels, was eine realistische Wurfparabel erzeugt. Trifft der Ball das Ziel, gewinnt der/die Spieler*in; fliegt er aus dem Spielfeld oder kollidiert er mit einer Wand, verliert er/sie. Das Spiel fordert den/die Spieler*in so auf, Kräfte intuitiv abzuschätzen und die Flugbahn gedanklich vorwegzunehmen. \\
+Die Umsetzung basiert auf einem einfachen Frame-by-Frame Physikmodell, das pro Frame Beschleunigungen auf die Geschwindigkeit und die Geschwindigkeit auf die Position addiert. Dieses Modell ist bewusst vereinfacht – es gibt keine Reibung, keine elastischen Kollisionen und keine Zeitunabhängigkeit – was für ein Minispiel aber vollkommen ausreicht. Trotz der Vereinfachungen ist die Physik nämlich logisch und nachvolziehbar.
+Das Spielfeld besteht aus dem Hintergrund, dem Ball oben Rechts, den Simulate-Button unten in der Mitte sowie das Ziel unten rechts. Hintergrund sowie Ziel sind statische Bilder. Die Bewegung des Balls berechnet sich durch die Kräftepfeile. Der Simulate-Button, sowie der Kräftepfeil der Spielerkraft ist interaktiv. Die Pfeile der Basiskräfte werden bei Levelstart gezeichnet, der Spielerkraftpfeil nach einer Klick-and-Drag Aktion. Dieser ist des Weiterem mehrfach anpassbar.
+
+\subsubsection{Level 1}
+Im ersten Level wirkt ausschließlich die Gewichtskraft (0, +0.15 pro Frame\textsuperscript{2}), diese sorgt dafür, dass der Ball nach unten fällt.
+Der/die Spieler*in kann den Kraftpfeil vom Ball nach rechts ziehen und verändert so den Fall des Balls. Er fliegt nun in einem Bogen zum Ziel unten rechts.
+Das erstes Level vermittelte die grundlegende Überlagerung von Kräft, wenn es um Bewegungen geht. Die Gewichtskraft (F\textsubscript{G}) würde auch im realen Leben auf den \glqq{}schwebenden\grqq{} Ball wirken, abhängig von Masse und Ortsfaktor. Deshalb ist im erstene Level (sowie auch in den folgenden Leveln) die Gewichtskraft immer eine Basiskraft.
+
+\subsubsection{Level 2}
+Das zweite Level ergänzt die Gewichtskraft um einen leichten Drift nach links (-0.05, 0).
+Der Ball wird also während des Fluges kontinuierlich nach links gezogen, was den/die Spieler*in zwingt, die Anfangskraft nach rechts entsprechend stärker einzustellen, um diesen Effekt zu kompensieren.
+Die Herausforderung liegt nun neben des Abschätzens der Flugkurve aus Gewichtskraft und Vorwärtsdrift, ebenfalls darin den Drift nach links mit dem nach rechts zu verrechnen (bzw. abzuschätzen) um den Gesamtdrift nach rechts/vorne zu ermitteln.
+
+\subsubsection{Level 3}
+Im dritten und somit schwersten Level wirkt ein starker Drift nach rechts (+0.12, 0) zusätzlich zur Schwerkraft.
+Eine Wand blockiert den direkten Weg zum Ziel. Der Ball müss diese also erst überwinden.
+Der/die Spieler*in kann nun eine Kraft auf den Ball wirken lassen, die ihn nach oben zieht. So kann er über die Wand hinweglenkt werden. Anschließend kann der Basis-Rechtsdrift den Ball zum Ziel tragen.
+Dieses Level erfordert präzises räumliches Denken und ein Verständnis der kombinierten Kraftwirkung, da nun kein dierekter Weg mehr ins Ziel wählbar ist.
+
+\subsubsection{Reflexion}
+
+Das Minigame des Fachbereich Physik passt, durch den Artstyle, perfekt zum Rest des CZGame. Die bunten Farben lassen es insgesamt spaßiger wirken, bei näherem Betrachten fällt der/dem Spielenden jedoch der Hintergrund ins Auge – dort werden verschiedene Formeln des Physik gelistet, es entsteht ein Klassenraum-Feeling. Dies greift den Spielort (unser Gymnasium) erneut auf.
+Außerdem kann der Hintergrund auch als Orientierung genutzt werden, um den Spielerkraftpfeil genauer abzuschätzen.
+Die Spielmechanik des Physik Minigames befasst sich mit realem Unterricht, den wir als Schüler*innen im Fach Physik erlebt haben. Deshalb trägt dieses Minigame dazu bei, dass CZGame möglichst nah mit dem Schulalltag zu verbinden.
+
+\textbf{Schwierigkeitsabstufung der Level} \\
+
+Die drei Level bauen konzeptionell aufeinander auf und steigern die Komplexität gezielt. Level 1 ist bewusst einfach gehalten, wodurch das Grundprinzip des Spiels vermittelt wird. Level 2 führt eine zweite Kraft ein, die bereits ein Umdenken erfordert – der/die Spieler*in muss zwei Vektoren gleichzeitig im Kopf behalten. Level 3 kombiniert mehrere Kraft mit einem physischen Hindernis, was die Schwierigkeit deutlich erhöht:
+Der/die Spieler*in muss die Wand berücksichtigen. Diese Progression fühlt sich in der Praxis fair an, da jedes Level genau eine neue Mechnik einführt. Trotz der unterschiedlichen Schwierigkeiten verändert sich die Dauer der Level jeweils kaum, dies sorgt für keinen Motivationsverlust.
+Bei den schweren Leveln kann es jedoch passieren, dass der/die Spielende das Level mehrmals wiederholen muss um zu gewinnen. Dadurch steigert sich insgesamt die Gewinnzeit.
+Zur generellen Vereinfachung, aber auch, dass es die Möglichkeit gibt sich innerhalb eines Levels zu verbessern, habe ich im Laufe der Entwicklungszeit mich gegen das zufällige Generieren der Kräftewerte pro Level entschieden. Dies ermöglicht das mehrmalige Ausprobieren des Levels.
+
+\subsection{Biologie}
+Das Biologie-Minigame greift einen etablierten Teil des Unterrichts an unserem Gymnasium auf – das Pflanzentestat.
+Damit es den Charakter eines Minigames annimmt, wurde es vereinfacht. Anstelle von 12 oder 16 Pflanzen, gibt es jeweils nur 4. Außerdem werden die richtigen Bezeichnungen nur zugeordnet, anstelle das man/frau selbst die Bezeichnung eintippen muss. Dies vereinfacht das Minigame und verkürzt ebenfalls die Spieldauer.
+Damit jedoch das Raten (durch Ausprobieren verschiedener Zuordnungen) unterbunden werden kann, wird sofort nach dem alle Labels den Pflanzenbilder zugeordnet sind geprüft ob das Level gewonnen oder verloren ist. Und jedes Level wird ebenfalls neu generiert, es werden also nicht immer die vier selben Pflanzen angezeigt.
+
+Das Minigame nutzt jeweils einen Pool aus Pflanzenbildern (+Labeln) für die Level. Die Bilder der Pflanzen sind Bilder, die von Wikimedia Commmons stammen und unter Creative-Commons-Lizenzen stehen.
+Durch die Größe des Spielfensters, sind die Bilder verpixelt, dies sorgt dafür, dass das Minigame dem Artstyle des CZGame treu bleibt.
+Die Anzahl an Pflanzen unterscheidet sich von Level zu Level:
+\begin{itemize}
+\item[\textbf{Level 1}] 8 Pflanzen
+\item[\textbf{Level 2}] 10 Pflanzen
+\item[\textbf{Level 3}] 12 Pflanzen
+\end{itemize}
+Das garantiert eine Steigerung der Schwierigkeit, da es pro Level nun mehr Pflanzen gibt, die man kennen muss.
+
+\subsubsection{Level 1}
+Das erste Level ist das Einfachste. Es gibt vier Pflanzen und vier Labels, diese müssen zugeordnet werden. Außerdem sind in diesem Level hauptsächlich Pflanzen vertreten, die der Allgemeinheit der Menschen bekannt ist.\footnote{Allgemeinheit der Menschen bezieht sich auf die Gruppe an Personen im Umfeld unseres Gymnasiums}
+\subsubsection{Level 2}
+Im zweiten Level kommt nur ein fünftes, falsches Label hinzu. Dies steigert die Schwierigkeit.
+\subsubsection{Level 3}
+Im dritten und letzten Level kommt ein sechstes, ebenfalls falsches Label hinzu. Die Pflanzen in diesem Level sind meistens unbekannter oder unscheinbarer, also schwieriger zu erkennen.
+
+\subsubsection{Reflexion}
+\textbf{Pflanzenbilder} \\
+Anfänglich für das Biologie-Minigame war geplant eigens gepixelte Bilder der Pflanzen zu nutzen, dies stellte sich jedoch als sehr zeitaufwendig und nicht zielführend aus, da mehrere Pflanzen zu komplex zum pixeln waren und andere sich zu ähnlich sahen.
+Das Nutzen von Bildern von Wikimedia-Commons, hat einerseits viel Zeit gespart und das Minigame dahin gehend vereinfacht, dass die Pflanzen leichter zuerkennen sind. Durch das runterskalieren auf die gewünschte Größe wurden die Bilder jedoch erneut wieder verpixelt, was es insgesamt wieder schwerer macht bestimmte Pflanzen zu erkennen bzw. zu unterscheiden.
+Insgesamt ist, meiner Meinung nach, das Nutzen der Fotographien die bessere Wahl, wenn es auch keine perfekte Lösung darstellt. \\
+Beim Umsetzen gab es dann jedoch nochmal ein Problem, welches sich bei den eigens gepixelten Pflanzen nicht ergeben hätte – die Bilder hatte unterschiedliche Seitzenverhältnisse und waren unterschiedlich groß. Dadurch gab es die Herausforderung sie runter zu skalieren auf die selbe Größe und dann so zu zuschneiden, dass sie alle die selben Seitenverhältnisse haben.
+Zugegebener Maßen, hätte das Zuschneiden nicht sein müssen, jedoch war der vorher erstelle Hintergrund für das Minigame so ausgelegt, dass alle Bilder die gleichen Maßen haben. Rückblickend wäre die Änderung des Hintergrunds wahrscheinlich einfacher gewesen, jedoch sorgt die Einheitlichkeit auch für ein schönes Design und das Spiel wirkt nicht chaotisch. \\
+\textbf{Schwierigkeit der Level} \\
+Die unterschiedliche Schwierigkeit der Level wird einerseits durch die zusätzlichen falschen Label, als auch größerer Anzahl der Pflanzen im Pool geregelt. Jedoch war beim Planen des Minispiels auch die Frage nach \glqq{}leichten\grqq{} und \glqq{}schweren\grqq{} Pflanzen. Dies haben Jonas und ich zusammen entschieden. Da wir nur zwei Personen sind ist die Auswahl ziemlich subjektiv.
+Durch eine Feedbackrunde der restlichen Gruppenmitglieder hätten man evtl. die Schwierigkeiten besser unterscheiden können, da mehrere Personen, die das Pflanzentestat monatlich mitschreiben, ihre Meinung zu leichten bzw. schweren Pflanzen abgeben hätten können.
+Jedoch hat dies die Zeit und auch der Fakt, dass die alle selbst viel beschäftigt waren, nicht zugelassen. In zukünftigen Projekten, ist Teamwork eine Sache, auf die man von Anfang an mehr Fokus legen kann. \\
+\textbf{Persönliche Hürden bei der Umsetzung} \\
+Ich hatte beim Umsetzen des Biologie Minigames ein paar Schwierigkeiten. Es war das letzte Minigame was ich programmiert hatte. Ich habe am Beginn unserer Bearbeitungszeit alle Hintergründe für die Minigames erstellt. Dabei habe ich nicht beachtet, dass die Platzierung bei diesem Minigame sehr wichtig ist. Deshalb hatte ich mir auch keine Positionen der Bild- und Labelrahmen notiert.
+Das sorgte dann dafür, dass ich während des codens eine lange Zeit mit der richtigen Platzierung beschäftigt war. Daher nehme ich mit, dass auch das persönliche \glqq{}Kommentieren\grqq{} der eigenen Arbeit sehr wichtig ist, damit man auch nach etwas längerer Zeit mit den eigens erarbeiteten Dingen weitermachen kann.
+
+
+\subsection{Anmerkung zur KI-Nutzung in Ritas Teil}
+Im Rahmen dieses Projekts habe ich Perplexity AI
+(Claude Sonnet 4.6) zur eigenständigen Recherche eingesetzt.
+Die KI diente ausschließlich dem Verständnis von grundlegenden Java-Konzepten und deren Umsetzung.
+Sämtlicher Code wurde selbstständig verfasst (vgl.~\cite{PerplexityAI}).

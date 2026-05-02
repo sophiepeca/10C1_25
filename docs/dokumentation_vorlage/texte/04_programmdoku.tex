@@ -1,0 +1,51 @@
+\chapter{Programmdokumentation}
+
+Im Abschnitt \emph{Programmdokumentation} soll der Aufbau und die Struktur des Programms dargelegt werden, also wie die Lösungsidee im Programm umgesetzt wurde. Die Erläuterung der wichtigsten Funktionen und Klassen des Programms soll zusätzlich durch relevante Ausschnitte von kommentierten Quelltexten, Struktogramme und/oder Pseudocode-Beschreibungen von wesentlichen Teilalgorithmen veranschaulicht werden.
+
+\section*{Quelltexte}
+Für Quelltexte eignet sich das Paket \texttt{listings}.
+
+\begin{lstlisting}[caption=Beispiel, label=lst:beispiel, captionpos=b, language=Java]
+public class Test {
+	/**
+	* Hilfreiche Kommentare machen Lesende gluecklich.
+	*/
+	public static void main(String[] args) {
+		int xVar = 0;
+		for (int i = 0; i <= 11; i+=1) {
+			xVar = 3 + xVar;
+		}
+		System.out.println(i +" * 3 = " + xVar);
+	}
+}
+\end{lstlisting}
+
+\section*{Struktogramme}
+Struktogramme können in \texttt{Structorizer} umgesetzt und dann als pdf-Datei exportiert werden. Das Programm \texttt{Structorizer} exportiert das Struktogramm als vollständige Seite (siehe links in der Abbildung \ref{fig:pdfs}. 
+Es muss noch beschnitten werden. Als Online-Tool eignet sich \url{https://pdfresizer.com/crop}.
+\begin{enumerate}
+	\item Datei auswählen (Choose files)
+	\item Hochladen (Upload)
+	\item Am Ende der "`neuen"' Webseite ganz unten bei Action: \texttt{Autocrop} auswählen und dann den Button \texttt{Crop It} wäheln und ins speichern. Die beschnittene Datei befindet sich nun im Downloadordner.
+\end{enumerate}
+\begin{figure}[h!]
+	\centering
+	\begin{minipage}{.45\textwidth}
+		\fbox{\includegraphics[scale=.3]{bilder/test.pdf}}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{.45\textwidth}
+		\fbox{\includegraphics[scale=.3]{bilder/test-crop.pdf}}
+	\end{minipage}
+	\caption{unbeschnittenes und beschnittenes PDF}
+	\label{fig:pdfs}
+\end{figure}
+
+\section*{Formale Beschreibungen von Teilalgorithmen}
+Pseudocode eines Algorithmus sollte in einer \texttt{verbatim}-Umgebung erfolgen:
+\begin{verbatim}
+ Initialisiere xVar mit 0
+ FÜR i=1 BIS 11
+    xVar = 3 * xVar
+ Ausgabe: xVar
+\end{verbatim}

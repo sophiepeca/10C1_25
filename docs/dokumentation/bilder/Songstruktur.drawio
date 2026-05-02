@@ -1,0 +1,28 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.5.2 Safari/537.36" version="29.6.1">
+  <diagram name="Page-1" id="fx-k8iAc9hteYJuMeuQb">
+    <mxGraphModel dx="974" dy="619" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fXTNiH7KT99ixohEZ7IB-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#25BFE2;fontColor=#ffffff;strokeColor=none;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Intro&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fXTNiH7KT99ixohEZ7IB-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#25BFE2;gradientColor=light-dark(#FFFFFF00,#FFFFFF00);gradientDirection=east;fontColor=#000000;strokeColor=none;" value="Fade-Out" vertex="1">
+          <mxGeometry height="60" width="80" x="160" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fXTNiH7KT99ixohEZ7IB-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2792D;fontColor=#ffffff;strokeColor=none;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Hauptteil&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="160" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="fXTNiH7KT99ixohEZ7IB-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2792D;gradientColor=light-dark(#FFFFFF00,#FFFFFF00);gradientDirection=east;fontColor=#000000;strokeColor=none;" value="Fade-Out" vertex="1">
+          <mxGeometry height="60" width="80" x="280" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="fXTNiH7KT99ixohEZ7IB-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2792D;fontColor=#ffffff;strokeColor=none;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Hauptteil&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="fXTNiH7KT99ixohEZ7IB-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E2792D;gradientColor=light-dark(#FFFFFF00,#FFFFFF00);gradientDirection=east;fontColor=#000000;strokeColor=none;" value="Fade-Out" vertex="1">
+          <mxGeometry height="60" width="80" x="400" y="160" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

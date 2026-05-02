@@ -1,6 +1,8 @@
 package czg.util;
 
+import czg.sound.EndOfFileBehaviour;
 import czg.sound.SoundGroup;
+import czg.sound.StreamSound;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -46,5 +48,7 @@ public class Sounds {
             throw new RuntimeException(e);
         }
     }
+
+    public static final StreamSound HALLWAY_MUSIC = new StreamSound("/assets/sound/hallway.ogg", false, EndOfFileBehaviour.LOOP);
 
 }

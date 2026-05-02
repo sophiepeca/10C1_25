@@ -21,7 +21,7 @@ public abstract class LevelScene extends BaseScene {
     /**
      * Belohnung, wenn das Level gewonnen wird
      */
-    final ItemObject REWARD;
+    final ItemType REWARD;
 
     /**
      * Erstellen einer neuen Level-Szene, welche Buttons zum
@@ -34,7 +34,7 @@ public abstract class LevelScene extends BaseScene {
         super(new CoverSettings(false, true, false));
 
         this.LEVEL = level;
-        this.REWARD = ItemObject.getMinigameReward(department, level);
+        this.REWARD = ItemType.getMinigameReward(department, level);
 
         objects.add(new BackdropObject(Images.get(String.format("/assets/minigames/%s/background.png", department.name().toLowerCase()))));
 
@@ -75,8 +75,7 @@ public abstract class LevelScene extends BaseScene {
      */
     public void levelWon() {
         SceneStack.INSTANCE.push(new MinigameEndScene(true, LEVEL, REWARD));
-        if(! PlayerObject.INSTANCE.inventar.contains(REWARD))
-            PlayerObject.INSTANCE.inventar.add(REWARD);
+        PlayerObject.INSTANCE.addItem(REWARD);
     }
 
     /**

@@ -18,6 +18,11 @@ public final class CharacterCreator extends JFrame {
     public static final Lazy<CharacterCreator> INSTANCE = new Lazy<>(CharacterCreator::new);
 
     /**
+     * Ob der Character Creator aufgerufen werden darf
+     */
+    public static boolean enabled = false;
+
+    /**
      * JLabel, welches das Vorschaubild anzeigt.
      * @see #updatePreview()
      */
@@ -67,10 +72,10 @@ public final class CharacterCreator extends JFrame {
      */
     private JPanel getSaveLoadPanel() {
         JButton load = new JButton("Laden");
-        load.addActionListener(SaveAndLoad::load);
+        load.addActionListener(SaveAndLoad::loadFromUI);
 
         JButton save = new JButton("Speichern");
-        save.addActionListener(SaveAndLoad::save);
+        save.addActionListener(SaveAndLoad::saveFromUI);
 
         JButton reset = new JButton("Zurücksetzen");
         reset.addActionListener(a -> PlayerObject.defaultColors.apply());

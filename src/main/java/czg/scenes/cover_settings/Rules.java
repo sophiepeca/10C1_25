@@ -19,9 +19,9 @@ public record Rules(Setting coverDisablesDrawing, Setting coverPausesLogic,
      */
     public Rules combineWith(Rules other) {
         return new Rules(
-                other.coverDisablesDrawing == Setting.KEEP ? coverDisablesDrawing : other.coverDisablesDrawing,
-                other.coverPausesLogic == Setting.KEEP ? coverPausesLogic : other.coverPausesLogic,
-                other.coverPausesAudio == Setting.KEEP ? coverPausesAudio : other.coverPausesAudio
+                other.coverDisablesDrawing == Setting.KEEP ? this.coverDisablesDrawing : other.coverDisablesDrawing,
+                other.coverPausesLogic == Setting.KEEP ? this.coverPausesLogic : other.coverPausesLogic,
+                other.coverPausesAudio == Setting.KEEP ? this.coverPausesAudio : other.coverPausesAudio
         );
     }
 }

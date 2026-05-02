@@ -1,10 +1,81 @@
 \chapter{Programmablaufprotokolle}
 
-Der Abschnitt \emph{Programmablaufprotokolle} soll enthalten:
+\section{Steuerung}
 
-\begin{itemize}
- \item gegebenenfalls eine kurze Erklärung der Bedienung des Programms
- \item Beschreibung des Ablaufs des Programms und der Tests, die durchgeführt wurden
- \item Dokumentation der Ergebnisse der Tests und der Fehler, die aufgetreten sind
- \item Erläuterung der Maßnahmen, die ergriffen wurden, um die Fehler zu beheben.
-\end{itemize}
+Die Spielfigur wird durch das anklicken der gelben Pfeile an den Rändern des Spielfensters bzw. der Türen durch das Schulhaus bewegt. Wird die Spielfigur selbst angeklickt, öffnet sich deren Inventar
+und bereits gesammelte Items können eingesehen werden. Das Inventar kann mit einem Klick auf sein rotes \glqq{}X\grqq{} wieder geschlossen werden.
+
+Wird die Taste \texttt{P} gedrückt, öffnet sich ein Fenster, in welchem die Farben der Haare, der
+Haut, des Hoodies und der Hose der Spielfigur angepasst werden kann. Diese Farben können durch
+selbiges Fenster ebenfalls als Datei gespeichert bzw. wieder geladen werden.
+
+\subsection{Minigames}
+
+Die Minispiele werden alle durch das Drücken eines Start-Knopfes, welcher sich in dem zu der Fachschaft gehörenden Raum befindet, gestartet.
+Die dadurch erscheinende Level-Auswahl kann durch das in der oberen rechten Ecke platzierte rote \glqq{}X\grqq{} verlassen werden.
+In der Mitte des Fensters finden sich nun drei Knöpfe mit den Aufschriften \glqq Level 1\grqq, \glqq Level 2\grqq und \glqq Level 3\grqq, welche das entsprechende Level starten.
+Jedes Level besitzt neben dem Knopf zum verlassen des Minispieles zusätzlich einen Knopf, welcher drei gestapelte Balken abbildet und die Spielenden zurück zur Level-Auswahl führt.
+Diese beiden Knöpfe werden auch nach dem Abschließen eines Levels angezeigt.
+Zusätzlich gibt es in jedem Level noch die Möglichkeit des Neustarts, welche durch einen \glqq $\circlearrowright$\grqq{}-Knopf ermöglicht wird.
+
+\subsubsection{Informatik}
+
+Beim Minispiel der Fachschaft Informatik können die sich auf der linken Seite des Bildschirms befindenden Logikgatter mit der linken Maustaste angeklickt werden.
+Bei Level 2 und Level 3 können mehrere ausgewählt werden.
+Sollte ein bereits ausgewähltes erneut geklickt werden, wird die Auswahl zurückgenommen.
+Ein neu ausgewähltes Gatter wird immer zu dem ersten freien Gatter, beginnend bei dem mit der kleinsten Nummer.
+Falls also $G_1, G_2 \text{und} G_3$ ausgewählt und dann $G_1 \text{und} G_2$ wieder zurückgenommen werden, wird das danach gewählte Gatter zu $G_1$ statt $G_2$.
+
+\subsubsection{Mathematik}
+
+Beim Minispiel der Fachschaft Mathematik können die Tangramsteine mittels der linken Maustaste angeklickt werden.
+Solange diese Taste gedrückt bleibt, folgt der Stein dem Mauszeiger und kann so verschoben werden.
+Während des Ziehens kann die Taste \glqq R \grqq{} gedrückt werden, wodurch der Stein um $45^\circ$ im Uhrzeigersinn gedreht wird.
+
+\subsubsection{Chemie}
+
+Beim Minispiel der Fachschaft Chemie kann eine Reagenzglas mittels der linken Maustaste angegklickt werden. Das erste Reagenzglas, welche man anklickt wird visuell vorgehoben und ist das Quellglas.
+Durch das erneute Anklicken, kann die Quellglas-Auswahl rückgängig gemacht werden.
+Klickt man nun ein weiteres Reagenzglas an, wird dieses zum Zielglas und die Farbblöcke, werden, falls möglich, dorthinein umsortiert.
+Das Minispiel endet, wenn der Countdown abläuft oder das Puzzle gelöst wird.
+
+\subsubsection{Physik}
+
+Beim Minispiel der Fachschaft Physik kann durch das Klicken mit der linken Maustaste des Balls und das Ziehen in die richtige Richtung (rechts oder hoch) ein Pfeil gezeigt werden.
+Durch das Loslassen wird die länge des Pfeils fixiert. Durch das Wiederholen dieses Vorgangs kann die Pfeillänge beliebig oft verändert werden.
+Die Simulation (das Bewegen des Balls) wird durch das Klicken mit der linken Maustaste auf den Simulate-Button gestartet.
+Durch das Treffen des Ziels oder der Kollision mit Wand bzw. Boden endet das Minispiel.
+
+\subsubsection{Biologie}
+Beim Minispiel der Fachschaft Biologie kann durch das Klicken mit der linken Maustaste auf ein Label, dieses ausgewählt werden, durch ein erneutes Klicken wird die Auswahl aufgehoben.
+Klickt man mit der linken Maustaste auf ein Pflanzenbild, nachdem man ein Label ausgewählt hat, so wird dieses Label dem Bild zugeordnet. Ein schon zugeordnetes Label kann erneut ausgewählt werden und wieder neu zugeordnet werden.
+Die Zuordnung von Label zu Bild kann man beliebig oft ändern. Dafür sortiert man ein neues Label zu dem schon vergebenen Bild. Das alte Label wird dann zurück in die Auswahl gepackt.
+Das Minispiel endet, wenn allen vier Pflanzenbildern Label zugeordnet sind.
+
+\subsection{Kampf}
+
+Der Lehrer wird angeklickt und daraufhin die Kampfumgebung geöffnet. Der Schüler greift an und macht Schaden, der Lehrer danach auch.\\
+So geht so lange weiter, bis der Lehrer keine Lebenspunkte mehr hat, woraufhin der Schüler gewonnen hat.
+
+
+\section{Tests}
+
+Das Durchführen von Tests im klassischen Sinne, bei denen den Variablen des Programmes Werte durch Eingaben der testenden Person zugewiesen werden, um zu schauen, ob die resultierenden Ausgaben den Erwartungen entsprechen, bietet sich bei diesem Projekt nicht an und ist teilweise sogar unmöglich.
+Dies liegt daran, dass eine eigene Nutzeroberfläche erstellt wurde, welche alle Eingaben selbst verwaltet.
+Da der Fokus dieser hauptsächlich auf Maus-Eingaben liegt, macht dies das Testen und vor allem das Dokumentieren dieser Test umso schwieriger.
+Trotz dieser Umstände wurde aber keineswegs auf Test verzichtet, wie in den folgenden Abschnitten deutlich wird, jedoch sind konkrete, dokumentierte und dadurch wiederholbare Tests, mit Ausnahme einer kleinen Reihe von \textit{Unit Tests}, aus den bereits genannten Gründen nicht vorhanden.
+
+\subsection{Unit Testing}
+
+Mithilfe des \texttt{JUnit}-Frameworks wurde eine Reihe von Tests implementiert,
+welche die Funktionalität des Szenenstapels, also dessen Operationen, sowie das
+Szenen-Verdeckungs-Einstellungs-System testet. Die Tests werden bei jedem Push
+auf die GitHub-Repository ausgeführt, es ist also gleich ersichtlich, wenn eine
+Änderung unbeabsichtigte Nebeneffekte hatte.
+
+\subsection{Testen während der Entwicklung}
+
+Bei der Implementierung von neuen Funktionen wurden diese stets umgehend soweit
+getestet und ggf. geändert, dass sie allgemein dem Erwartungsbild entsprachen.
+Andernfalls wurden einige Fehler im späteren Verlauf der Entwicklung beim Spielen
+des Spiels aufgedeckt, gemeldet und, soweit möglich, behoben.

@@ -1,0 +1,85 @@
+\documentclass{beamer} [10.12.2024]
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{amsmath} 
+\usepackage{subfig}
+\usepackage{hyperref}
+
+\captionsetup[figure]{labelformat=simple, labelsep=colon}
+\renewcommand\thefigure{\arabic{figure}}
+\setbeamertemplate{caption}[numbered]
+\bibliographystyle{plain} 
+
+\definecolor{lightblue}{rgb}{0.47, 0.47, 0.85}
+
+
+\mode<presentation>{%
+	\usetheme{Berlin}
+	\setbeamercovered{transparent}
+}
+
+
+\title{CZGame}
+\subtitle{Ein interaktives Point-and-Click Spiel}
+\author{Jeje C., Gustav G., Rita G., Jonas G., Jonas L., Sophie P., Emil R., Antonia V., Arthur W., Ashley W.}
+\institute[CZG]{Carl-Zeiss-Gymnasium Jena}
+\date{\today}
+
+\begin{document}
+	
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	\begin{frame}{Gliederung}
+		\tableofcontents[pausesections]
+	\end{frame}
+	
+	\section{Kampf}
+	\input{texte/05_Kampf.tex}
+	
+	
+	\section*{}
+	
+	\begin{frame}
+		\begin{center}
+			\Large\textbf{Vielen Dank für Ihre Aufmerksamkeit!}
+		\end{center}
+		
+		\vspace{0,5cm}
+		
+		\begin{block}{Fragen}
+			Wir stehen Ihnen jetzt gerne für Fragen zur Verfügung.
+		\end{block}
+		
+		\vspace{1cm}
+		
+		\begin{flushright}
+			\footnotesize{Diese Präsentation wurde mit \LaTeX{} erstellt.}
+		\end{flushright}
+	\end{frame}
+	
+	
+	\section*{}
+	\begin{frame}[allowframebreaks]{Literaturverzeichnis} 
+		%% \nocite{*}
+		%% \bibliography{verzeichnis} 
+	\end{frame}
+	
+	\section*{}
+	\begin{frame}[allowframebreaks]{Abbildungsverzeichnis} 
+		\begin{itemize}
+			\item[Abb. 1] 
+			\item[Abb. 2] 
+			\item[Abb. 3] 
+			\item[Abb. 4] 
+			\item[Abb. 5] 
+		\end{itemize}
+	\end{frame}
+	
+\end{document}

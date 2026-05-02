@@ -1,16 +1,57 @@
-Zur Implementierung wurden jeweils im SchülerObject und im LehrerObject zwei Funktionen (nämlich angriff() und verteidigung()) und eine KampfScene angelegt.\\
-Außerdem wurde ein Hintergrund für die KampfScene gepixelt.\\
-
-\subsubsection{Angriff()}
-
-Der Schüler kann zuerst auf sein Inventar zugreifen und sich eins seiner Items aussuchen. Das Level dieses Items wird dann im integer level gespeichert und es wird lehrer.verteidigung(level) aufgerufen, damit der Lehrer auf das ausgesuchte Item reagieren kann.\par
-Wenn der Lehrer angreift, wird mit random.nextInt() ein Item ausgesucht, das Level im integer level gespeichert und danach PlayerObject.INSTANCE.verteidigung(level) aufgerufen.
-
-\subsubsection{Verteidigung()}
-
-Wenn der Schüler verteidigen muss, kann er sich eins seiner Items aus dem Inventar aussuchen. Danach wird der Schaden wie in der Lösungsidee berechnet. Danach werden die Lebenpunkte des Schülers gegebenfalls um den Schaden vermindert.\par
-Wenn der Lehrer verteidigen muss, wählt er mit random.nextInt() aus, welches Item er verwenden will oder, ob er nichts tun wird. Danach wird wieder der Schaden berechnet und dann von den Lebenspunkten des Lehrers abgezogen.
+Zur Implementierung wurden jeweils im SchülerObject und im LehrerObject zwei Funktionen (nämlich \texttt{angriff()} und \texttt{verteidigung()}) und eine \texttt{KampfScene} angelegt.\\
+Außerdem wurde ein Hintergrund für die Kampfszene gepixelt.\\
 
 \subsubsection{KampfScene}
 
-Die KampfScene erzeugt ein Hintergrundbild für den Kampf und öffnet das Inventar, sodass der Spieler ein Item auswählen kann. Dabei überlagert die InventarScene den Hintergrund mit SceneStack.INSTANCE.push(new InventarScene()).
+Die \texttt{KampfScene} ist der Grundbaustein für die Kämpfe. Sie ist einerseits das Szenenbild, in dem sich der Schüler und der Lehrer befinden, andererseits ist sie aber auch zur Verwaltung des Kampfes da.\\
+Am Anfang wird in dieser das Hintergrundbild initialisiert, dann der Lehrer und der Schüler. Beim Lehrer werden dafür die Leben auf den richtigen Wert gesetzt, die Items werden ihm gegeben und seine Instanz wird erstellt. Beim Schüler muss deutlich weniger getan werden, weil seine Instanz schon existiert. Es werden nur seine Leben festgesetzt. Diese beiden werden auch an ihrer richtige Position im Bild gesetzt.\\
+Danach fängt eine while-Schleife an, die so lange läuft, bis eine der beiden Parteien null Lebenspunkte hat. Außerdem kann der Spieler sich jederzeit mit einem Klick auf den Button \glqq Aufgeben \grqq dazu entscheiden, den Kampf zu beenden.\\
+In dieser Schleife wechseln sich die Angriffsfunktionen des Schülers und des Lehrers immer wieder ab.
+
+\subsubsection{\texttt{angriff()}}
+
+\begin{sloppypar}
+Der Schüler kann zuerst auf sein Inventar zugreifen und sich eins seiner Items aussuchen. Das Level dieses Items wird dann im Integer \texttt{level} gespeichert und es wird \texttt{lehrer.verteidigung(level)} aufgerufen, damit der Lehrer auf das ausgesuchte Item reagieren kann.\par
+Wenn der Lehrer angreift, wird mit \texttt{random.nextInt()} ein Item ausgesucht, das Level im Integer \texttt{level} gespeichert und danach \texttt{PlayerObject.INSTANCE.verteidigung(level)} aufgerufen. Dabei sind die Wahrscheinlichkeiten für jedes der vier Items des Lehrers gleich, also je 25\%.
+\end{sloppypar}
+
+\begin{lstlisting}[caption=angriff(), label=programm:kampf:angriff, captionpos=t, language=Java]
+	// Der Lehrer wählt random, welches der Items er zum Angreifen benutzt. 
+	Random rand = new Random();
+	int move = rand.nextInt(4);
+	int level;
+	ItemType item_lehrer;
+	
+	item_lehrer = lehrer_items.get(move);
+	level = item_lehrer.LEVEL;
+	
+	PlayerObject.INSTANCE.verteidigung(level);
+\end{lstlisting}
+
+\subsubsection{\texttt{verteidigung()}}
+
+Wenn der Schüler verteidigen muss, kann er sich eins seiner Items aus dem Inventar aussuchen. Danach wird der Schaden wie in der Lösungsidee beschrieben berechnet. Schließlich werden die Lebenpunkte des Schülers gegebenfalls um den Schaden vermindert.\par
+Wenn der Lehrer verteidigen muss, entscheidet er mit \texttt{random.nextInt()}, welches Item er verwenden will oder ob er nichts tun wird. Auch hier sind die Wahrscheinlichkeiten für alle Items gleich, aber es gibt noch die fünfte Option des Nichtstuns, deshalb ist die Wahrscheinlichkeit für jede der fünf Optionen 20\%. Danach wird wieder der Schaden berechnet und dann von den Lebenspunkten des Lehrers abgezogen. 
+
+\begin{lstlisting}[caption=verteidigung(), label=programm:kampf:verteidigung, captionpos=t, language=Java]
+	// Es wird random ausgewählt, ob ein Item gewählt wird (und welches), oder ob der Lehrer nichts macht.
+	Random rand = new Random();
+	int move = rand.nextInt(5);
+	int schaden;
+	ItemType item_lehrer;
+	
+	// Falls die Null genommen wurde, wird kein Item vom Lehrer benutzt.
+	if (move == 0) {
+		schaden = level;
+	}
+	else {
+		item_lehrer = lehrer_items.get(move - 1);
+		schaden = level - item_lehrer.LEVEL;
+		if (schaden <= 0) {
+			schaden = 0;
+		}
+		
+	}
+	
+	hp -= schaden;
+\end{lstlisting}

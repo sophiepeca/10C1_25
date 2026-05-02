@@ -168,6 +168,8 @@ public class SceneStack extends JPanel {
         for(int i = index; i < scenes.size(); i++)
             scenes.get(i).sceneStackPosition = i;
 
+        // Die eingefügte Szene als verdeckt markieren
+        scene.setCovered(true);
     }
 
     /**
@@ -180,6 +182,13 @@ public class SceneStack extends JPanel {
         for (int i = 0; i < scenes.size(); i++) {
             // Index von toBeReplaced suchen
             if(scenes.get(i) == toBeReplaced) {
+                // Wenn möglich an pop und push delegieren
+                if(i == scenes.size() - 1) {
+                    pop();
+                    push(replacement);
+                    return;
+                }
+
                 // Counter für die Tags der ersetzten Szene dekrementieren
                 propagateOverlyingTags(i, -1);
 
@@ -194,6 +203,10 @@ public class SceneStack extends JPanel {
 
                 // Counter für die Tags der neu eingefügten Szene inkrementieren
                 propagateOverlyingTags(i, 1);
+
+                // An dieser Stelle wird die Szene *nicht* als
+                // nicht mehr verdeckt markiert, da sie sowieso
+                // entfernt wird.
 
                 // unload() für die ersetzte Szene ausführen
                 toBeReplaced.unload();

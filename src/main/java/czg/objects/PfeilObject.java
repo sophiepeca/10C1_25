@@ -1,13 +1,14 @@
 
 package czg.objects;
 
-import static czg.MainWindow.HEIGHT;
-import static czg.MainWindow.WIDTH;
 import czg.scenes.BaseScene;
 import czg.scenes.SceneStack;
 import czg.util.Images;
-import java.awt.Image;
+
+import java.awt.*;
 import java.util.function.Supplier;
+
+import static czg.MainWindow.*;
 
 public class PfeilObject extends BaseObject{
     
@@ -65,9 +66,10 @@ public class PfeilObject extends BaseObject{
     
     @Override
     public void update(BaseScene scene) {
-        if(isClicked()){
+        if(isClicked(false)){
             BaseScene neu = target.get();
             SceneStack.INSTANCE.replace(origin, neu);
+            PlayerObject.INSTANCE.inventoryLockTimer = FPS / 4;
         }
     }
 }

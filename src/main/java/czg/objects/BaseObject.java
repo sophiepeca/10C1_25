@@ -33,6 +33,11 @@ public class BaseObject {
     public Image sprite;
 
     /**
+     * Ob das Objekt gezeichnet und geupdated wird
+     */
+    public boolean visible = true;
+
+    /**
      * Ein neues Objekt erstellen und in die Mitte des Bildschirms platzieren.
      * Die Größe des Objekts entspricht der Größe des Bildes.
      * @param sprite Bild
@@ -97,6 +102,9 @@ public class BaseObject {
      * @return Ob das Objekt angeklickt wurde
      */
     public boolean isClicked(boolean includeTransparency) {
+        if(! visible)
+            return false;
+
         Point mousePos = Input.INSTANCE.getMousePosition();
         if(mousePos == null)
             return false;
@@ -121,6 +129,9 @@ public class BaseObject {
      * @param g Grafik-Objekt. Von der Szene bereitgestellt.
      */
     public void draw(Graphics2D g) {
+        if(! visible)
+            return;
+
         // drawImage tut nichts, wenn sprite == null
         g.drawImage(
                 sprite,
