@@ -1,5 +1,5 @@
 pop
-scene FoyerScene
+scene BioraumScene
 give DEBUG 999
 give ZIRKEL 999
 chr src/test/resources/KAWAIII.czgame_chr

@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main" type="Application" factoryName="Application">
+  <configuration default="false" name="Main (no OpenGL)" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="21" />
     <option name="MAIN_CLASS_NAME" value="czg.MainWindow" />
     <module name="CZGame" />
     <option name="PROGRAM_PARAMETERS" value="@src/test/resources/skript" />
-    <option name="VM_PARAMETERS" value="-Dsun.java2d.opengl=true --enable-native-access=ALL-UNNAMED" />
+    <option name="VM_PARAMETERS" value="-Dsun.java2d.opengl=false --enable-native-access=ALL-UNNAMED" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="czg.*" />
