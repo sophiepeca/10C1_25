@@ -58,8 +58,8 @@
 		\item Methoden:
 		\begin{itemize}
 			\item \texttt{update}
-			\item \texttt{unload}
 			\item \texttt{draw}
+			\item \texttt{unload}
 			\item \texttt{isClicked}
 		\end{itemize}
 	\end{itemize}
@@ -113,4 +113,49 @@
 			\caption{Beispiel Verdeckungs-Einstellungen}
 		\end{figure}
 	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Sound}
+	\begin{itemize}
+		\item \textit{Java Sound API}
+		\item \textit{FFSampledSP} für mehr unterstzützte Formate durch \textit{ffmpeg}
+		\item Wiedergabesteuerung:
+		\begin{itemize}
+			\item Anhalten und Fortsetzen
+			\item Stoppen
+			\item Endlosschleife
+			\item Lautstärke
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{ClipSound}
+	\begin{itemize}
+		\item \texttt{Clip}-Klasse
+		\item Gesamte Daten in den Speicher laden
+		\item Einfache und schnelle Wiedergabesteuerung
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{StreamSound}
+	\begin{itemize}
+		\item Stückweises Laden mit \texttt{AudioInputStream}
+		\item Abspielen mit \texttt{SourceDataLine}
+		\item Wiedergabe in einem separaten Thread
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Sound-Gruppen}
+	\begin{itemize}
+		\item Zusammenfassen mehrerer Sounds
+		\item Gemeinsames Pausieren, Fortsetzen und Stoppen
+		\item Je eine Sound-Gruppe je Szene
+		\begin{itemize}
+			\item Wird beim Entfernen der Szene gestoppt
+		\end{itemize}
+	\end{itemize}
 \end{frame}
